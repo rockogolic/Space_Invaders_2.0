@@ -12,6 +12,7 @@ there are two ways to do that:
 
 #include "pch.h"
 #include "Message.h"
+#include "Animation.h"
 #include "setSprite.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -96,6 +97,16 @@ int main()
 	Center(spriteEnemy);
 	//spriteEnemy.setPosition(screenSize.x / 2.0f, screenSize.y / 10.0f);		// Used later
 
+	Texture texturePawn;
+	texturePawn.loadFromFile("graphics/pawn.png");
+	//RectangleShape pawn(Vector2f(54.0f, 54.0f));
+	//pawn.setTexture(&texturePawn);
+	Sprite spritePawn;
+	spritePawn.setTexture(texturePawn);
+	spritePawn.setPosition(screenSize.x/2.0f , screenSize.y/2.0f);
+
+	Animation animationPawn(&texturePawn, Vector2u(3,1), 0.3f);
+
 	Texture textureKaboom;
 	textureKaboom.loadFromFile("graphics/kaboom.png");
 	Sprite spriteKaboom;
@@ -139,7 +150,8 @@ int main()
 	bool round3_over = false;
 	bool boss_over = false;
 
-	// Clock creation
+	// TIME creation
+	float deltaTime = 0.0f;
 	Clock clock;
 
 	/*
@@ -150,6 +162,8 @@ int main()
 
 	
 	while (window.isOpen()) {
+
+		deltaTime = clock.restart().asSeconds();
 
 		/* One time button press trigger -> Menu, Escape, Shoot, Enter etc...*/
 
@@ -271,6 +285,14 @@ int main()
 				spriteEnemy.move(-0.05f, 0.0f);
 		}
 
+		/*
+		++++++++++++++++++++++
+		******* UPDATE *******
+		++++++++++++++++++++++
+		*/
+
+		animationPawn.Update(0, deltaTime);
+		spritePawn.setTextureRect(animationPawn.uvRect);
 
 		/*
 		+++++++++++++++++++++
@@ -282,6 +304,7 @@ int main()
 
 		
 		if (intro) {
+			
 			window.draw(spriteIntro);
 
 			messageTitle.display(window);
@@ -298,7 +321,7 @@ int main()
 
 			window.draw(spriteEnemy);
 			
-			//window.draw(spriteKaboom);
+			window.draw(spritePawn);
 
 			window.draw(spriteShot);
 		}
