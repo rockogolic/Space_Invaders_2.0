@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Enemy.h"
+#include <iostream>
 
 Enemy::Enemy(Texture* texture) {
 
@@ -12,10 +13,17 @@ Enemy::Enemy(Texture* texture) {
 	sprite.setPosition(0, 0);
 }
 
-Enemy::~Enemy() {}
+Enemy::Enemy() {}
+
+Enemy::~Enemy() { 
+	delete new_enemy; 
+}
 
 Enemy::Enemy(const Enemy& enemy) {
-	Enemy * new_enemy;
+	
+	new_enemy = new Enemy;
+	std::cout << "Enemy is copied" << std::endl;
+	this->sprite = enemy.sprite;
 }
 
 bool Enemy::isActive() { return _active; }
@@ -27,4 +35,9 @@ void Enemy::Update() {
  
 void Enemy::setStartPosition(Vector2f startPos) {
 	_startPos = startPos;
+}
+
+void Enemy::setPosition(Vector2f position) {
+	sprite.setPosition(position);
+	_position = position;
 }

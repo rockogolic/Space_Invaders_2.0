@@ -11,6 +11,7 @@ class Enemy {
 public:
 
 	Enemy(Texture* texture);
+	Enemy();
 	Enemy(const Enemy& enemy);
 	~Enemy();
 
@@ -20,9 +21,9 @@ public:
 	// functions, movement
 	void Update();
 	void setStartPosition( Vector2f startPos );
+	void setPosition( Vector2f position );
 
 	Sprite sprite;
-
 
 private:
 	Vector2f _position;
@@ -34,6 +35,7 @@ private:
 
 
 
+	Enemy * new_enemy;
 };
 
 

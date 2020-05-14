@@ -96,17 +96,23 @@ int main()
 	Sprite spriteEnemy;
 	spriteEnemy.setTexture(textureEnemy);
 	Center(spriteEnemy);
-	//spriteEnemy.setPosition(screenSize.x / 2.0f, screenSize.y / 10.0f);		// Used later
 
 	Texture texturePawn;
 	texturePawn.loadFromFile("graphics/pawn.png");
-	//RectangleShape pawn(Vector2f(54.0f, 54.0f));
-	//pawn.setTexture(&texturePawn);
+
 	Sprite spritePawn;
 	spritePawn.setTexture(texturePawn);
 	spritePawn.setPosition(screenSize.x/2.0f , screenSize.y/2.0f);
 
 	Animation animationPawn(&texturePawn, Vector2u(3,1), 0.3f);
+
+	Enemy enemy(&textureEnemy);
+	Enemy enemy2(enemy);
+	Enemy enemy3(enemy2);
+	
+	enemy2.setPosition(Vector2f(100.0f, 100.0f));
+	enemy3.setPosition(Vector2f(400.0f, 400.0f));
+
 
 	Texture textureKaboom;
 	textureKaboom.loadFromFile("graphics/kaboom.png");
@@ -323,6 +329,12 @@ int main()
 			window.draw(spriteEnemy);
 			
 			window.draw(spritePawn);
+
+			window.draw(enemy.sprite);
+
+			window.draw(enemy2.sprite);
+
+			window.draw(enemy3.sprite);
 
 			window.draw(spriteShot);
 		}
