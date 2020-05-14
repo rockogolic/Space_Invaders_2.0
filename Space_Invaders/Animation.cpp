@@ -13,8 +13,8 @@ Animation::Animation(Texture* texture, Vector2u imageCount, float switchTime) {
 	//_sprite.getTexture()->getSize().x / float(_imageCount.x);
 	//_sprite.getTexture()->getSize().y / float(_imageCount.y);
 
-	uvRect.width = texture->getSize().x / float(_imageCount.x);
-	uvRect.height = texture->getSize().y / float(_imageCount.y);
+	uvRect.width = texture->getSize().x / (_imageCount.x);
+	uvRect.height = texture->getSize().y / (_imageCount.y);
 
 } 
 
