@@ -10,11 +10,12 @@ there are two ways to do that:
 
 */
 
+#include <SFML/Graphics.hpp>
 #include "pch.h"
 #include "Message.h"
 #include "Animation.h"
 #include "setSprite.h"
-#include <SFML/Graphics.hpp>
+#include "Enemy.h"
 #include <iostream>
 
 using namespace sf;
