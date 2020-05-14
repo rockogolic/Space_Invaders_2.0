@@ -278,7 +278,7 @@ int main()
 				spriteEnemy.setPosition(screenSize.x / 2.0f, screenSize.y / 10.0f);	// Reset the initial position
 				enemy_pos = enemy_side::NONE;
 			}
-
+			                                                                       
 			if (enemy_pos == enemy_side::NONE || enemy_pos == enemy_side::RIGHT)
 				spriteEnemy.move(0.05f, 0.0f);
 			else if (enemy_pos == enemy_side::LEFT)
