@@ -1,17 +1,9 @@
 #include "pch.h"
-#include "setSprite.h"
+#include "setsprite.h"
 
-setSprite::setSprite(RenderWindow& _window, std::string _address) {
+setSprite::setSprite(const Texture* texture) {
 
-	(*_texture).loadFromFile(_address);
-	(*_sprite).setTexture((*_texture));
-	//_texture.loadFromFile(_address);
-	//_sprite.setTexture(_texture);
+	sprite.setTexture(*texture);
 }
 
-setSprite::~setSprite() { 
-	delete _texture;
-	delete _sprite;
-}
-
-Sprite setSprite::sprite() { return (*_sprite); }
+setSprite::~setSprite() {}
