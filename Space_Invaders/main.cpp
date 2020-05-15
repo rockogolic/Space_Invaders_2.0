@@ -16,6 +16,7 @@ there are two ways to do that:
 #include "Animation.h"
 #include "setSprite.h"
 #include "Enemy.h"
+#include "Player.h"
 #include <iostream>
 
 using namespace sf;
@@ -104,6 +105,8 @@ int main()
 
 	Animation animationPawn(&texturePawn, Vector2u(3,1), 0.3f);
 
+	/* NEW SPRITES CLASSES */
+
 	Enemy enemy(&textureEnemy);
 	Enemy enemy2(enemy);
 	Enemy enemy3(enemy2);
@@ -146,9 +149,6 @@ int main()
 	bool enemy_active = false; // state of the enemy's ship
 	bool enemy_boom = false;
 	bool collision = false;	// did the collision happen? default -> false
-
-	bool faceLeft = false; // player's sprite control
-	bool faceRight = false;
 
 	bool round1_over = false;
 	bool round2_over = false;

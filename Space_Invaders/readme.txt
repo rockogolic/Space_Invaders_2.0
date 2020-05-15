@@ -19,3 +19,8 @@ That is why ifndef define endif is a more reliable and universal tool to use!
 there are two ways to do that:
 2.1) :C-STYLE CAST: unsafe and short -> (float)vector.x and (float)vector.y
 2.2) :STATIC CAST: safe and long (safe for casting one class to another (?) ) -> static_cast<float>(vector.x) and (or, if only one), static_cast<float>(vector.y)
+
+
+static Class members:
+they are not initialized using constructor, as they are not dependent on object initialization. Hence, they are a class variable, and are the same for all objects of the 
+same class!

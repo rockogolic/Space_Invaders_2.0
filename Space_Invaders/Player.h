@@ -2,24 +2,35 @@
 #define PLAYER_H
 
 #include <SFML/Graphics.hpp>
-
-// write down the f-ion for flip of the sprite
+#include "enemy.h"
 
 using namespace sf;
-
-enum class side { LEFT, DEF, RIGHT };
 
 class Player {
 
 public:
-	Player() {}
-	~Player() {}
+	Player(const Texture* texturePlayer, const Texture* textureShot);
+	~Player();
+
+	void shoot();
+
+
+	Sprite sprite;
+	Sprite spriteShot;
 
 private:
 
+	Vector2f _position;
+	static Vector2f _startPos;	// static -> same for all objects!
+
+	bool _collision;
+	bool _dead;
+	bool _shot;
+
+	unsigned int _health;
 
 
 };
 
 
-#endif // !
+#endif
