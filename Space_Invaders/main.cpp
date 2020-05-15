@@ -268,28 +268,6 @@ int main()
 			spriteShot.setPosition(700,0);		// sets the shot out of range, hence -> INACTIVE
 		}
 
-		// Enemy's movement
-		if (spriteEnemy.getPosition().x >= (screenSize.x - 2 * spriteSize(spriteEnemy).x)) {
-			enemy_pos = enemy_side::LEFT;
-		}
-		else if (spriteEnemy.getPosition().x <= 2 * spriteSize(spriteEnemy).x) {
-			enemy_pos = enemy_side::RIGHT;
-		}
-
-		if (!intro && !menu) {				// not INTRO and not MENU
-			// FIX!! 
-			if (!enemy_active) {			// IF enemy is NOT ACTIVE
-				enemy_active = true;
-				spriteEnemy.setPosition(screenSize.x / 2.0f, screenSize.y / 10.0f);	// Reset the initial position
-				enemy_pos = enemy_side::NONE;
-			}
-			                                                                       
-			if (enemy_pos == enemy_side::NONE || enemy_pos == enemy_side::RIGHT)
-				spriteEnemy.move(0.05f, 0.0f);
-			else if (enemy_pos == enemy_side::LEFT)
-				spriteEnemy.move(-0.05f, 0.0f);
-		}
-
 		/*
 		++++++++++++++++++++++
 		******* UPDATE *******
@@ -299,6 +277,12 @@ int main()
 		animationPawn.Update(0, deltaTime);
 		spritePawn.setTextureRect(animationPawn.uvRect);
 
+		if (!intro && !menu) {
+			enemy.Move(&window);
+			enemy2.Move(&window);
+			enemy3.Move(&window);
+		}
+			
 		/*
 		+++++++++++++++++++++
 		DRAWING to the Screen
@@ -323,8 +307,6 @@ int main()
 
 			// Draw player
 			window.draw(spritePlayer);
-
-			window.draw(spriteEnemy);
 			
 			window.draw(spritePawn);
 
