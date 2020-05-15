@@ -10,7 +10,7 @@ class Enemy {
 
 public:
 
-	Enemy(Texture* texture);
+	Enemy(const Texture* texture);
 	Enemy();
 	Enemy(const Enemy& enemy);
 	~Enemy();

@@ -2,7 +2,7 @@
 #include "Enemy.h"
 #include <iostream>
 
-Enemy::Enemy(Texture* texture) {
+Enemy::Enemy(const Texture* texture) {
 
 	sprite.setTexture(*texture);
 
