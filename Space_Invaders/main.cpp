@@ -268,6 +268,7 @@ int main()
 			spriteShot.setPosition(700,0);		// sets the shot out of range, hence -> INACTIVE
 		}
 
+
 		/*
 		++++++++++++++++++++++
 		******* UPDATE *******
