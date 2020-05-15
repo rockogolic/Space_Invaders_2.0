@@ -22,6 +22,7 @@ public:
 	void Update();
 	void setStartPosition( Vector2f startPos );
 	void setPosition( Vector2f position );
+	bool setDead();
 
 	Sprite sprite;
 
