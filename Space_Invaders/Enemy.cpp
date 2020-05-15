@@ -3,14 +3,18 @@
 #include <iostream>
 
 Enemy::Enemy(const Texture* texture) {
-
+	
 	sprite.setTexture(*texture);
 
 	// center the origin of the sprite
 	sprite.setOrigin(sprite.getTexture()->getSize().x / 2.0f, sprite.getTexture()->getSize().y / 2.0f);
 
 	// set startPosition. def = 0,0
-	sprite.setPosition(0, 0);
+	this->_startPos = Vector2f( 0,0 );
+	sprite.setPosition(_startPos);
+
+	_active = true;
+	_dead = false;
 }
 
 Enemy::Enemy() {}
@@ -22,13 +26,17 @@ Enemy::~Enemy() {
 Enemy::Enemy(const Enemy& enemy) {
 	
 	new_enemy = new Enemy;
-	std::cout << "Enemy is copied" << std::endl;
 	this->sprite = enemy.sprite;
+	// def _startPos = 0,0
+	this->_startPos = Vector2f(0, 0);
+	this->sprite.setPosition(_startPos);
+
 }
 
 bool Enemy::isActive() { return _active; }
 bool Enemy::isDead() { return _dead; }
 
+// MOVEMENT
 void Enemy::Update() {
 
 }

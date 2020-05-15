@@ -10,9 +10,9 @@ class Enemy {
 
 public:
 
-	Enemy(const Texture* texture);
-	Enemy();
-	Enemy(const Enemy& enemy);
+	Enemy(const Texture* texture);	// constructor
+	Enemy();						// default
+	Enemy(const Enemy& enemy);		// copy constr
 	~Enemy();
 
 	bool isActive();
@@ -26,14 +26,12 @@ public:
 	Sprite sprite;
 
 private:
-	Vector2f _position;
 
+	Vector2f _position;
 	Vector2f _startPos;
 
 	bool _active;
 	bool _dead;
-
-
 
 	Enemy * new_enemy;
 };
