@@ -67,9 +67,7 @@ int main()
 	Sprite spritePlayer;
 	spritePlayer.setTexture(texturePlayer_idle);
 	Center(spritePlayer);
-	spritePlayer.setPosition(screenSize.x / 2.0f, screenSize.y - 26);
-
-	int playerHealth = 3;				
+	spritePlayer.setPosition(screenSize.x / 2.0f, screenSize.y - 26);				
 
 	Texture texturePlayer_left;			// LEFT-Facing
 	texturePlayer_left.loadFromFile("graphics/player_left_54x54.png");
