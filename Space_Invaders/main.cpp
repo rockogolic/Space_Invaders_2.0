@@ -211,6 +211,7 @@ int main()
 				}
 				if (Keyboard::isKeyPressed(Keyboard::Space)) {
 					if (!intro && !menu) {
+						// player.shoot();
 						if (!fired) {
 							Vector2f positionShot = spritePlayer.getPosition();
 							spriteShot.setPosition(positionShot);
