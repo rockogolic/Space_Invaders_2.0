@@ -29,9 +29,11 @@ Enemy::Enemy(const Enemy& enemy) {
 	
 	new_enemy = new Enemy;
 	this->sprite = enemy.sprite;
+
 	// def _startPos = 0,0
 	this->_startPos = Vector2f(0, 0);
 	this->setPosition(_startPos);
+
 	this->_active = true;
 	this->_dead = false;
 
@@ -78,7 +80,11 @@ void Enemy::Move(RenderWindow * window) {
 		else if (enemy_side == _side::LEFT) {
 			sprite.move(-0.05f, 0);
 		}
-	
+		if (sprite.getPosition().y >= (window->getSize().y)) {
+			_won = true;
+			std::cout << "You lose" << std::endl;
+			_active = false;
+		}
 	}
 }
  
