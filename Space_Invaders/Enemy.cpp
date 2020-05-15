@@ -11,7 +11,7 @@ Enemy::Enemy(const Texture* texture) {
 
 	// set startPosition. def = 0,0
 	this->_startPos = Vector2f( 0,0 );
-	sprite.setPosition(_startPos);
+	setPosition(_startPos);
 
 	_active = true;
 	_dead = false;
@@ -29,7 +29,7 @@ Enemy::Enemy(const Enemy& enemy) {
 	this->sprite = enemy.sprite;
 	// def _startPos = 0,0
 	this->_startPos = Vector2f(0, 0);
-	this->sprite.setPosition(_startPos);
+	this->setPosition(_startPos);
 
 }
 
