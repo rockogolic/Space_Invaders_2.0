@@ -81,16 +81,19 @@ int main()
 	Enemy enemy(&textureEnemy);
 	Enemy enemy2(enemy);
 	Enemy enemy3(enemy2);
-	enemy2.setPosition(Vector2f(100.0f, 100.0f));
-	enemy3.setPosition(Vector2f(400.0f, 400.0f));
+	Enemy enemy4(enemy);
+	Enemy enemy5(enemy);
+	enemy.setPosition(Vector2f(50.0f, 50.0f));
+	enemy2.setPosition(Vector2f(185.0f, 50.0f));
+	enemy3.setPosition(Vector2f(320.0f, 50.0f));
+	enemy4.setPosition(Vector2f(455.0f, 50.0f));
+	enemy5.setPosition(Vector2f(590.0f, 50.0f));
 
 	Texture texturePawn;
 	texturePawn.loadFromFile("graphics/pawn.png");
-
 	Sprite spritePawn;
 	spritePawn.setTexture(texturePawn);
 	spritePawn.setPosition(screenSize.x/2.0f , screenSize.y/2.0f);
-
 	Animation animationPawn(&texturePawn, Vector2u(3,1), 0.3f);
 
 	/* NEW SPRITES CLASSES */
@@ -125,8 +128,9 @@ int main()
 
 	/* BOOLEANS to control phases of the GAME */
 
-	bool intro = true; // introduction screen; def -> true;
-	bool menu = false; // menu screen in the game; if !intro -> def->false; 
+	bool intro = true;	// introduction screen; def -> true;
+	bool menu = false;	// menu screen in the game; if !intro -> def->false; 
+	bool hit = false;	// show a message when player is hit, to continue
 
 	bool round1_over = false;
 	bool round2_over = false;
@@ -186,6 +190,9 @@ int main()
 					if (intro) {
 						intro = false;
 					}
+					if (hit) {
+						hit = false;
+					}
 				}
 				if (Keyboard::isKeyPressed(Keyboard::Space)) {
 					if (!intro && !menu) {
@@ -222,8 +229,10 @@ int main()
 		++++++++++++++++++++++
 		*/
 
-		animationPawn.Update(0, deltaTime);
-		spritePawn.setTextureRect(animationPawn.uvRect);
+		//animation
+
+		//animationPawn.Update(0, deltaTime);
+		//spritePawn.setTextureRect(animationPawn.uvRect);
 
 		if (!intro && !menu) {
 			
@@ -231,6 +240,8 @@ int main()
 			enemy.Move(&window);
 			enemy2.Move(&window);
 			enemy3.Move(&window);
+			enemy4.Move(&window);
+			enemy5.Move(&window);
 
 			//player actions
 			player.updateShot();
@@ -239,6 +250,9 @@ int main()
 			enemy.Collision(&player);
 			enemy2.Collision(&player);
 			enemy3.Collision(&player);
+			enemy4.Collision(&player);
+			enemy5.Collision(&player);
+
 
 		}
 
@@ -264,12 +278,9 @@ int main()
 			window.draw(spriteBackground);
 
 			/*  DRAW EVERYTHING ELSE */
-
-			// Draw player
-			//window.draw(spritePlayer);
 			window.draw(player.sprite);
 
-			window.draw(spritePawn);
+			//window.draw(spritePawn);
 
 			if (enemy.isActive())
 				window.draw(enemy.sprite);
@@ -277,9 +288,13 @@ int main()
 				window.draw(enemy2.sprite);
 			if (enemy3.isActive())
 				window.draw(enemy3.sprite);
+			if (enemy4.isActive())
+				window.draw(enemy4.sprite);
+			if (enemy5.isActive())
+				window.draw(enemy5.sprite);
 
 			window.draw(player.spriteShot);
-			//window.draw(spriteShot);
+
 		}
 
 		else if (menu) {
