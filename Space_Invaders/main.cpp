@@ -128,9 +128,6 @@ int main()
 	bool intro = true; // introduction screen; def -> true;
 	bool menu = false; // menu screen in the game; if !intro -> def->false; 
 
-	bool enemy_boom = false;
-	bool collision = false;	// did the collision happen? default -> false
-
 	bool round1_over = false;
 	bool round2_over = false;
 	bool round3_over = false;
@@ -140,13 +137,13 @@ int main()
 	float deltaTime = 0.0f;
 	Clock clock;
 
+
 	/*
 	++++++++++++++
 	MAIN game loop
 	++++++++++++++
 	*/
 
-	
 	while (window.isOpen()) {
 
 		deltaTime = clock.restart().asSeconds();
@@ -271,11 +268,12 @@ int main()
 
 			window.draw(spritePawn);
 
-			window.draw(enemy.sprite);
-
-			window.draw(enemy2.sprite);
-
-			window.draw(enemy3.sprite);
+			if (enemy.isActive())
+				window.draw(enemy.sprite);
+			if (enemy2.isActive())
+				window.draw(enemy2.sprite);
+			if (enemy3.isActive())
+				window.draw(enemy3.sprite);
 
 			window.draw(player.spriteShot);
 			//window.draw(spriteShot);
