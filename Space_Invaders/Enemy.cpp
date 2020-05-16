@@ -36,6 +36,7 @@ Enemy::Enemy(const Enemy& enemy) {
 
 	this->_active = true;
 	this->_dead = false;
+	this->_collision = false;
 
 	this->enemy_side = _side::NONE;
 
@@ -85,6 +86,31 @@ void Enemy::Move(RenderWindow * window) {
 			std::cout << "You lose" << std::endl;
 			_active = false;
 		}
+	}
+}
+
+// Collision with Player
+
+void Enemy::Collision(Player* player) {
+
+	if (
+		(player->spriteShot.getPosition().y >= (sprite.getPosition().y - sprite.getTexture()->getSize().y / 2.0f))
+		&&
+		(player->spriteShot.getPosition().y <= (sprite.getPosition().y + sprite.getTexture()->getSize().y / 2.0f))
+		&&
+		(player->spriteShot.getPosition().x >= (sprite.getPosition().x - sprite.getTexture()->getSize().x / 2.0f))
+		&&
+		(player->spriteShot.getPosition().x <= (sprite.getPosition().x + sprite.getTexture()->getSize().x / 2.0f))
+		&&
+		_active
+		) 
+	{
+		player->spriteShot.setPosition(700, 700);
+
+		_collision = true;
+		player->hitEnemy();		// sets private _shot = false; (reset)
+		std::cout << "You hit the alien" << std::endl;
+		_active = false;
 	}
 }
  

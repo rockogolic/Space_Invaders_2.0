@@ -58,26 +58,31 @@ int main()
 	Center(spriteMenu);
 	spriteMenu.setPosition(screenSize.x / 2.0f, screenSize.y / 2.0f);
 
+	// SHOTS
+	Texture textureShot;
+	textureShot.loadFromFile("graphics/shot_13x6.png");
+	Texture textureShotEnemy;
+	textureShotEnemy.loadFromFile("graphics/shot_enemy.png");
+
 	// PLAYER
 	Texture texturePlayer_idle;			// IDLE 
 	texturePlayer_idle.loadFromFile("graphics/player_54x54.png");
+	Player player(&texturePlayer_idle, &textureShot);
 
 	Texture texturePlayer_left;			// LEFT-Facing
 	texturePlayer_left.loadFromFile("graphics/player_left_54x54.png");
 
 	Texture texturePlayer_right;		// RIGHT-Facing
 	texturePlayer_right.loadFromFile("graphics/player_right_54x54.png");
-
-	// SHOT
-	Texture textureShot;
-	textureShot.loadFromFile("graphics/shot_13x6.png");
 	
 	// ENEMY
 	Texture textureEnemy;
 	textureEnemy.loadFromFile("graphics/enemy_red_54x54.png");
-	Sprite spriteEnemy;
-	spriteEnemy.setTexture(textureEnemy);
-	Center(spriteEnemy);
+	Enemy enemy(&textureEnemy);
+	Enemy enemy2(enemy);
+	Enemy enemy3(enemy2);
+	enemy2.setPosition(Vector2f(100.0f, 100.0f));
+	enemy3.setPosition(Vector2f(400.0f, 400.0f));
 
 	Texture texturePawn;
 	texturePawn.loadFromFile("graphics/pawn.png");
@@ -90,15 +95,8 @@ int main()
 
 	/* NEW SPRITES CLASSES */
 
-	Enemy enemy(&textureEnemy);
-	Enemy enemy2(enemy);
-	Enemy enemy3(enemy2);
-	
-	enemy2.setPosition(Vector2f(100.0f, 100.0f));
-	enemy3.setPosition(Vector2f(400.0f, 400.0f));
 
-	Player player(&texturePlayer_idle, &textureShot);
-
+	// Explosions
 
 	Texture textureKaboom;
 	textureKaboom.loadFromFile("graphics/kaboom.png");
@@ -204,13 +202,10 @@ int main()
 				}
 
 				// More buttons
-				
-				// bullet: reset if out of screen, OR if collided -> then you can fire again
 			}
 		}
 
 		/* Long-run commands -> Player movement and Game-related mechanics */
-		// a.k.a. UPDATE THE SCENE
 		
 		// Player's movement
 		if (!intro && !menu) {
@@ -224,23 +219,6 @@ int main()
 				player.sprite.move(0.0f, 0.1f);
 		}
 
-		// Collission detection
-
-		/*
-		if (spriteShot.getPosition().y >= (spriteEnemy.getPosition().y - spriteSize(spriteEnemy).y / 2.0f)
-			&&
-			spriteShot.getPosition().y <= (spriteEnemy.getPosition().y + spriteSize(spriteEnemy).y / 2.0f)
-			&&
-			spriteShot.getPosition().x >= (spriteEnemy.getPosition().x - spriteSize(spriteEnemy).x / 2.0f)
-			&&
-			spriteShot.getPosition().x <= (spriteEnemy.getPosition().x + spriteSize(spriteEnemy).x / 2.0f)) 
-		{
-			/// ... some pause for animation ...
-			//enemy_active = false;
-			spriteShot.setPosition(700,0);		// sets the shot out of range, hence -> INACTIVE
-		}
-		//*/
-
 		/*
 		++++++++++++++++++++++
 		******* UPDATE *******
@@ -251,12 +229,17 @@ int main()
 		spritePawn.setTextureRect(animationPawn.uvRect);
 
 		if (!intro && !menu) {
+			//enemy movement
 			enemy.Move(&window);
 			enemy2.Move(&window);
 			enemy3.Move(&window);
-		
-		
+			//player actions
 			player.updateShot();
+			//collision detection
+			enemy.Collision(&player);
+			enemy2.Collision(&player);
+			enemy3.Collision(&player);
+
 		}
 
 			

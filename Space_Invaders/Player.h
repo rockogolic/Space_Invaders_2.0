@@ -2,9 +2,11 @@
 #define PLAYER_H
 
 #include <SFML/Graphics.hpp>
-#include "enemy.h"
+//#include "enemy.h"
 
 using namespace sf;
+
+class Enemy;					// forward declaration
 
 class Player {
 
@@ -14,6 +16,8 @@ public:
 
 	void shoot();
 	void updateShot();
+
+	void hitEnemy();
 
 	Sprite sprite;
 	Sprite spriteShot;

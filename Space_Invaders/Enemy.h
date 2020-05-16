@@ -2,9 +2,12 @@
 #define ENEMY_H
 
 #include <SFML/Graphics.hpp>
+#include "Player.h"
 #include "Animation.h"
 
 using namespace sf;
+
+//class Player;						// forward declaration
 
 class Enemy {
 
@@ -20,8 +23,13 @@ public:
 
 	// functions, movement
 	void Move(RenderWindow * window);
+
 	void setStartPosition( Vector2f startPos );
 	void setPosition( Vector2f position );
+	void setInactive();
+
+	void Collision(Player* player);
+
 	bool setDead();
 
 	Sprite sprite;
@@ -37,6 +45,7 @@ private:
 	bool _active;
 	bool _dead;
 	bool _won;
+	bool _collision;
 
 	Enemy * new_enemy;
 };

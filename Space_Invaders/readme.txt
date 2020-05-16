@@ -24,3 +24,37 @@ there are two ways to do that:
 static Class members:
 they are not initialized using constructor, as they are not dependent on object initialization. Hence, they are a class variable, and are the same for all objects of the 
 same class!
+
+FORWARD DECLARATION:
+It is not a good practice to include both headers into each other. "To understand A, you must first understand B" and then "To understand B, you must first understand A"
+To resolve the issue, one can use forward declaration.
+
+The wrong:
+
+//A.h    
+#include "B.h"
+class A{
+    B* b;
+    ..
+};
+
+//B.h
+#include "A.h"
+class B{ 
+    A* a; // error error C4430: missing type specifier - int assumed.
+};
+
+The right way to resolve it:
+
+//A.h    
+#include "B.h"
+class A{
+    B* b;
+    ..
+};
+
+//B.h
+class A;  // forward declaration
+class B{ 
+    A* a; // error error C4430: missing type specifier - int assumed.
+};

@@ -48,6 +48,7 @@ void Player::shoot() {
 		_shot = true;
 		Vector2f shotPosition = sprite.getPosition();
 		spriteShot.setPosition(shotPosition);
+
 	}
 	//*/
 
@@ -75,4 +76,6 @@ void Player::updateShot() {
 		_shot = false;
 	}
 }
+
+void Player::hitEnemy() { _shot = false; }
 
