@@ -29,7 +29,6 @@ public:
 
 	void setStartPosition( Vector2f startPos );
 	void setPosition( Vector2f position );
-	void setInactive();
 
 	void Collision(Player* player);
 	void hitPlayer();
@@ -54,6 +53,8 @@ private:
 	bool _shot;
 
 	Enemy * new_enemy;
+
+	//std::uniform_int_distribution<> _dis;
 };
 
 

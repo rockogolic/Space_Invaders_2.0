@@ -17,11 +17,8 @@ Player::Player(const Texture * texturePlayer, const Texture* textureShot) {
 	// set startPosition. def = 640/2 , 480-26
 	sprite.setPosition(_startPos);
 
-	_collision = false;
-	_dead = false;
-	_shot = false;
-
 	_health = 3;
+	_alive = true;
 
 }
 
@@ -83,8 +80,8 @@ void Player::Collision(Enemy * enemy) {
 
 		_collision = true;
 		enemy->hitPlayer();		// sets private _shot = false; (reset)
-		std::cout << "You have been hit" << std::endl;
-		_health--;
+		this->Hit();
+		std::cout << "You have been hit. Your health is: " << this->getHealth() << std::endl;
 	}
 }
 
@@ -97,13 +94,19 @@ void Player::updateShot() {
 
 void Player::hitEnemy() { _shot = false; }
 
-void Player::isHit() { 
+bool Player::isHit() { return _hit; }
+
+bool Player::isAlive() { return _alive; }
+
+void Player::Hit() { 
 	_hit = true; 
-	_health--; 
+	--_health; 
 	if (_health <= 0) {
 		_dead = true;
 	}
 }
+
+bool Player::isDead() { return _dead; }
 
 const int Player::getHealth() const{
 	return _health;

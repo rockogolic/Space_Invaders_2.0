@@ -20,7 +20,11 @@ public:
 	const int getHealth() const;
 
 	void hitEnemy();
-	void isHit();
+	void Hit();
+	
+	bool isHit();
+	bool isAlive();
+	bool isDead();
 
 	void Collision(Enemy * enemy);
 
@@ -32,10 +36,12 @@ private:
 	Vector2f _position;
 	static Vector2f _startPos;	// static -> same for all objects!
 
-	bool _collision;
-	bool _dead;
-	bool _shot;
-	bool _hit;
+	bool _collision = false;
+	bool _dead = false;
+	bool _shot = false;
+	bool _hit = false;
+	bool _alive = false;
+	
 
 	unsigned int _health;
 

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Enemy.h"
 #include <iostream>
+#include <random>
 
 Enemy::Enemy(const Texture* texture, const Texture * textureShot) {
 	
@@ -12,11 +13,13 @@ Enemy::Enemy(const Texture* texture, const Texture * textureShot) {
 	spriteShot.setOrigin(spriteShot.getTexture()->getSize().x / 2.0f, spriteShot.getTexture()->getSize().y / 2.0f);
 
 	// set startPosition. def = 0,0
-	this->_startPos = Vector2f( 0,0 );
-	setPosition(_startPos);
+	//this->_startPos = Vector2f( 0,0 );
+	//setPosition(_startPos);
 
 	_active = true;
 	_dead = false;
+	_shot = false;
+	_collision = false;
 
 	enemy_side = _side::NONE;
 }
@@ -34,12 +37,13 @@ Enemy::Enemy(const Enemy& enemy) {
 	this->spriteShot = enemy.spriteShot;
 
 	// def _startPos = 0,0
-	this->_startPos = Vector2f(0, 0);
-	this->setPosition(_startPos);
+	//this->_startPos = Vector2f(0, 0);
+	//this->setPosition(_startPos);
 
 	this->_active = true;
 	this->_dead = false;
 	this->_collision = false;
+	this->_shot = false;
 
 	this->enemy_side = _side::NONE;
 
@@ -65,14 +69,12 @@ void Enemy::Move(RenderWindow * window) {
 		
 		_position.y += sprite.getTexture()->getSize().y;
 		sprite.setPosition((window->getSize().x - sprite.getTexture()->getSize().x / 2.0f), _position.y);
-		//_startPos.y += 2 * sprite.getTexture()->getSize().y;
 		enemy_side = _side::LEFT;
 		
 	}
 	else if (sprite.getPosition().x <= (sprite.getTexture()->getSize().x / 2.0f)) {
 		
 		_position.y += sprite.getTexture()->getSize().y;
-		//_startPos.y += 2 * sprite.getTexture()->getSize().y;
 		sprite.setPosition((sprite.getTexture()->getSize().x / 2.0f), _position.y);
 		enemy_side = _side::RIGHT;
 	}
@@ -93,16 +95,22 @@ void Enemy::Move(RenderWindow * window) {
 }
 
 // shoot
+
 void Enemy::shoot() {
+	std::random_device rd;  //Will be used to obtain a seed for the random number engine
+	std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+	std::uniform_int_distribution<> dis(1, 10000);
 	if (_shot == false) {
-		_shot = true;
-		Vector2f shotPosition = sprite.getPosition();
-		spriteShot.setPosition(shotPosition);
+		if (dis(gen) == 1 && _active) {
+			_shot = true;
+			Vector2f shotPosition = sprite.getPosition();
+			spriteShot.setPosition(shotPosition);
+		}
 	}
 }
 
-void Enemy::updateShot() {
-	spriteShot.move(0.0f, +0.40f);
+void Enemy::updateShot() {	
+	spriteShot.move(0, +0.35f);
 	if (spriteShot.getPosition().y > 490) {
 		_shot = false;
 	}
@@ -148,7 +156,7 @@ void Enemy::Collision(Player* player) {
 	{
 		_collision = true;
 		player->hitEnemy();		// sets private _shot = false; (reset)
-		player->isHit();		// sets private _hit = true; 
+		player->Hit();			// sets private _hit = true; 
 		std::cout << "You have been hit. Your health is: " << player->getHealth() << std::endl;
 		_active = false;
 	}

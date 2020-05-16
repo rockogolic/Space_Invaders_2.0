@@ -126,11 +126,18 @@ int main()
 		Color::White, font_CubicCoreMono, 20
 	);
 
+	Message messageHit(
+		"Hit ENTER to continue",
+		Color::White, font_CubicCoreMono, 40
+	);
+	messageHit.position(screenSize.x / 2.0f, screenSize.y / 2.0f);
+
 	/* BOOLEANS to control phases of the GAME */
 
-	bool intro = true;	// introduction screen; def -> true;
-	bool menu = false;	// menu screen in the game; if !intro -> def->false; 
-	bool hit = false;	// show a message when player is hit, to continue
+	bool intro = true;			// introduction screen; def -> true;
+	bool menu = false;			// menu screen in the game; if !intro -> def->false; 
+	bool hit = false;			// show a message when player is hit, to continue
+	bool Continue = false;		// becomes true when Enter is pressed inside the Hit screen
 
 	bool round1_over = false;
 	bool round2_over = false;
@@ -149,6 +156,10 @@ int main()
 	*/
 
 	while (window.isOpen()) {
+
+		if (player.isHit()) {
+
+		}
 
 		deltaTime = clock.restart().asSeconds();
 
@@ -175,23 +186,27 @@ int main()
 					if (intro) {
 						window.close();
 					}
-					else if (!intro && !menu) {
+					else if (!intro && !menu && !hit) {
 						//printf("\n A Menu is open! \n");
 						std::cout << "\n A Menu is open!" << std::endl;
 						menu = true;
 					}
-					else if (!intro && menu) {
+					else if (!intro && menu && !hit) {
 						//printf("\n A Menu is closed! \n");
 						std::cout << "\n A Menu is closed!" << std::endl;
 						menu = false;
+					}
+					else if (!intro && !menu && hit) {
+						window.close();
 					}
 				}
 				if (Keyboard::isKeyPressed(Keyboard::Return)) {
 					if (intro) {
 						intro = false;
 					}
-					if (hit) {
+					if (Continue) {
 						hit = false;
+						Continue = false;
 					}
 				}
 				if (Keyboard::isKeyPressed(Keyboard::Space)) {
@@ -212,7 +227,7 @@ int main()
 		/* Long-run commands -> Player movement and Game-related mechanics */
 		
 		// Player's movement
-		if (!intro && !menu) {
+		if (!intro && !menu && !hit) {
 			if (Keyboard::isKeyPressed(Keyboard::A) && player.sprite.getPosition().x > 26)
 				player.sprite.move(-0.1f, 0.0f);
 			if (Keyboard::isKeyPressed(Keyboard::D) && player.sprite.getPosition().x < (window.getSize().x - 26))
@@ -234,7 +249,7 @@ int main()
 		//animationPawn.Update(0, deltaTime);
 		//spritePawn.setTextureRect(animationPawn.uvRect);
 
-		if (!intro && !menu) {
+		if (!intro && !menu && !hit) {
 			
 			//enemy movement
 			enemy.Move(&window);
@@ -245,13 +260,37 @@ int main()
 
 			//player actions
 			player.updateShot();
-			
-			//collision detection
+
+			player.Collision(&enemy);
+			player.Collision(&enemy2);
+			player.Collision(&enemy3);
+			player.Collision(&enemy4);
+			player.Collision(&enemy5);
+
+			//enemy collision detection
 			enemy.Collision(&player);
 			enemy2.Collision(&player);
 			enemy3.Collision(&player);
 			enemy4.Collision(&player);
 			enemy5.Collision(&player);
+
+			// enemy shooting
+			enemy.shoot();
+			enemy2.shoot();
+			enemy3.shoot();
+			enemy4.shoot();
+			enemy5.shoot();
+
+			enemy.updateShot();
+			enemy2.updateShot();
+			enemy3.updateShot();
+			enemy4.updateShot();
+			enemy5.updateShot();
+
+			//if (player.isHit()) {
+			//	hit = true;
+			//	Continue = true;
+			//}
 
 
 		}
@@ -274,7 +313,7 @@ int main()
 			messageEnter.display(window);
 
 		}
-		else if (!intro && !menu) {
+		else if (!intro) {
 			window.draw(spriteBackground);
 
 			/*  DRAW EVERYTHING ELSE */
@@ -295,14 +334,18 @@ int main()
 
 			window.draw(player.spriteShot);
 
-		}
+			window.draw(enemy.spriteShot);
+			window.draw(enemy2.spriteShot);
+			window.draw(enemy3.spriteShot);
+			window.draw(enemy4.spriteShot);
+			window.draw(enemy5.spriteShot);
 
-		else if (menu) {
+			if (hit)
+				messageHit.display(window);
 
-			window.draw(spriteMenu);
-
-			/* DRAW BUTTONS */
-
+			if (menu) {
+				window.draw(spriteMenu);
+			}
 		}
 
 		window.display();
