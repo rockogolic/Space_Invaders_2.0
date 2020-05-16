@@ -137,7 +137,7 @@ int main()
 	bool intro = true;			// introduction screen; def -> true;
 	bool menu = false;			// menu screen in the game; if !intro -> def->false; 
 	bool hit = false;			// show a message when player is hit, to continue
-	bool Continue = false;		// becomes true when Enter is pressed inside the Hit screen
+	bool game_over = false;
 
 	bool round1_over = false;
 	bool round2_over = false;
@@ -269,7 +269,11 @@ int main()
 			if (player.isHit()) {
 				hit = true;
 				player.setAlive();
+				if (player.isDead() == true) {
+					game_over = true;
+				}
 			}
+
 			//enemy collision detection
 			enemy.Collision(&player);
 			enemy2.Collision(&player);

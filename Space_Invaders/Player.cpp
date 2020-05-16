@@ -18,8 +18,6 @@ Player::Player(const Texture * texturePlayer, const Texture* textureShot) {
 	sprite.setPosition(_startPos);
 
 	_health = 3;
-	_alive = true;
-
 }
 
 Player::~Player() {}
@@ -95,8 +93,6 @@ void Player::updateShot() {
 void Player::hitEnemy() { _shot = false; }
 
 bool Player::isHit() { return _hit; }
-
-bool Player::isAlive() { return _alive; }
 
 void Player::setAlive() { 
 	

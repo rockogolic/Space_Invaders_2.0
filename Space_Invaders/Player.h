@@ -24,7 +24,6 @@ public:
 	void Hit();
 	
 	bool isHit();
-	bool isAlive();
 	bool isDead();
 
 	void Collision(Enemy * enemy);
@@ -41,8 +40,6 @@ private:
 	bool _dead = false;
 	bool _shot = false;
 	bool _hit = false;
-	bool _alive = false;
-	
 
 	unsigned int _health;
 
