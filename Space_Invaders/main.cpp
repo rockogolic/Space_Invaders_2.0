@@ -226,12 +226,15 @@ int main()
 		spritePawn.setTextureRect(animationPawn.uvRect);
 
 		if (!intro && !menu) {
+			
 			//enemy movement
 			enemy.Move(&window);
 			enemy2.Move(&window);
 			enemy3.Move(&window);
+
 			//player actions
 			player.updateShot();
+			
 			//collision detection
 			enemy.Collision(&player);
 			enemy2.Collision(&player);
