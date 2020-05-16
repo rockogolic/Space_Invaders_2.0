@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "Player.h"
+#include "Enemy.h"
+
+#include <iostream>
 
 // one texture for Player and another for what he shoots with
 Player::Player(const Texture * texturePlayer, const Texture* textureShot) {
@@ -27,9 +30,6 @@ Player::~Player() {}
 Vector2f Player::_startPos = { 640 / 2, 480 - 26 };
 
 void Player::shoot() {
-	// do I need the first if loop?
-	// leave only the second one. Think. With the current code I will press "SPACE" 2 times to fire a missile
-	
 	/*
 	if (_shot == false) {
 		spriteShot.setPosition(sprite.getPosition());
@@ -51,9 +51,6 @@ void Player::shoot() {
 
 	}
 	//*/
-
-	// OR
-
 	/*
 	if (_shot == false) {
 		spriteShot.setPosition(sprite.getPosition());
@@ -66,8 +63,29 @@ void Player::shoot() {
 		}
 	}
 	//*/
+}
 
+void Player::Collision(Enemy * enemy) {
+	if (
+		// shot - player collision
+		(enemy->spriteShot.getPosition().y >= (sprite.getPosition().y - sprite.getTexture()->getSize().y / 2.0f))
+		&&
+		(enemy->spriteShot.getPosition().y <= (sprite.getPosition().y + sprite.getTexture()->getSize().y / 2.0f))
+		&&
+		(enemy->spriteShot.getPosition().x >= (sprite.getPosition().x - sprite.getTexture()->getSize().x / 2.0f))
+		&&
+		(enemy->spriteShot.getPosition().x <= (sprite.getPosition().x + sprite.getTexture()->getSize().x / 2.0f))
+		&&
+		(_dead == false)
+		)
+	{
+		enemy->spriteShot.setPosition(-700, -700);
 
+		_collision = true;
+		enemy->hitPlayer();		// sets private _shot = false; (reset)
+		std::cout << "You have been hit" << std::endl;
+		_health--;
+	}
 }
 
 void Player::updateShot() {
@@ -79,3 +97,14 @@ void Player::updateShot() {
 
 void Player::hitEnemy() { _shot = false; }
 
+void Player::isHit() { 
+	_hit = true; 
+	_health--; 
+	if (_health <= 0) {
+		_dead = true;
+	}
+}
+
+const int Player::getHealth() const{
+	return _health;
+}

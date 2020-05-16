@@ -2,12 +2,14 @@
 #include "Enemy.h"
 #include <iostream>
 
-Enemy::Enemy(const Texture* texture) {
+Enemy::Enemy(const Texture* texture, const Texture * textureShot) {
 	
 	sprite.setTexture(*texture);
+	spriteShot.setTexture(*textureShot);
 
-	// center the origin of the sprite
+	// center the origin of the sprites
 	sprite.setOrigin(sprite.getTexture()->getSize().x / 2.0f, sprite.getTexture()->getSize().y / 2.0f);
+	spriteShot.setOrigin(spriteShot.getTexture()->getSize().x / 2.0f, spriteShot.getTexture()->getSize().y / 2.0f);
 
 	// set startPosition. def = 0,0
 	this->_startPos = Vector2f( 0,0 );
@@ -29,6 +31,7 @@ Enemy::Enemy(const Enemy& enemy) {
 	
 	new_enemy = new Enemy;
 	this->sprite = enemy.sprite;
+	this->spriteShot = enemy.spriteShot;
 
 	// def _startPos = 0,0
 	this->_startPos = Vector2f(0, 0);
@@ -89,11 +92,28 @@ void Enemy::Move(RenderWindow * window) {
 	}
 }
 
+// shoot
+void Enemy::shoot() {
+	if (_shot == false) {
+		_shot = true;
+		Vector2f shotPosition = sprite.getPosition();
+		spriteShot.setPosition(shotPosition);
+	}
+}
+
+void Enemy::updateShot() {
+	spriteShot.move(0.0f, +0.40f);
+	if (spriteShot.getPosition().y > 490) {
+		_shot = false;
+	}
+}
+
 // Collision with Player
 
 void Enemy::Collision(Player* player) {
 
 	if (
+	 // shot - enemy collision
 		(player->spriteShot.getPosition().y >= (sprite.getPosition().y - sprite.getTexture()->getSize().y / 2.0f))
 		&&
 		(player->spriteShot.getPosition().y <= (sprite.getPosition().y + sprite.getTexture()->getSize().y / 2.0f))
@@ -112,6 +132,26 @@ void Enemy::Collision(Player* player) {
 		std::cout << "You hit the alien" << std::endl;
 		_active = false;
 	}
+
+	else if (
+	// sprite - sprite collision (player - enemy)
+		(player->sprite.getPosition().y >= (sprite.getPosition().y - sprite.getTexture()->getSize().y / 2.0f))
+		&&
+		(player->sprite.getPosition().y <= (sprite.getPosition().y + sprite.getTexture()->getSize().y / 2.0f))
+		&&
+		(player->sprite.getPosition().x >= (sprite.getPosition().x - sprite.getTexture()->getSize().x / 2.0f))
+		&&
+		(player->sprite.getPosition().x <= (sprite.getPosition().x + sprite.getTexture()->getSize().x / 2.0f))
+		&&
+		_active
+		)
+	{
+		_collision = true;
+		player->hitEnemy();		// sets private _shot = false; (reset)
+		player->isHit();		// sets private _hit = true; 
+		std::cout << "You have been hit. Your health is: " << player->getHealth() << std::endl;
+		_active = false;
+	}
 }
  
 void Enemy::setStartPosition(Vector2f startPos) {
@@ -122,3 +162,5 @@ void Enemy::setPosition(Vector2f position) {
 	sprite.setPosition(position);
 	_position = position;
 }
+
+void Enemy::hitPlayer() { _shot = false; }

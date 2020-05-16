@@ -17,7 +17,12 @@ public:
 	void shoot();
 	void updateShot();
 
+	const int getHealth() const;
+
 	void hitEnemy();
+	void isHit();
+
+	void Collision(Enemy * enemy);
 
 	Sprite sprite;
 	Sprite spriteShot;
@@ -30,6 +35,7 @@ private:
 	bool _collision;
 	bool _dead;
 	bool _shot;
+	bool _hit;
 
 	unsigned int _health;
 

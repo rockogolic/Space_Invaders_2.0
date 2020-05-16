@@ -78,7 +78,7 @@ int main()
 	// ENEMY
 	Texture textureEnemy;
 	textureEnemy.loadFromFile("graphics/enemy_red_54x54.png");
-	Enemy enemy(&textureEnemy);
+	Enemy enemy(&textureEnemy, &textureShotEnemy);
 	Enemy enemy2(enemy);
 	Enemy enemy3(enemy2);
 	Enemy enemy4(enemy);

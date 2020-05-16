@@ -13,7 +13,7 @@ class Enemy {
 
 public:
 
-	Enemy(const Texture* texture);	// constructor
+	Enemy(const Texture* texture, const Texture * textureShot);	// constructor
 	Enemy();						// default
 	Enemy(const Enemy& enemy);		// copy constr
 	~Enemy();
@@ -24,15 +24,20 @@ public:
 	// functions, movement
 	void Move(RenderWindow * window);
 
+	void shoot();
+	void updateShot();
+
 	void setStartPosition( Vector2f startPos );
 	void setPosition( Vector2f position );
 	void setInactive();
 
 	void Collision(Player* player);
+	void hitPlayer();
 
 	bool setDead();
 
 	Sprite sprite;
+	Sprite spriteShot;
 
 private:
 
@@ -46,6 +51,7 @@ private:
 	bool _dead;
 	bool _won;
 	bool _collision;
+	bool _shot;
 
 	Enemy * new_enemy;
 };
