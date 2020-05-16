@@ -13,7 +13,7 @@ public:
 	~Player();
 
 	void shoot();
-
+	void updateShot();
 
 	Sprite sprite;
 	Sprite spriteShot;

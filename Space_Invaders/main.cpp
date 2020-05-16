@@ -65,29 +65,16 @@ int main()
 	// PLAYER
 	Texture texturePlayer_idle;			// IDLE 
 	texturePlayer_idle.loadFromFile("graphics/player_54x54.png");
-	Sprite spritePlayer;
-	spritePlayer.setTexture(texturePlayer_idle);
-	Center(spritePlayer);
-	spritePlayer.setPosition(screenSize.x / 2.0f, screenSize.y - 26);				
 
 	Texture texturePlayer_left;			// LEFT-Facing
 	texturePlayer_left.loadFromFile("graphics/player_left_54x54.png");
-	Sprite spritePlayer_left;
-	spritePlayer_left.setTexture(texturePlayer_left);
-	Center(spritePlayer_left);
 
 	Texture texturePlayer_right;		// RIGHT-Facing
 	texturePlayer_right.loadFromFile("graphics/player_right_54x54.png");
-	Sprite spritePlayer_right;
-	spritePlayer_right.setTexture(texturePlayer_right);
-	Center(spritePlayer_right);
 
 	// SHOT
 	Texture textureShot;
 	textureShot.loadFromFile("graphics/shot_13x6.png");
-	Sprite spriteShot;
-	spriteShot.setTexture(textureShot);
-	Center(spriteShot);
 	
 	// ENEMY
 	Texture textureEnemy;
@@ -113,6 +100,8 @@ int main()
 	
 	enemy2.setPosition(Vector2f(100.0f, 100.0f));
 	enemy3.setPosition(Vector2f(400.0f, 400.0f));
+
+	Player player(&texturePlayer_idle, &textureShot);
 
 
 	Texture textureKaboom;
@@ -145,8 +134,6 @@ int main()
 	bool intro = true; // introduction screen; def -> true;
 	bool menu = false; // menu screen in the game; if !intro -> def->false; 
 
-	bool fired = false; // state of a fired missile; if !intro && !menu; def->false;
-	bool enemy_active = false; // state of the enemy's ship
 	bool enemy_boom = false;
 	bool collision = false;	// did the collision happen? default -> false
 
@@ -211,12 +198,7 @@ int main()
 				}
 				if (Keyboard::isKeyPressed(Keyboard::Space)) {
 					if (!intro && !menu) {
-						// player.shoot();
-						if (!fired) {
-							Vector2f positionShot = spritePlayer.getPosition();
-							spriteShot.setPosition(positionShot);
-							fired = true;
-						}
+						player.shoot();
 					}
 				}
 				if (Keyboard::isKeyPressed(Keyboard::Up)) {
@@ -236,26 +218,19 @@ int main()
 		
 		// Player's movement
 		if (!intro && !menu) {
-			if (Keyboard::isKeyPressed(Keyboard::A) && spritePlayer.getPosition().x > 26)
-				spritePlayer.move(-0.1f, 0.0f);
-			if (Keyboard::isKeyPressed(Keyboard::D) && spritePlayer.getPosition().x < (window.getSize().x - 26))
-				spritePlayer.move(0.1f, 0.0f);
-			if (Keyboard::isKeyPressed(Keyboard::W) && spritePlayer.getPosition().y > 26)
-				spritePlayer.move(0.0f, -0.1f);
-			if (Keyboard::isKeyPressed(Keyboard::S) && spritePlayer.getPosition().y < (window.getSize().y - 26))
-				spritePlayer.move(0.0f, 0.1f);
-		}
-
-		// Fired missile (player)
-		if (fired && !menu) {
-			spriteShot.move(0.0f, -0.45f);					// initial speed: 0.2f
-			if (spriteShot.getPosition().y < -10 ) {			// ADD: OR collision = true;
-				fired = false;
-			}
+			if (Keyboard::isKeyPressed(Keyboard::A) && player.sprite.getPosition().x > 26)
+				player.sprite.move(-0.1f, 0.0f);
+			if (Keyboard::isKeyPressed(Keyboard::D) && player.sprite.getPosition().x < (window.getSize().x - 26))
+				player.sprite.move(0.1f, 0.0f);
+			if (Keyboard::isKeyPressed(Keyboard::W) && player.sprite.getPosition().y > 26)
+				player.sprite.move(0.0f, -0.1f);
+			if (Keyboard::isKeyPressed(Keyboard::S) && player.sprite.getPosition().y < (window.getSize().y - 26))
+				player.sprite.move(0.0f, 0.1f);
 		}
 
 		// Collission detection
 
+		/*
 		if (spriteShot.getPosition().y >= (spriteEnemy.getPosition().y - spriteSize(spriteEnemy).y / 2.0f)
 			&&
 			spriteShot.getPosition().y <= (spriteEnemy.getPosition().y + spriteSize(spriteEnemy).y / 2.0f)
@@ -265,10 +240,10 @@ int main()
 			spriteShot.getPosition().x <= (spriteEnemy.getPosition().x + spriteSize(spriteEnemy).x / 2.0f)) 
 		{
 			/// ... some pause for animation ...
-			enemy_active = false;
+			//enemy_active = false;
 			spriteShot.setPosition(700,0);		// sets the shot out of range, hence -> INACTIVE
 		}
-
+		//*/
 
 		/*
 		++++++++++++++++++++++
@@ -283,7 +258,11 @@ int main()
 			enemy.Move(&window);
 			enemy2.Move(&window);
 			enemy3.Move(&window);
+		
+		
+			player.updateShot();
 		}
+
 			
 		/*
 		+++++++++++++++++++++
@@ -308,8 +287,9 @@ int main()
 			/*  DRAW EVERYTHING ELSE */
 
 			// Draw player
-			window.draw(spritePlayer);
-			
+			//window.draw(spritePlayer);
+			window.draw(player.sprite);
+
 			window.draw(spritePawn);
 
 			window.draw(enemy.sprite);
@@ -318,7 +298,8 @@ int main()
 
 			window.draw(enemy3.sprite);
 
-			window.draw(spriteShot);
+			window.draw(player.spriteShot);
+			//window.draw(spriteShot);
 		}
 
 		else if (menu) {

@@ -29,6 +29,8 @@ Vector2f Player::_startPos = { 640 / 2, 480 - 26 };
 void Player::shoot() {
 	// do I need the first if loop?
 	// leave only the second one. Think. With the current code I will press "SPACE" 2 times to fire a missile
+	
+	/*
 	if (_shot == false) {
 		spriteShot.setPosition(sprite.getPosition());
 		_shot = true;
@@ -39,16 +41,15 @@ void Player::shoot() {
 			_shot = false;
 		}
 	}
-	/* 
+	//*/
+	
+	//*
 	if (_shot == false) {
 		_shot = true;
-		spriteShot.setPosition(sprite.getPosition());
-		spriteShot.move(0.0f, -0.45f);
-		if (spriteShot.getPosition().y < -10) {
-			_shot = false;
-		}
+		Vector2f shotPosition = sprite.getPosition();
+		spriteShot.setPosition(shotPosition);
 	}
-	*/
+	//*/
 
 	// OR
 
@@ -63,9 +64,15 @@ void Player::shoot() {
 			}
 		}
 	}
-	*/
+	//*/
 
 
 }
 
+void Player::updateShot() {
+	spriteShot.move(0.0f, -0.45f);
+	if (spriteShot.getPosition().y < -10) {
+		_shot = false;
+	}
+}
 
