@@ -18,6 +18,7 @@ public:
 	void updateShot();
 
 	const int getHealth() const;
+	void setAlive();
 
 	void hitEnemy();
 	void Hit();

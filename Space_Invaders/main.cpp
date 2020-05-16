@@ -204,9 +204,8 @@ int main()
 					if (intro) {
 						intro = false;
 					}
-					if (Continue) {
+					if (hit) {
 						hit = false;
-						Continue = false;
 					}
 				}
 				if (Keyboard::isKeyPressed(Keyboard::Space)) {
@@ -267,6 +266,10 @@ int main()
 			player.Collision(&enemy4);
 			player.Collision(&enemy5);
 
+			if (player.isHit()) {
+				hit = true;
+				player.setAlive();
+			}
 			//enemy collision detection
 			enemy.Collision(&player);
 			enemy2.Collision(&player);
@@ -286,11 +289,6 @@ int main()
 			enemy3.updateShot();
 			enemy4.updateShot();
 			enemy5.updateShot();
-
-			//if (player.isHit()) {
-			//	hit = true;
-			//	Continue = true;
-			//}
 
 
 		}

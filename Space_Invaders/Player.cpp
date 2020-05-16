@@ -98,6 +98,14 @@ bool Player::isHit() { return _hit; }
 
 bool Player::isAlive() { return _alive; }
 
+void Player::setAlive() { 
+	
+	if (_hit) {
+		_hit = false;
+	}
+
+}
+
 void Player::Hit() { 
 	_hit = true; 
 	--_health; 
