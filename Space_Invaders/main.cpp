@@ -24,10 +24,6 @@ using namespace sf;
 const Vector2f spriteSize(Sprite& sprite);		//  gets the Vector2f in size of the sprite
 void Center(Sprite& sprite);					// changes the origin of the sprite to its center
 
-// Enemy's movement
-enum class enemy_side { LEFT, RIGHT, NONE };
-enemy_side enemy_pos;
-
 int main()
 {
 	// to allow to resize the window -> Style::default and remove other Style::Close && Style::Titlebar
