@@ -20,6 +20,7 @@ public:
 
 	bool isActive();
 	bool isDead();
+	bool hasWon();
 
 	// functions, movement
 	void Move(RenderWindow * window);

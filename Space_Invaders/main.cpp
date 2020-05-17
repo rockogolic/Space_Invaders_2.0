@@ -84,11 +84,11 @@ int main()
 	Enemy enemy3(enemy);
 	Enemy enemy4(enemy);
 	Enemy enemy5(enemy);
-	enemy.setPosition(Vector2f(50.0f, 50.0f));
-	enemy2.setPosition(Vector2f(185.0f, 50.0f));
-	enemy3.setPosition(Vector2f(320.0f, 50.0f));
-	enemy4.setPosition(Vector2f(455.0f, 50.0f));
-	enemy5.setPosition(Vector2f(590.0f, 50.0f));
+	enemy.setPosition(Vector2f(50.0f, 80.0f));
+	enemy2.setPosition(Vector2f(185.0f, 80.0f));
+	enemy3.setPosition(Vector2f(320.0f, 80.0f));
+	enemy4.setPosition(Vector2f(455.0f, 80.0f));
+	enemy5.setPosition(Vector2f(590.0f, 80.0f));
 
 	Texture texturePawn;
 	texturePawn.loadFromFile("graphics/pawn.png");
@@ -143,7 +143,13 @@ int main()
 		"Health: ",
 		Color::White, font_CubicCoreMono, 30
 	);
-	messageHealth.position(screenSize.x / 8.0f, screenSize.y / 6.0f);
+	messageHealth.position(screenSize.x / 8.0f, screenSize.y / 15.0f);
+
+	Message messageScore(
+		"Score: ",
+		Color::White, font_CubicCoreMono, 30
+	);
+	messageScore.position(6.0f * screenSize.x / 8.0f, screenSize.y / 15.0f);
 
 	/* BOOLEANS to control phases of the GAME */
 
@@ -169,10 +175,6 @@ int main()
 	*/
 
 	while (window.isOpen()) {
-
-		if (player.isHit()) {
-
-		}
 
 		deltaTime = clock.restart().asSeconds();
 
@@ -359,6 +361,7 @@ int main()
 			window.draw(enemy5.spriteShot);
 
 			messageHealth.display(window);
+			messageScore.display(window);
 
 			if (hit)
 				messageHit.display(window);
