@@ -79,8 +79,9 @@ int main()
 	Texture textureEnemy;
 	textureEnemy.loadFromFile("graphics/enemy_red_54x54.png");
 	Enemy enemy(&textureEnemy, &textureShotEnemy);
+	Enemy enemy1(enemy);
 	Enemy enemy2(enemy);
-	Enemy enemy3(enemy2);
+	Enemy enemy3(enemy);
 	Enemy enemy4(enemy);
 	Enemy enemy5(enemy);
 	enemy.setPosition(Vector2f(50.0f, 50.0f));
@@ -131,6 +132,12 @@ int main()
 		Color::White, font_CubicCoreMono, 40
 	);
 	messageHit.position(screenSize.x / 2.0f, screenSize.y / 2.0f);
+
+	Message messageGameOver(
+		"GAME OVER",
+		Color::Red, font_CubicCoreMono, 60
+	);
+	messageGameOver.position(screenSize.x / 2.0f, screenSize.y / 2.0f);
 
 	/* BOOLEANS to control phases of the GAME */
 
@@ -186,17 +193,17 @@ int main()
 					if (intro) {
 						window.close();
 					}
-					else if (!intro && !menu && !hit) {
+					else if (!intro && !menu && !hit && !game_over) {
 						//printf("\n A Menu is open! \n");
 						std::cout << "\n A Menu is open!" << std::endl;
 						menu = true;
 					}
-					else if (!intro && menu && !hit) {
+					else if (!intro && menu && !hit && !game_over) {
 						//printf("\n A Menu is closed! \n");
 						std::cout << "\n A Menu is closed!" << std::endl;
 						menu = false;
 					}
-					else if (!intro && !menu && hit) {
+					else if (!intro && !menu && (hit || game_over) ) {
 						window.close();
 					}
 				}
@@ -226,7 +233,7 @@ int main()
 		/* Long-run commands -> Player movement and Game-related mechanics */
 		
 		// Player's movement
-		if (!intro && !menu && !hit) {
+		if (!intro && !menu && !hit && !game_over) {
 			if (Keyboard::isKeyPressed(Keyboard::A) && player.sprite.getPosition().x > 26)
 				player.sprite.move(-0.1f, 0.0f);
 			if (Keyboard::isKeyPressed(Keyboard::D) && player.sprite.getPosition().x < (window.getSize().x - 26))
@@ -248,7 +255,7 @@ int main()
 		//animationPawn.Update(0, deltaTime);
 		//spritePawn.setTextureRect(animationPawn.uvRect);
 
-		if (!intro && !menu && !hit) {
+		if (!intro && !menu && !hit && !game_over) {
 			
 			//enemy movement
 			enemy.Move(&window);
@@ -267,10 +274,12 @@ int main()
 			player.Collision(&enemy5);
 
 			if (player.isHit()) {
-				hit = true;
-				player.setAlive();
 				if (player.isDead() == true) {
 					game_over = true;
+				}
+				else {
+					hit = true;
+					player.setAlive();
 				}
 			}
 
@@ -347,6 +356,10 @@ int main()
 
 			if (menu) {
 				window.draw(spriteMenu);
+			}
+
+			if (game_over) {
+				messageGameOver.display(window);
 			}
 		}
 
