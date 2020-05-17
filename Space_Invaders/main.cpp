@@ -27,7 +27,7 @@ void Center(Sprite& sprite);					// changes the origin of the sprite to its cent
 int main()
 {
 	// to allow to resize the window -> Style::default and remove other Style::Close && Style::Titlebar
-	RenderWindow window(VideoMode(640, 480), "Space Invaders", Style::Default);
+	RenderWindow window(VideoMode(640, 480), "Space Invaders", Style::None);
 	Vector2f screenSize(window.getSize().x, window.getSize().y);		// Vector2f of size of the RenderWindow object, window
 
 	/* LOAD and INITIALIZE sounds, sprites and fonts */
