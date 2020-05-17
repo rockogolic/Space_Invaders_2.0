@@ -113,7 +113,12 @@ void Enemy::shoot() {
 
 void Enemy::updateShot(float deltaTime) {	
 	if (_shot == true) {
-		spriteShot.move(0, +((0.15 * 1 / (0.000588f)) / (1 / 0.000588f - 1 / deltaTime)));
+		if (deltaTime > 0.000588f) {
+			spriteShot.move(0, +((0.15 * 1 / (0.000588f)) / (1 / 0.000588f - 1 / deltaTime)));
+		}
+		else {
+			spriteShot.move(0, +((0.15 * 1 / (0.000588f)) / (1 / 0.000588f + 1 / deltaTime)));
+		}
 		if (spriteShot.getPosition().y > 490) {
 			_shot = false;
 		}
