@@ -211,7 +211,7 @@ int main()
 						std::cout << "\n A Menu is closed!" << std::endl;
 						menu = false;
 					}
-					else if (!intro && !menu && (hit || game_over) ) {
+					else if (!intro && !menu && (hit || game_over)) {
 						window.close();
 					}
 				}
@@ -239,7 +239,7 @@ int main()
 		}
 
 		/* Long-run commands -> Player movement and Game-related mechanics */
-		
+
 		// Player's movement
 		if (!intro && !menu && !hit && !game_over) {
 			if (Keyboard::isKeyPressed(Keyboard::A) && player.sprite.getPosition().x > 26)
@@ -264,7 +264,7 @@ int main()
 		//spritePawn.setTextureRect(animationPawn.uvRect);
 
 		if (!intro && !menu && !hit && !game_over) {
-			
+
 			//enemy movement
 			enemy.Move(&window);
 			enemy2.Move(&window);
@@ -289,6 +289,9 @@ int main()
 					hit = true;
 					player.setAlive();
 				}
+			}
+			else if (enemy.hasWon() || enemy2.hasWon() || enemy3.hasWon() || enemy4.hasWon() || enemy5.hasWon()) {
+				game_over = true;
 			}
 
 			//enemy collision detection
