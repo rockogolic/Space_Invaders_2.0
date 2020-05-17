@@ -86,7 +86,7 @@ void Player::Collision(Enemy * enemy) {
 /* Speed calculation: */
 
 void Player::updateShot(float deltaTime) {
-	spriteShot.move(0.0f, -( (0.45 * 1/(0.000588f))/(1/0.000588f - 1/deltaTime) ) );
+	spriteShot.move(0.0f, -( 765 / (1/deltaTime) ) );
 	if (spriteShot.getPosition().y < -10) {
 		_shot = false;
 	}
