@@ -83,7 +83,17 @@ void Player::Collision(Enemy * enemy) {
 	}
 }
 
-/* Speed calculation: */
+/* Speed calculation: 
+
+For speed calculation, v = l * f; 
+where v - speed in pixels per second (px/s)
+l - length covered in pixels in one second (px)
+f - frequency of screen-refresh (framerate) (Hz = 1/s)
+
+Therefore, also v = l / dt; 
+where dt - time difference between refresh rate of the screen. (s)
+
+*/
 
 void Player::updateShot(float deltaTime) {
 	spriteShot.move(0.0f, -( 765 / (1/deltaTime) ) );
