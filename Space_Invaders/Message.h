@@ -6,6 +6,8 @@
 
 using namespace sf;
 
+class Player;
+
 class Message {
 public:
 	Message(std::string string, Color color, Font& font, int size);
@@ -17,6 +19,8 @@ public:
 	void font(Font& font);			// set font
 	void color(Color color);		// set fill-color
 	void position(float x, float y);	// set position on the screen
+
+	void updateMessage(const Player* player);
 
 	// access the finalized text object of the class
 	Text get();

@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Message.h"
+#include "Player.h"
+#include <string>
 
 // Set the color and font to display the message:
 // through message.color(), and message.font();
@@ -29,6 +31,11 @@ void Message::font(Font& font) { _font = font; }
 void Message::color(Color color) { _color = color; }
 void Message::position(float x, float y) { _text.setPosition(x, y); }
 void Message::display(RenderWindow& window) { window.draw(_text); }
+
+void Message::updateMessage(const Player* player) {
+	int health = (player->getHealth());
+	_text.setString(_message+std::to_string(player->getHealth()));
+}
 
 Text Message::get() {
 	Text text;

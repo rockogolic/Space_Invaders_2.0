@@ -1,6 +1,8 @@
 
 NOTE to SELF: 
 
+USED:: c++_11 version of std::to_string(int), which was introduced only in C++ 11. [in class Message::updateMessage - to convert integer health to std::string]
+
 * pragma once and ifndef - define; endif are the same algorithms for compiling the header file only once!
 Although, the pragma once is quite risky for multiplatforming, as it can not be supported in all the cases.
 That is why ifndef define endif is a more reliable and universal tool to use!

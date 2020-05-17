@@ -139,6 +139,12 @@ int main()
 	);
 	messageGameOver.position(screenSize.x / 2.0f, screenSize.y / 2.0f);
 
+	Message messageHealth(
+		"Health: ",
+		Color::White, font_CubicCoreMono, 30
+	);
+	messageHealth.position(screenSize.x / 8.0f, screenSize.y / 6.0f);
+
 	/* BOOLEANS to control phases of the GAME */
 
 	bool intro = true;			// introduction screen; def -> true;
@@ -216,7 +222,7 @@ int main()
 					}
 				}
 				if (Keyboard::isKeyPressed(Keyboard::Space)) {
-					if (!intro && !menu) {
+					if (!intro && !menu && !hit && !game_over) {
 						player.shoot();
 					}
 				}
@@ -303,6 +309,7 @@ int main()
 			enemy4.updateShot();
 			enemy5.updateShot();
 
+			messageHealth.updateMessage(&player);
 
 		}
 
@@ -350,6 +357,8 @@ int main()
 			window.draw(enemy3.spriteShot);
 			window.draw(enemy4.spriteShot);
 			window.draw(enemy5.spriteShot);
+
+			messageHealth.display(window);
 
 			if (hit)
 				messageHit.display(window);
