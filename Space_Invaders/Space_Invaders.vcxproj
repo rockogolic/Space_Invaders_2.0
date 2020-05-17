@@ -157,6 +157,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="CreateEnemy.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="pch.cpp">
@@ -171,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="CreateEnemy.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="pch.h" />
