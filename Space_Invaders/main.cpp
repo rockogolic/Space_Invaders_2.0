@@ -16,6 +16,7 @@ there are two ways to do that:
 #include "Animation.h"
 #include "setSprite.h"
 #include "Enemy.h"
+#include "CreateEnemy.h"
 #include "Player.h"
 #include <iostream>
 
@@ -23,6 +24,7 @@ using namespace sf;
 
 const Vector2f spriteSize(Sprite& sprite);		//  gets the Vector2f in size of the sprite
 void Center(Sprite& sprite);					// changes the origin of the sprite to its center
+void FPS(float deltaTime);						// measures average FPS of the run
 
 int main()
 {
@@ -100,6 +102,7 @@ int main()
 
 	/* NEW SPRITES CLASSES */
 
+	CreateEnemy wave1(Vector2i(6,6), enemy, window);
 
 	// Explosions
 
@@ -230,9 +233,7 @@ int main()
 					}
 				}
 				if (Keyboard::isKeyPressed(Keyboard::Up)) {
-					if (menu) {
-
-					}
+					std::cout << 1 / (deltaTime) << std::endl;
 				}
 
 				// More buttons
@@ -266,21 +267,8 @@ int main()
 
 		if (!intro && !menu && !hit && !game_over) {
 
-			//enemy movement
-			enemy.Move(&window);
-			enemy2.Move(&window);
-			enemy3.Move(&window);
-			enemy4.Move(&window);
-			enemy5.Move(&window);
-
 			//player actions
 			player.updateShot();
-
-			player.Collision(&enemy);
-			player.Collision(&enemy2);
-			player.Collision(&enemy3);
-			player.Collision(&enemy4);
-			player.Collision(&enemy5);
 
 			if (player.isHit()) {
 				if (player.isDead() == true) {
@@ -295,29 +283,20 @@ int main()
 				game_over = true;
 			}
 
-			//enemy collision detection
-			enemy.Collision(&player);
-			enemy2.Collision(&player);
-			enemy3.Collision(&player);
-			enemy4.Collision(&player);
-			enemy5.Collision(&player);
+			// WAVE 1
+			for (int i = 0; i < size(wave1.Enemies); i++) {
+				
+				player.Collision(&wave1.Enemies[i]);
 
-			// enemy shooting
-			enemy.shoot();
-			enemy2.shoot();
-			enemy3.shoot();
-			enemy4.shoot();
-			enemy5.shoot();
-
-			enemy.updateShot();
-			enemy2.updateShot();
-			enemy3.updateShot();
-			enemy4.updateShot();
-			enemy5.updateShot();
+				wave1.Enemies[i].Move(&window);
+				wave1.Enemies[i].Collision(&player);
+				wave1.Enemies[i].shoot();
+				wave1.Enemies[i].updateShot();
+			}
 
 			messageHealth.updateMessage(&player);
 
-		}
+		} 
 
 			
 		/*
@@ -345,27 +324,17 @@ int main()
 
 			//window.draw(spritePawn);
 
-			if (enemy.isActive())
-				window.draw(enemy.sprite);
-			if (enemy2.isActive())
-				window.draw(enemy2.sprite);
-			if (enemy3.isActive())
-				window.draw(enemy3.sprite);
-			if (enemy4.isActive())
-				window.draw(enemy4.sprite);
-			if (enemy5.isActive())
-				window.draw(enemy5.sprite);
-
 			window.draw(player.spriteShot);
-
-			window.draw(enemy.spriteShot);
-			window.draw(enemy2.spriteShot);
-			window.draw(enemy3.spriteShot);
-			window.draw(enemy4.spriteShot);
-			window.draw(enemy5.spriteShot);
 
 			messageHealth.display(window);
 			messageScore.display(window);
+
+			for (int i = 0; i < size(wave1.Enemies); i++) {
+				if (wave1.Enemies[i].isActive()) {
+					window.draw(wave1.Enemies[i].sprite);
+					window.draw(wave1.Enemies[i].spriteShot);
+				}
+			}
 
 			if (hit)
 				messageHit.display(window);
@@ -396,4 +365,22 @@ const Vector2f spriteSize(Sprite& sprite) {
 
 void Center(Sprite& sprite) {
 	sprite.setOrigin( sprite.getTexture()->getSize().x / 2.0f , sprite.getTexture()->getSize().y / 2.0f );
+}
+
+void FPS(float deltaTime) {
+
+	float time = 0.0f;
+	float total = 0.0f;
+	time += deltaTime;
+	std::vector<float> _timeMeas;
+	while (time < 2) {
+		_timeMeas.push_back(deltaTime);
+	}
+	
+	for (int i = 0; i < size(_timeMeas); i++) {
+		total += _timeMeas[i];
+	}
+	std::cout << "Average FPS is: " << 1/(total / size(_timeMeas)) << std::endl;
+
+
 }
