@@ -245,13 +245,13 @@ int main()
 		// Player's movement
 		if (!intro && !menu && !hit && !game_over) {
 			if (Keyboard::isKeyPressed(Keyboard::A) && player.sprite.getPosition().x > 26)
-				player.sprite.move(-0.1f, 0.0f);
+				player.sprite.move(-(230 * deltaTime), 0.0f);
 			if (Keyboard::isKeyPressed(Keyboard::D) && player.sprite.getPosition().x < (window.getSize().x - 26))
-				player.sprite.move(0.1f, 0.0f);
+				player.sprite.move( (230 * deltaTime), 0.0f);
 			if (Keyboard::isKeyPressed(Keyboard::W) && player.sprite.getPosition().y > 26)
-				player.sprite.move(0.0f, -0.1f);
+				player.sprite.move(0.0f, -(230 * deltaTime));
 			if (Keyboard::isKeyPressed(Keyboard::S) && player.sprite.getPosition().y < (window.getSize().y - 26))
-				player.sprite.move(0.0f, 0.1f);
+				player.sprite.move(0.0f, (230 * deltaTime));
 		}
 
 		/*
