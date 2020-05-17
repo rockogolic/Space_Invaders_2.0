@@ -28,7 +28,8 @@ int main()
 {
 	// to allow to resize the window -> Style::default and remove other Style::Close && Style::Titlebar
 	RenderWindow window(VideoMode(640, 480), "Space Invaders", Style::None);
-	Vector2f screenSize(window.getSize().x, window.getSize().y);		// Vector2f of size of the RenderWindow object, window
+	
+	//Vector2f screenSize(window.getSize().x, window.getSize().y);		// Vector2f of size of the RenderWindow object, window
 
 	/* LOAD and INITIALIZE sounds, sprites and fonts */
 
@@ -56,7 +57,7 @@ int main()
 	Sprite spriteMenu;
 	spriteMenu.setTexture(textureMenu);
 	Center(spriteMenu);
-	spriteMenu.setPosition(screenSize.x / 2.0f, screenSize.y / 2.0f);
+	spriteMenu.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
 
 	// SHOTS
 	Texture textureShot;
@@ -94,7 +95,7 @@ int main()
 	texturePawn.loadFromFile("graphics/pawn.png");
 	Sprite spritePawn;
 	spritePawn.setTexture(texturePawn);
-	spritePawn.setPosition(screenSize.x/2.0f , screenSize.y/2.0f);
+	spritePawn.setPosition(window.getSize().x/2.0f , window.getSize().y/2.0f);
 	Animation animationPawn(&texturePawn, Vector2u(3,1), 0.3f);
 
 	/* NEW SPRITES CLASSES */
@@ -114,13 +115,13 @@ int main()
 		"S p a c e      I n v a d e r s",
 		Color::White, font_MKPixelProject, 50
 	);
-	messageTitle.position(screenSize.x / 2.0f, screenSize.y / 2.0f);
+	messageTitle.position(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
 
 	Message messageEnter(
 		"Press ENTER to start..",
 		Color::White, font_CubicCoreMono, 40
 	);
-	messageEnter.position(screenSize.x / 2.0f, screenSize.y / 1.5f);
+	messageEnter.position(window.getSize().x / 2.0f, window.getSize().y / 1.5f);
 
 	Message messageMenu_1(
 		"Main menu",
@@ -131,25 +132,25 @@ int main()
 		"Hit ENTER to continue",
 		Color::White, font_CubicCoreMono, 40
 	);
-	messageHit.position(screenSize.x / 2.0f, screenSize.y / 2.0f);
+	messageHit.position(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
 
 	Message messageGameOver(
 		"GAME OVER",
 		Color::Red, font_CubicCoreMono, 60
 	);
-	messageGameOver.position(screenSize.x / 2.0f, screenSize.y / 2.0f);
+	messageGameOver.position(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
 
 	Message messageHealth(
 		"Health: ",
 		Color::White, font_CubicCoreMono, 30
 	);
-	messageHealth.position(screenSize.x / 8.0f, screenSize.y / 15.0f);
+	messageHealth.position(window.getSize().x / 8.0f, window.getSize().y / 15.0f);
 
 	Message messageScore(
 		"Score: ",
 		Color::White, font_CubicCoreMono, 30
 	);
-	messageScore.position(6.0f * screenSize.x / 8.0f, screenSize.y / 15.0f);
+	messageScore.position(6.0f * window.getSize().x / 8.0f, window.getSize().y / 15.0f);
 
 	/* BOOLEANS to control phases of the GAME */
 
