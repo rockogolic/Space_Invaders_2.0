@@ -12,8 +12,8 @@ CreateEnemy::CreateEnemy(Vector2i number, Enemy& enemy, RenderWindow& window) : 
 
 	//_playground.x = window.getSize().x - 70.0f;
 	//_playground.y = window.getSize().y - 200.0f;
-	_playground.x = window.getSize().x;
-	_playground.y = window.getSize().y - 200.0f;
+	_playground.x = static_cast<float>(window.getSize().x);
+	_playground.y = static_cast<float>(window.getSize().y - 200);
 
 	for (int i = 0; i < _dim.x; i++) {
 		for (int j = 0; j < _dim.y; j++) {

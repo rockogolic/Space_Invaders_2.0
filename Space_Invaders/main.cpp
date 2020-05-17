@@ -268,7 +268,7 @@ int main()
 		if (!intro && !menu && !hit && !game_over) {
 
 			//player actions
-			player.updateShot();
+			player.updateShot(deltaTime);
 
 			if (player.isHit()) {
 				if (player.isDead() == true) {
@@ -284,14 +284,14 @@ int main()
 			}
 
 			// WAVE 1
-			for (int i = 0; i < size(wave1.Enemies); i++) {
+			for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
 				
 				player.Collision(&wave1.Enemies[i]);
 
-				wave1.Enemies[i].Move(&window);
+				wave1.Enemies[i].Move(&window, deltaTime);
 				wave1.Enemies[i].Collision(&player);
 				wave1.Enemies[i].shoot();
-				wave1.Enemies[i].updateShot();
+				wave1.Enemies[i].updateShot(deltaTime);
 			}
 
 			messageHealth.updateMessage(&player);
@@ -329,7 +329,7 @@ int main()
 			messageHealth.display(window);
 			messageScore.display(window);
 
-			for (int i = 0; i < size(wave1.Enemies); i++) {
+			for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
 				if (wave1.Enemies[i].isActive()) {
 					window.draw(wave1.Enemies[i].sprite);
 					window.draw(wave1.Enemies[i].spriteShot);
@@ -377,7 +377,7 @@ void FPS(float deltaTime) {
 		_timeMeas.push_back(deltaTime);
 	}
 	
-	for (int i = 0; i < size(_timeMeas); i++) {
+	for (unsigned int i = 0; i < size(_timeMeas); i++) {
 		total += _timeMeas[i];
 	}
 	std::cout << "Average FPS is: " << 1/(total / size(_timeMeas)) << std::endl;

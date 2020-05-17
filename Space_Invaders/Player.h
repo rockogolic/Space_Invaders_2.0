@@ -15,7 +15,7 @@ public:
 	~Player();
 
 	void shoot();
-	void updateShot();
+	void updateShot(float deltaTime);
 
 	const int getHealth() const;
 	void setAlive();

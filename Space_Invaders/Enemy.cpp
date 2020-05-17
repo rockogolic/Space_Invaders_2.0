@@ -57,7 +57,7 @@ bool Enemy::setDead() { return _dead = true; }
 bool Enemy::hasWon() { return _won; }
 
 // MOVEMENT
-void Enemy::Move(RenderWindow * window) {
+void Enemy::Move(RenderWindow * window, float deltaTime) {
 	// if some condition (maybe if isActive || if canMove)
 	// move (fction of deltaTime) to the right from the _startPos
 	// if (spritegetPos >= screenX)
@@ -84,10 +84,10 @@ void Enemy::Move(RenderWindow * window) {
 
 	if (_active){
 		if (enemy_side == _side::RIGHT || enemy_side == _side::NONE) {
-			sprite.move(0.05f, 0);
+			sprite.move(((0.05 * 1 / (0.000588f)) / (1 / 0.000588f - 1 / deltaTime)), 0);
 		}
 		else if (enemy_side == _side::LEFT) {
-			sprite.move(-0.05f, 0);
+			sprite.move(-((0.05 * 1 / (0.000588f)) / (1 / 0.000588f - 1 / deltaTime)), 0);
 		}
 		if (sprite.getPosition().y >= (window->getSize().y)) {
 			_won = true;
@@ -111,9 +111,9 @@ void Enemy::shoot() {
 	}
 }
 
-void Enemy::updateShot() {	
+void Enemy::updateShot(float deltaTime) {	
 	if (_shot == true) {
-		spriteShot.move(0, +0.35f);
+		spriteShot.move(0, +((0.15 * 1 / (0.000588f)) / (1 / 0.000588f - 1 / deltaTime)));
 		if (spriteShot.getPosition().y > 490) {
 			_shot = false;
 		}

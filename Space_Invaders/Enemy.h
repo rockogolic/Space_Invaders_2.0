@@ -23,10 +23,10 @@ public:
 	bool hasWon();
 
 	// functions, movement
-	void Move(RenderWindow * window);
+	void Move(RenderWindow * window, float deltaTime);
 
 	void shoot();
-	void updateShot();
+	void updateShot(float deltaTime);
 
 	void setStartPosition( Vector2f startPos );
 	void setPosition( Vector2f position );
@@ -54,8 +54,6 @@ private:
 	bool _shot;
 
 	Enemy * new_enemy;
-
-	//std::uniform_int_distribution<> _dis;
 };
 
 
