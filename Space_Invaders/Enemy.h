@@ -44,7 +44,7 @@ private:
 	_side enemy_side;
 
 	Vector2f _position;
-	Vector2f _startPos = { 0.0f,0.0f };
+	Vector2f _startPos;
 
 	bool _active;
 	bool _dead;

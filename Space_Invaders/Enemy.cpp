@@ -8,6 +8,8 @@ Enemy::Enemy(const Texture* texture, const Texture * textureShot) {
 	sprite.setTexture(*texture);
 	spriteShot.setTexture(*textureShot);
 
+	spriteShot.setPosition(700, 700);		// Possible way to eliminate the zero-bullet 
+
 	// center the origin of the sprites
 	sprite.setOrigin(sprite.getTexture()->getSize().x / 2.0f, sprite.getTexture()->getSize().y / 2.0f);
 	spriteShot.setOrigin(spriteShot.getTexture()->getSize().x / 2.0f, spriteShot.getTexture()->getSize().y / 2.0f);
@@ -100,19 +102,20 @@ void Enemy::shoot() {
 	std::random_device rd;  //Will be used to obtain a seed for the random number engine
 	std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
 	std::uniform_int_distribution<> dis(1, 10000);
-	if (_shot == false) {
-		if (dis(gen) == 1 && _active) {
+	if (_shot == false && _active) {
+		if (dis(gen) == 1) {
+			spriteShot.setPosition(sprite.getPosition());
 			_shot = true;
-			Vector2f shotPosition = sprite.getPosition();
-			spriteShot.setPosition(shotPosition);
 		}
 	}
 }
 
 void Enemy::updateShot() {	
-	spriteShot.move(0, +0.35f);
-	if (spriteShot.getPosition().y > 490) {
-		_shot = false;
+	if (_shot == true) {
+		spriteShot.move(0, +0.35f);
+		if (spriteShot.getPosition().y > 490) {
+			_shot = false;
+		}
 	}
 }
 
