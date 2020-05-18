@@ -3,6 +3,12 @@
 #include <iostream>
 #include <random>
 
+// GLOBAL VARIABLES
+std::random_device rd;  //Will be used to obtain a seed for the random number engine
+std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+std::uniform_int_distribution<> dis(1, 10000);
+std::uniform_int_distribution<> dis2(1, 100000);
+
 Enemy::Enemy(const Texture* texture, const Texture * textureShot) {
 	
 	sprite.setTexture(*texture);
@@ -98,9 +104,6 @@ void Enemy::Move(RenderWindow * window, float deltaTime) {
 // shoot
 
 void Enemy::shoot() {
-	std::random_device rd;  //Will be used to obtain a seed for the random number engine
-	std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-	std::uniform_int_distribution<> dis(1, 10000);
 	if (_shot == false && _active) {
 		if (dis(gen) == 1) {
 			spriteShot.setPosition(sprite.getPosition());
@@ -111,7 +114,7 @@ void Enemy::shoot() {
 
 void Enemy::updateShot(float deltaTime) {	
 	if (_shot == true) {
-		spriteShot.move(0, +( 260 / (1 / deltaTime)));
+		spriteShot.move(0, +( 150 / (1 / deltaTime)));
 		if (spriteShot.getPosition().y > 490) {
 			_shot = false;
 		}

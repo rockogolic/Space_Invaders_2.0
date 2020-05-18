@@ -102,7 +102,7 @@ int main()
 
 	/* NEW SPRITES CLASSES */
 
-	CreateEnemy wave1(Vector2i(6,6), enemy, window);
+	CreateEnemy wave1(Vector2i(6,5), enemy, window);
 	
 
 	// Explosions
