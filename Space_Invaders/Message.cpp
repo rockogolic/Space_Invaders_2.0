@@ -25,6 +25,7 @@ Message::Message(std::string string, Color color, Font& font, int size) : _messa
 	);
 }
 
+Message::Message() {}
 Message::~Message() {}
 
 void Message::font(Font& font) { _font = font; }

@@ -15,6 +15,7 @@ there are two ways to do that:
 #include "Message.h"
 #include "Animation.h"
 #include "setSprite.h"
+#include "Button.h"
 #include "Enemy.h"
 #include "CreateEnemy.h"
 #include "Player.h"
@@ -53,13 +54,22 @@ int main()
 	Sprite spriteBackground;
 	spriteBackground.setTexture(textureBackground);
 
-	// SPRITE MENU
+	// SPRITES MENU
 	Texture textureMenu;
 	textureMenu.loadFromFile("graphics/menu_500x375.png");
 	Sprite spriteMenu;
 	spriteMenu.setTexture(textureMenu);
 	Center(spriteMenu);
 	spriteMenu.setPosition(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
+
+	Texture textureButtonOff, textureButtonOn;
+	textureButtonOff.loadFromFile("graphics/button_off_190x50.png");
+	textureButtonOn.loadFromFile("graphics/button_on_190x50.png");
+	Sprite spriteButtonOff, spriteButtonOn;
+	spriteButtonOff.setTexture(textureButtonOff);
+	spriteButtonOn.setTexture(textureButtonOn);
+	Center(spriteButtonOff);
+	Center(spriteButtonOn);
 
 	// SHOTS
 	Texture textureShot;
@@ -93,6 +103,7 @@ int main()
 	/* NEW SPRITES CLASSES */
 
 	CreateEnemy wave1(Vector2i(6,6), enemy, window);
+	
 
 	// Explosions
 
@@ -144,6 +155,30 @@ int main()
 		Color::White, font_CubicCoreMono, 30
 	);
 	messageScore.position(6.0f * window.getSize().x / 8.0f, window.getSize().y / 15.0f);
+
+	Message messageMenuExit(
+		"Quit game",
+		Color::White, font_CubicCoreMono, 20	
+	);
+	Message messageMenuMusic(
+		"Turn off the main theme",
+		Color::White, font_CubicCoreMono, 20
+	);
+
+	// BUTTONS
+
+	Button buttonSoundOff(&textureButtonOff, &textureButtonOn);
+	Button buttonExit(&textureButtonOff, &textureButtonOn);
+	
+	buttonSoundOff.Position(Vector2f(window.getSize().x / 2.0f, window.getSize().y / 4.0f));
+	buttonExit.Position(Vector2f(window.getSize().x / 2.0f, window.getSize().y * 3.0f / 4.0f));
+	
+	buttonSoundOff.setMessage(&messageMenuMusic);
+	buttonExit.setMessage(&messageMenuExit);
+
+	
+	
+	int buttonChoice = 0;
 
 	/* BOOLEANS to control phases of the GAME */
 
@@ -216,6 +251,11 @@ int main()
 					if (hit) {
 						hit = false;
 					}
+					if (buttonExit.isOn()) {
+						window.close();
+					}
+					
+					// configure other buttons
 				}
 				if (Keyboard::isKeyPressed(Keyboard::Space)) {
 					if (!intro && !menu && !hit && !game_over) {
@@ -224,6 +264,19 @@ int main()
 				}
 				if (Keyboard::isKeyPressed(Keyboard::Up)) {
 					std::cout << 1 / (deltaTime) << std::endl;
+				}
+				if (Keyboard::isKeyPressed(Keyboard::Down)) {
+					if (menu) {
+						buttonChoice++;
+						if (buttonChoice % 2 == 0) {
+							buttonExit.setOn();
+							buttonSoundOff.setOff();
+						}
+						else if (buttonChoice % 2 == 1) {
+							buttonExit.setOff();
+							buttonSoundOff.setOn();
+						}
+					}
 				}
 
 				// More buttons
@@ -335,6 +388,18 @@ int main()
 
 			if (menu) {
 				window.draw(spriteMenu);
+
+				if (buttonExit.isOff())
+					window.draw(buttonExit.spriteButtonOff);
+				else if (buttonExit.isOn())
+					window.draw(buttonExit.spriteButtonOn);
+				if (buttonSoundOff.isOff())
+					window.draw(buttonSoundOff.spriteButtonOff);
+				else if (buttonSoundOff.isOn())
+					window.draw(buttonSoundOff.spriteButtonOn);
+
+				window.draw(buttonExit.text);
+				window.draw(buttonSoundOff.text);
 			}
 
 			if (game_over) {

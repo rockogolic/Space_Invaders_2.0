@@ -3,9 +3,7 @@
 
 
 #include "Enemy.h"
-#include <list>
 #include <vector>
-#include <iterator>
 
 class CreateEnemy :
 	public Enemy

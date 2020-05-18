@@ -11,6 +11,7 @@ class Player;
 class Message {
 public:
 	Message(std::string string, Color color, Font& font, int size);
+	Message();
 	// make default constructor
 	~Message();
 
