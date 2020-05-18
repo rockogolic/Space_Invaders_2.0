@@ -98,14 +98,14 @@ where dt - time difference between refresh rate of the screen. (s)
 
 void Player::updateShot(float deltaTime) {
 	spriteShot.move(0.0f, -( 765 / (1/deltaTime) ) );
-	if (spriteShot.getPosition().y < -10) {
+	if (spriteShot.getPosition().y < -70) {
 		_shot = false;
 	}
 }
 
 void Player::hitEnemy() { 
-	_shot = false;
 	_score += 10;
+	_shot = false;
 
 }
 

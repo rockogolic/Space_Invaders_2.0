@@ -89,9 +89,17 @@ int main()
 	texturePlayer_right.loadFromFile("graphics/player_right_54x54.png");
 	
 	// ENEMY
-	Texture textureEnemy;
-	textureEnemy.loadFromFile("graphics/enemy_red_54x54.png");
-	Enemy enemy(&textureEnemy, &textureShotEnemy);
+	Texture textureEnemy_red;
+	textureEnemy_red.loadFromFile("graphics/enemy_red_54x54.png");
+	Enemy enemyRed(&textureEnemy_red, &textureShotEnemy);
+	
+	Texture textureEnemy_green;
+	textureEnemy_green.loadFromFile("graphics/enemy_green_54x54.png");
+	Enemy enemyGreen(&textureEnemy_green, &textureShotEnemy);
+
+	Texture textureEnemy_purple;
+	textureEnemy_purple.loadFromFile("graphics/enemy_purple_54x54.png");
+	Enemy enemyPurple(&textureEnemy_purple, &textureShotEnemy);
 
 	Texture texturePawn;
 	texturePawn.loadFromFile("graphics/pawn.png");
@@ -114,7 +122,9 @@ int main()
 
 	/* NEW SPRITES CLASSES */
 
-	CreateEnemy wave1(Vector2i(6,5), enemy, window);
+	CreateEnemy wave1(Vector2i(1, 1), enemyRed, window);
+	CreateEnemy wave2(Vector2i(2, 2), enemyGreen, window);
+	CreateEnemy wave3(Vector2i(4, 4), enemyPurple, window);
 	
 
 	// Explosions
@@ -298,13 +308,13 @@ int main()
 		// Player's movement
 		if (!intro && !menu && !hit && !game_over) {
 			if (Keyboard::isKeyPressed(Keyboard::A) && player.sprite.getPosition().x > 26)
-				player.sprite.move(-(230 * deltaTime), 0.0f);
+				player.sprite.move(-(130 * deltaTime), 0.0f);
 			if (Keyboard::isKeyPressed(Keyboard::D) && player.sprite.getPosition().x < (window.getSize().x - 26))
-				player.sprite.move( (230 * deltaTime), 0.0f);
+				player.sprite.move( (130 * deltaTime), 0.0f);
 			if (Keyboard::isKeyPressed(Keyboard::W) && player.sprite.getPosition().y > 26)
-				player.sprite.move(0.0f, -(230 * deltaTime));
+				player.sprite.move(0.0f, -(130 * deltaTime));
 			if (Keyboard::isKeyPressed(Keyboard::S) && player.sprite.getPosition().y < (window.getSize().y - 26))
-				player.sprite.move(0.0f, (230 * deltaTime));
+				player.sprite.move(0.0f, (130 * deltaTime));
 		}
 
 		/*
@@ -339,6 +349,7 @@ int main()
 			bounty_pink.Collision(&player);
 			
 			// WAVE 1
+			
 			for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
 				
 				player.Collision(&wave1.Enemies[i]);
@@ -352,6 +363,38 @@ int main()
 					game_over = true;
 				}
 			}
+			
+
+			// WAVE 2
+			for (unsigned int i = 0; i < size(wave2.Enemies); i++) {
+
+				player.Collision(&wave2.Enemies[i]);
+
+				wave2.Enemies[i].Move(&window, deltaTime);
+				wave2.Enemies[i].Collision(&player);
+				wave2.Enemies[i].shoot();
+				wave2.Enemies[i].updateShot(deltaTime);
+
+				if (wave2.Enemies[i].hasWon()) {
+					game_over = true;
+				}
+			}
+
+			// WAVE 3
+			for (unsigned int i = 0; i < size(wave3.Enemies); i++) {
+
+				player.Collision(&wave3.Enemies[i]);
+
+				wave3.Enemies[i].Move(&window, deltaTime);
+				wave3.Enemies[i].Collision(&player);
+				wave3.Enemies[i].shoot();
+				wave3.Enemies[i].updateShot(deltaTime);
+
+				if (wave3.Enemies[i].hasWon()) {
+					game_over = true;
+				}
+			}
+
 
 			messageHealth.updateMessageHealth(&player);
 			messageScore.updateMessageScore(&player);
@@ -398,6 +441,22 @@ int main()
 				window.draw(wave1.Enemies[i].spriteShot);		
 			}
 			
+			for (unsigned int i = 0; i < size(wave2.Enemies); i++) {
+				if (wave2.Enemies[i].isActive()) {
+					window.draw(wave2.Enemies[i].sprite);
+				}
+				// continues drawing shot when enemy died
+				window.draw(wave2.Enemies[i].spriteShot);
+			}
+
+			for (unsigned int i = 0; i < size(wave3.Enemies); i++) {
+				if (wave3.Enemies[i].isActive()) {
+					window.draw(wave3.Enemies[i].sprite);
+				}
+				// continues drawing shot when enemy died
+				window.draw(wave3.Enemies[i].spriteShot);
+			}
+
 
 			messageHealth.display(window);
 			messageScore.display(window);
