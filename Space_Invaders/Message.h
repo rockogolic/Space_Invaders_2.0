@@ -21,7 +21,8 @@ public:
 	void color(Color color);		// set fill-color
 	void position(float x, float y);	// set position on the screen
 
-	void updateMessage(const Player* player);
+	void updateMessageHealth(const Player* player);
+	void updateMessageScore(const Player* player);
 
 	// access the finalized text object of the class
 	Text get();

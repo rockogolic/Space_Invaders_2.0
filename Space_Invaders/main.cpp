@@ -336,7 +336,8 @@ int main()
 				}
 			}
 
-			messageHealth.updateMessage(&player);
+			messageHealth.updateMessageHealth(&player);
+			messageScore.updateMessageScore(&player);
 
 		} 
 

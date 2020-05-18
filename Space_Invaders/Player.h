@@ -18,6 +18,8 @@ public:
 	void updateShot(float deltaTime);
 
 	const int getHealth() const;
+	const int getScore() const;
+
 	void setAlive();
 
 	void hitEnemy();
@@ -41,6 +43,7 @@ private:
 	bool _shot = false;
 	bool _hit = false;
 
+	unsigned int _score;
 	unsigned int _health;
 
 

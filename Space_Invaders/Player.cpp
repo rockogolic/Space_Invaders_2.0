@@ -18,6 +18,7 @@ Player::Player(const Texture * texturePlayer, const Texture* textureShot) {
 	sprite.setPosition(_startPos);
 
 	_health = 3;
+	_score = 0;
 }
 
 Player::~Player() {}
@@ -102,7 +103,10 @@ void Player::updateShot(float deltaTime) {
 	}
 }
 
-void Player::hitEnemy() { _shot = false; }
+void Player::hitEnemy() { 
+	_shot = false;
+	_score += 10;
+}
 
 bool Player::isHit() { return _hit; }
 
@@ -126,4 +130,8 @@ bool Player::isDead() { return _dead; }
 
 const int Player::getHealth() const{
 	return _health;
+}
+
+const int Player::getScore() const {
+	return _score;
 }
