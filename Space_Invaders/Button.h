@@ -2,7 +2,6 @@
 #define BUTTON_H
 
 #include <SFML/Graphics.hpp>
-#include <vector>
 #include "Message.h"
 
 using namespace sf;
@@ -24,27 +23,15 @@ public:
 
 	bool isOn();
 	bool isOff();
-	
-	bool Click();
-
-	void updateUp();
-	void updateDown();
 
 	Sprite spriteButtonOn, spriteButtonOff;
 	Text text;
 
 private:
 	Vector2f _position;
-	bool _click;
 
 	bool _on;
 	bool _off;
-
-	static int _whereAt;
-	Text _text;
-
-	std::vector<Button> Buttons;
-
 };
 
 #endif

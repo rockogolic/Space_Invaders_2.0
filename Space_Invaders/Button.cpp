@@ -45,8 +45,6 @@ void Button::setOff() {
 bool Button::isOn() { return _on; }
 bool Button::isOff() { return _off; }
 
-bool Button::Click() { return _click; }
-
 
 
 
