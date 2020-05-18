@@ -27,8 +27,9 @@ public:
 
 	void shoot();
 	void updateShot(float deltaTime);
-	void updateBounty(const char* type, Player* player, float deltaTime, RenderWindow * window);
+	void updateBounty(RenderWindow * window, float deltaTime);
 
+	void setBounty(const char* type, RenderWindow * window);
 	void setStartPosition( Vector2f startPos );
 	void setPosition( Vector2f position );
 

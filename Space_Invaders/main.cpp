@@ -102,7 +102,15 @@ int main()
 
 	// BOUNTIES
 	Texture textureBountyRed;
-	textureBountyRed.loadFromFile("gra");
+	textureBountyRed.loadFromFile("graphics/bonus1_red.png");
+	Enemy bounty(&textureBountyRed, &textureShot);
+	bounty.setBounty("red", &window);
+
+	Texture textureBountyPink;
+	textureBountyPink.loadFromFile("graphics/bonus1_pink.png");
+	Enemy bounty_pink(&textureBountyPink, &textureShot);
+	bounty_pink.setBounty("pink", &window);
+	
 
 	/* NEW SPRITES CLASSES */
 
@@ -325,6 +333,11 @@ int main()
 				}
 			}
 
+			// BOUNTIES
+			player.Collision(&bounty_pink);
+			bounty_pink.updateBounty(&window,deltaTime);
+			bounty_pink.Collision(&player);
+			
 			// WAVE 1
 			for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
 				
@@ -372,6 +385,10 @@ int main()
 			//window.draw(spritePawn);
 
 			window.draw(player.spriteShot);
+
+			if (bounty_pink.isActive()) {
+				window.draw(bounty_pink.sprite);
+			}
 
 			for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
 				if (wave1.Enemies[i].isActive()) {

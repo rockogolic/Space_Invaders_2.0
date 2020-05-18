@@ -124,22 +124,23 @@ void Enemy::updateShot(float deltaTime) {
 
 
 // BOUNTY
-void Enemy::updateBounty(const char* type, Player* player, float deltaTime, RenderWindow * window) {
+
+void Enemy::setBounty(const char* type, RenderWindow * window) {
 	if (type == "red") {
 		colorPlayer = _color::RED;
-		_score = 25;
+		_score = 15;
 	}
 	else if (type == "orange") {
 		colorPlayer = _color::ORANGE;
-		_score = 50;
+		_score = 40;
 	}
 	else if (type == "green") {
 		colorPlayer = _color::GREEN;
-		_score = 100;
+		_score = 90;
 	}
 	else if (type == "blue") {
 		colorPlayer = _color::BLUE;
-		_score = 200;
+		_score = 190;
 	}
 	else if (type == "pink") {
 		colorPlayer = _color::PINK;
@@ -149,10 +150,13 @@ void Enemy::updateBounty(const char* type, Player* player, float deltaTime, Rend
 	}
 
 	// default sprite position
-	this->sprite.setPosition(window->getSize().x / 15.0f,0);
+	sprite.setPosition(-0.5f * window->getSize().x, window->getSize().y / 15.0f);
+}
 
+
+void Enemy::updateBounty(RenderWindow * window, float deltaTime) {
 	if (_active) {
-		sprite.move((100 / (1 / deltaTime)), 0);
+		sprite.move((100 * deltaTime), 0);
 		if (sprite.getPosition().x >= window->getSize().x * 2.0f) {
 			_active = false;
 		}
@@ -182,6 +186,9 @@ void Enemy::Collision(Player* player) {
 
 		_collision = true;
 		player->hitEnemy();		// sets private _shot = false; (reset)
+		player->addToScore(this->_score);
+		if (colorPlayer == _color::PINK)
+			player->addHealth();
 		std::cout << "You hit the alien" << std::endl;
 		_active = false;
 	}
@@ -199,10 +206,18 @@ void Enemy::Collision(Player* player) {
 		_active
 		)
 	{
+
+		// for fun : remove pause for the pink cat
 		_collision = true;
 		player->hitEnemy();		// sets private _shot = false; (reset)
-		player->Hit();			// sets private _hit = true; 
+		 
 		player->addToScore(this->_score);
+		if (colorPlayer == _color::PINK) {
+			player->addHealth();
+		}
+		else {	// EXCLUSIONS to HIT screen (if something can be "swallowed" or "picked"
+			player->Hit();			// sets private _hit = true;
+		}
 		std::cout << "You have been hit. Your health is: " << player->getHealth() << std::endl;
 		_active = false;
 	}
