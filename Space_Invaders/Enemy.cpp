@@ -22,6 +22,7 @@ Enemy::Enemy(const Texture* texture, const Texture * textureShot) {
 	_dead = false;
 	_shot = false;
 	_collision = false;
+	_won = false;
 
 	enemy_side = _side::NONE;
 }
@@ -38,14 +39,11 @@ Enemy::Enemy(const Enemy& enemy) {
 	this->sprite = enemy.sprite;
 	this->spriteShot = enemy.spriteShot;
 
-	// def _startPos = 0,0
-	//this->_startPos = Vector2f(0, 0);
-	//this->setPosition(_startPos);
-
 	this->_active = true;
 	this->_dead = false;
 	this->_collision = false;
 	this->_shot = false;
+	this->_won = false;
 
 	this->enemy_side = _side::NONE;
 

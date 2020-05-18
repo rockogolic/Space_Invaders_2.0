@@ -82,16 +82,6 @@ int main()
 	Texture textureEnemy;
 	textureEnemy.loadFromFile("graphics/enemy_red_54x54.png");
 	Enemy enemy(&textureEnemy, &textureShotEnemy);
-	Enemy enemy1(enemy);
-	Enemy enemy2(enemy);
-	Enemy enemy3(enemy);
-	Enemy enemy4(enemy);
-	Enemy enemy5(enemy);
-	enemy.setPosition(Vector2f(50.0f, 80.0f));
-	enemy2.setPosition(Vector2f(185.0f, 80.0f));
-	enemy3.setPosition(Vector2f(320.0f, 80.0f));
-	enemy4.setPosition(Vector2f(455.0f, 80.0f));
-	enemy5.setPosition(Vector2f(590.0f, 80.0f));
 
 	Texture texturePawn;
 	texturePawn.loadFromFile("graphics/pawn.png");
@@ -279,9 +269,6 @@ int main()
 					player.setAlive();
 				}
 			}
-			else if (enemy.hasWon() || enemy2.hasWon() || enemy3.hasWon() || enemy4.hasWon() || enemy5.hasWon()) {
-				game_over = true;
-			}
 
 			// WAVE 1
 			for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
@@ -292,6 +279,10 @@ int main()
 				wave1.Enemies[i].Collision(&player);
 				wave1.Enemies[i].shoot();
 				wave1.Enemies[i].updateShot(deltaTime);
+
+				if (wave1.Enemies[i].hasWon()) {
+					game_over = true;
+				}
 			}
 
 			messageHealth.updateMessage(&player);
@@ -326,16 +317,19 @@ int main()
 
 			window.draw(player.spriteShot);
 
-			messageHealth.display(window);
-			messageScore.display(window);
-
 			for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
 				if (wave1.Enemies[i].isActive()) {
 					window.draw(wave1.Enemies[i].sprite);
-					window.draw(wave1.Enemies[i].spriteShot);
 				}
+				// continues drawing shot when enemy died
+				window.draw(wave1.Enemies[i].spriteShot);		
 			}
+			
 
+			messageHealth.display(window);
+			messageScore.display(window);
+
+			
 			if (hit)
 				messageHit.display(window);
 
