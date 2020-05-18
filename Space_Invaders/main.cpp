@@ -176,8 +176,6 @@ int main()
 	buttonSoundOff.setMessage(&messageMenuMusic);
 	buttonExit.setMessage(&messageMenuExit);
 
-	
-	
 	int buttonChoice = 0;
 
 	/* BOOLEANS to control phases of the GAME */
