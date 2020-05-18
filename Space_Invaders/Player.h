@@ -21,8 +21,11 @@ public:
 	const int getScore() const;
 
 	void setAlive();
+	void addHealth();
+	void addToScore(int value);
 
 	void hitEnemy();
+	void hitBounty(int value);
 	void Hit();
 	
 	bool isHit();

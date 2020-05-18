@@ -100,6 +100,10 @@ int main()
 	spritePawn.setPosition(window.getSize().x/2.0f , window.getSize().y/2.0f);
 	Animation animationPawn(&texturePawn, Vector2u(3,1), 0.3f);
 
+	// BOUNTIES
+	Texture textureBountyRed;
+	textureBountyRed.loadFromFile("gra");
+
 	/* NEW SPRITES CLASSES */
 
 	CreateEnemy wave1(Vector2i(6,5), enemy, window);

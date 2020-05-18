@@ -27,6 +27,7 @@ public:
 
 	void shoot();
 	void updateShot(float deltaTime);
+	void updateBounty(const char* type, Player* player, float deltaTime, RenderWindow * window);
 
 	void setStartPosition( Vector2f startPos );
 	void setPosition( Vector2f position );
@@ -39,9 +40,13 @@ public:
 	Sprite sprite;
 	Sprite spriteShot;
 
+	enum class _color { RED, ORANGE, GREEN, BLUE, PINK, WHITE };
+	_color colorPlayer;
+
 private:
 
 	enum class _side { LEFT, RIGHT, NONE };
+	
 	_side enemy_side;
 
 	Vector2f _position;
@@ -52,6 +57,8 @@ private:
 	bool _won;
 	bool _collision;
 	bool _shot;
+
+	unsigned int _score;
 
 	Enemy * new_enemy;
 };

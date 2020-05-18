@@ -31,6 +31,7 @@ Enemy::Enemy(const Texture* texture, const Texture * textureShot) {
 	_won = false;
 
 	enemy_side = _side::NONE;
+	_score = 0;	// bounty variable (color)
 }
 
 Enemy::Enemy() {}
@@ -52,7 +53,7 @@ Enemy::Enemy(const Enemy& enemy) {
 	this->_won = false;
 
 	this->enemy_side = _side::NONE;
-
+	this->_score = 0;		// bounty variable (color)
 }
 
 bool Enemy::isActive() { return _active; }
@@ -121,6 +122,45 @@ void Enemy::updateShot(float deltaTime) {
 	}
 }
 
+
+// BOUNTY
+void Enemy::updateBounty(const char* type, Player* player, float deltaTime, RenderWindow * window) {
+	if (type == "red") {
+		colorPlayer = _color::RED;
+		_score = 25;
+	}
+	else if (type == "orange") {
+		colorPlayer = _color::ORANGE;
+		_score = 50;
+	}
+	else if (type == "green") {
+		colorPlayer = _color::GREEN;
+		_score = 100;
+	}
+	else if (type == "blue") {
+		colorPlayer = _color::BLUE;
+		_score = 200;
+	}
+	else if (type == "pink") {
+		colorPlayer = _color::PINK;
+	}
+	else if (type == "white") {
+		colorPlayer = _color::WHITE;
+	}
+
+	// default sprite position
+	this->sprite.setPosition(window->getSize().x / 15.0f,0);
+
+	if (_active) {
+		sprite.move((100 / (1 / deltaTime)), 0);
+		if (sprite.getPosition().x >= window->getSize().x * 2.0f) {
+			_active = false;
+		}
+	}
+
+
+}
+
 // Collision with Player
 
 void Enemy::Collision(Player* player) {
@@ -162,6 +202,7 @@ void Enemy::Collision(Player* player) {
 		_collision = true;
 		player->hitEnemy();		// sets private _shot = false; (reset)
 		player->Hit();			// sets private _hit = true; 
+		player->addToScore(this->_score);
 		std::cout << "You have been hit. Your health is: " << player->getHealth() << std::endl;
 		_active = false;
 	}

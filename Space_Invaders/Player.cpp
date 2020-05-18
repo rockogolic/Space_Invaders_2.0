@@ -106,6 +106,16 @@ void Player::updateShot(float deltaTime) {
 void Player::hitEnemy() { 
 	_shot = false;
 	_score += 10;
+
+}
+
+void Player::hitBounty(int value) {
+	_shot = false;
+	_score += value;
+}
+
+void Player::addToScore(int value) {
+	_score += value;
 }
 
 bool Player::isHit() { return _hit; }
@@ -125,6 +135,9 @@ void Player::Hit() {
 		_dead = true;
 	}
 }
+
+void Player::addHealth() { ++_health; }
+
 
 bool Player::isDead() { return _dead; }
 
