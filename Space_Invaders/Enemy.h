@@ -34,6 +34,9 @@ public:
 	void setPosition( Vector2f position );
 	float setSpeed(float deltaTime);
 
+	void setWin();
+	void setInactive();
+
 	void speedUp(float times);
 
 	void Collision(Player* player);
@@ -47,11 +50,11 @@ public:
 	enum class _color { RED, ORANGE, GREEN, BLUE, PINK, WHITE };
 	_color colorPlayer;
 
-private:
 
 	enum class _side { LEFT, RIGHT, NONE };
-	
 	_side enemy_side;
+
+private:
 
 	Vector2f _position;
 	Vector2f _startPos;

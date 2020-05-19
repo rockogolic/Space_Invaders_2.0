@@ -121,24 +121,16 @@ int main()
 	
 
 	/* NEW SPRITES CLASSES */
-
-	std::vector<Enemy> wave1;
-	std::vector<int> wave1_isActive;
-
+	
 	CreateEnemy wave1_red(Vector2i(1, 1), enemyRed, window);
-	for (unsigned int i = 0; i < size(wave1_red.Enemies); i++)
-		wave1.push_back(wave1_red.Enemies[i]);
 	CreateEnemy wave1_green(Vector2i(2, 2), enemyGreen, window);
-	for (unsigned int i = 0; i < size(wave1_green.Enemies); i++)
-		wave1.push_back(wave1_green.Enemies[i]);
 	CreateEnemy wave1_purple(Vector2i(4, 4), enemyPurple, window);
-	for (unsigned int i = 0; i < size(wave1_purple.Enemies); i++)
-		wave1.push_back(wave1_purple.Enemies[i]);
-	for (unsigned int i = 0; i < size(wave1); i++) {		// FIX HERE
-		if (wave1[i].isActive())
-			wave1_isActive.push_back(1);
-	}
 
+	CreateEnemy wave1;
+	wave1.assignEnemy(wave1_green);
+	wave1.assignEnemy(wave1_red);
+	wave1.assignEnemy(wave1_purple);
+	
 	// Explosions
 
 	Texture textureKaboom;
@@ -363,23 +355,29 @@ int main()
 			// WAVE 1
 
 
-			for (unsigned int i = 0; i < size(wave1); i++) {
-				player.Collision(&wave1[i]);
+			wave1.getActive();
 
-				// DOES NOT WORK, Because size(wave1_isActive) is always == size(wave1) 
-				// FIX it
+			//wave1.MoveClassic(&window, deltaTime);
 
-				if (size(wave1_isActive) <= size(wave1) && (size(wave1_isActive) > 6))
-					wave1[i].Move(&window, deltaTime);
-				else if (size(wave1_isActive) <= 6 && size(wave1_isActive) > 2)
-					wave1[i].Move(&window, 1.5f * deltaTime);
-				else if (size(wave1_isActive) <= 2 && size(wave1_isActive) > 1)
-					wave1[i].Move(&window, 1.8f * deltaTime);
-				else if (size(wave1_isActive) == 1)
-					wave1[i].Move(&window, 2.0f * deltaTime);
-				wave1[i].Collision(&player);
-				wave1[i].shoot();
-				wave1[i].updateShot(deltaTime);
+			for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
+
+				player.Collision(&wave1.Enemies[i]);
+
+			
+				//*
+				if (size(wave1.activeEnemies) <= size(wave1.Enemies) && (size(wave1.activeEnemies) > 6))
+					wave1.Enemies[i].Move(&window, deltaTime);
+				else if (size(wave1.activeEnemies) <= 7 && (size(wave1.activeEnemies) > 3))
+					wave1.Enemies[i].Move(&window, 2.0f * deltaTime);
+				else if (size(wave1.activeEnemies) <= 3 && (size(wave1.activeEnemies) > 1))
+					wave1.Enemies[i].Move(&window, 2.5f * deltaTime);
+				else if (size(wave1.activeEnemies) == 1)
+					wave1.Enemies[i].Move(&window, 4.0f * deltaTime);
+				//*/
+
+				wave1.Enemies[i].Collision(&player);
+				wave1.Enemies[i].shoot();
+				wave1.Enemies[i].updateShot(deltaTime);
 			}
 
 			messageHealth.updateMessageHealth(&player);
@@ -421,7 +419,8 @@ int main()
 			if (bounty_pink.isActive()) {
 				window.draw(bounty_pink.sprite);
 			}
-
+			
+			/*
 			for (unsigned int i = 0; i < size(wave1); i++) {
 				if (wave1[i].isActive()) {
 					window.draw(wave1[i].sprite);
@@ -429,6 +428,16 @@ int main()
 				// continues drawing shot when enemy died
 				window.draw(wave1[i].spriteShot);
 			}
+			*/
+
+			for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
+				if (wave1.Enemies[i].isActive()) {
+					window.draw(wave1.Enemies[i].sprite);
+				}
+				// continues drawing shot when enemy died
+				window.draw(wave1.Enemies[i].spriteShot);
+			}
+
 
 			messageHealth.display(window);
 			messageScore.display(window);

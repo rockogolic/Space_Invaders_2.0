@@ -104,6 +104,9 @@ void Enemy::Move(RenderWindow * window, float deltaTime) {
 	}
 }
 
+void Enemy::setWin() {_won = true;}
+void Enemy::setInactive() { _active = false; }
+
 void Enemy::speedUp(float times) {
 	_speed = _speed * times;
 }
