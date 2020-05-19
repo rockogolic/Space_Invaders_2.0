@@ -32,6 +32,7 @@ public:
 	void setBounty(const char* type, RenderWindow * window);
 	void setStartPosition( Vector2f startPos );
 	void setPosition( Vector2f position );
+	float setSpeed(float deltaTime);
 
 	void speedUp(float times);
 

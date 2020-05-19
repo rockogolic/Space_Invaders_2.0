@@ -122,13 +122,22 @@ int main()
 
 	/* NEW SPRITES CLASSES */
 
+	std::vector<Enemy> wave1;
+	std::vector<int> wave1_isActive;
+
 	CreateEnemy wave1_red(Vector2i(1, 1), enemyRed, window);
+	for (int i = 0; i < size(wave1_red.Enemies); i++)
+		wave1.push_back(wave1_red.Enemies[i]);
 	CreateEnemy wave1_green(Vector2i(2, 2), enemyGreen, window);
+	for (int i = 0; i < size(wave1_green.Enemies); i++)
+		wave1.push_back(wave1_green.Enemies[i]);
 	CreateEnemy wave1_purple(Vector2i(4, 4), enemyPurple, window);
-	std::vector<CreateEnemy> wave1;
-	wave1.push_back(wave1_red);
-	wave1.push_back(wave1_green);
-	wave1.push_back(wave1_purple);
+	for (int i = 0; i < size(wave1_purple.Enemies); i++)
+		wave1.push_back(wave1_purple.Enemies[i]);
+	for (int i = 0; i < size(wave1); i++) {
+		if (wave1[i].isActive())
+			wave1_isActive.push_back(1);
+	}
 
 	// Explosions
 
@@ -352,57 +361,34 @@ int main()
 			bounty_pink.Collision(&player);
 			
 			// WAVE 1
-			
-			for (unsigned int i = 0; i < size(wave1_red.Enemies); i++) {
-				
-				player.Collision(&wave1_red.Enemies[i]);
 
-				wave1_red.Enemies[i].Move(&window, deltaTime);
-				wave1_red.Enemies[i].Collision(&player);
-				wave1_red.Enemies[i].shoot();
-				wave1_red.Enemies[i].updateShot(deltaTime);
 
-				if (wave1_red.Enemies[i].hasWon()) {
-					game_over = true;
-				}
+			for (unsigned int i = 0; i < size(wave1); i++) {
+				player.Collision(&wave1[i]);
+
+				// DOES NOT WORK, Because size(wave1_isActive) is always == size(wave1) 
+				// FIX it
+
+				if (size(wave1_isActive) <= size(wave1) && (size(wave1_isActive) > 6))
+					wave1[i].Move(&window, deltaTime);
+				else if (size(wave1_isActive) <= 6 && size(wave1_isActive) > 2)
+					wave1[i].Move(&window, 1.5f * deltaTime);
+				else if (size(wave1_isActive) <= 2 && size(wave1_isActive) > 1)
+					wave1[i].Move(&window, 1.8f * deltaTime);
+				else if (size(wave1_isActive) == 1)
+					wave1[i].Move(&window, 2.0f * deltaTime);
+				wave1[i].Collision(&player);
+				wave1[i].shoot();
+				wave1[i].updateShot(deltaTime);
 			}
-			
-
-			// WAVE 2
-			for (unsigned int i = 0; i < size(wave1_green.Enemies); i++) {
-
-				player.Collision(&wave1_green.Enemies[i]);
-
-				wave1_green.Enemies[i].Move(&window, deltaTime);
-				wave1_green.Enemies[i].Collision(&player);
-				wave1_green.Enemies[i].shoot();
-				wave1_green.Enemies[i].updateShot(deltaTime);
-
-				if (wave1_green.Enemies[i].hasWon()) {
-					game_over = true;
-				}
-			}
-
-			// WAVE 3
-			for (unsigned int i = 0; i < size(wave1_purple.Enemies); i++) {
-
-				player.Collision(&wave1_purple.Enemies[i]);
-
-				wave1_purple.Enemies[i].Move(&window, deltaTime);
-				wave1_purple.Enemies[i].Collision(&player);
-				wave1_purple.Enemies[i].shoot();
-				wave1_purple.Enemies[i].updateShot(deltaTime);
-
-				if (wave1_purple.Enemies[i].hasWon()) {
-					game_over = true;
-				}
-			}
-
 
 			messageHealth.updateMessageHealth(&player);
 			messageScore.updateMessageScore(&player);
 
 		} 
+
+
+		
 
 			
 		/*
@@ -436,30 +422,13 @@ int main()
 				window.draw(bounty_pink.sprite);
 			}
 
-			for (unsigned int i = 0; i < size(wave1_red.Enemies); i++) {
-				if (wave1_red.Enemies[i].isActive()) {
-					window.draw(wave1_red.Enemies[i].sprite);
+			for (unsigned int i = 0; i < size(wave1); i++) {
+				if (wave1[i].isActive()) {
+					window.draw(wave1[i].sprite);
 				}
 				// continues drawing shot when enemy died
-				window.draw(wave1_red.Enemies[i].spriteShot);		
+				window.draw(wave1[i].spriteShot);
 			}
-			
-			for (unsigned int i = 0; i < size(wave1_green.Enemies); i++) {
-				if (wave1_green.Enemies[i].isActive()) {
-					window.draw(wave1_green.Enemies[i].sprite);
-				}
-				// continues drawing shot when enemy died
-				window.draw(wave1_green.Enemies[i].spriteShot);
-			}
-
-			for (unsigned int i = 0; i < size(wave1_purple.Enemies); i++) {
-				if (wave1_purple.Enemies[i].isActive()) {
-					window.draw(wave1_purple.Enemies[i].sprite);
-				}
-				// continues drawing shot when enemy died
-				window.draw(wave1_purple.Enemies[i].spriteShot);
-			}
-
 
 			messageHealth.display(window);
 			messageScore.display(window);

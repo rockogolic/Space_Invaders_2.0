@@ -105,7 +105,11 @@ void Enemy::Move(RenderWindow * window, float deltaTime) {
 }
 
 void Enemy::speedUp(float times) {
-	_speed *= times;
+	_speed = _speed * times;
+}
+
+float Enemy::setSpeed(float deltaTime) {
+	return (_speed * deltaTime);	// default speed of enemies
 }
 
 // shoot
