@@ -62,6 +62,7 @@ bool Enemy::setDead() { return _dead = true; }
 bool Enemy::hasWon() { return _won; }
 
 // MOVEMENT
+
 void Enemy::Move(RenderWindow * window, float deltaTime) {
 	// if some condition (maybe if isActive || if canMove)
 	// move (fction of deltaTime) to the right from the _startPos
@@ -72,6 +73,7 @@ void Enemy::Move(RenderWindow * window, float deltaTime) {
 	//float height = window->getSize().y - sprite.getPosition().y;
 
 	_position = sprite.getPosition();	// update vector2f _position with the latest position
+	_speed = (100 / (1 / deltaTime));	// default speed of enemies
 
 	if (sprite.getPosition().x >= (window->getSize().x - sprite.getTexture()->getSize().x / 2.0f)) {
 		
@@ -89,10 +91,10 @@ void Enemy::Move(RenderWindow * window, float deltaTime) {
 
 	if (_active){
 		if (enemy_side == _side::RIGHT || enemy_side == _side::NONE) {
-			sprite.move( ( 100 / (1 / deltaTime)), 0);
+			sprite.move( _speed, 0);
 		}
 		else if (enemy_side == _side::LEFT) {
-			sprite.move(-( 100 / (1 / deltaTime)), 0);
+			sprite.move(-_speed, 0);
 		}
 		if (sprite.getPosition().y >= (window->getSize().y)) {
 			_won = true;
@@ -100,6 +102,10 @@ void Enemy::Move(RenderWindow * window, float deltaTime) {
 			_active = false;
 		}
 	}
+}
+
+void Enemy::speedUp(float times) {
+	_speed *= times;
 }
 
 // shoot

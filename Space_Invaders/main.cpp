@@ -122,10 +122,13 @@ int main()
 
 	/* NEW SPRITES CLASSES */
 
-	CreateEnemy wave1(Vector2i(1, 1), enemyRed, window);
-	CreateEnemy wave2(Vector2i(2, 2), enemyGreen, window);
-	CreateEnemy wave3(Vector2i(4, 4), enemyPurple, window);
-	
+	CreateEnemy wave1_red(Vector2i(1, 1), enemyRed, window);
+	CreateEnemy wave1_green(Vector2i(2, 2), enemyGreen, window);
+	CreateEnemy wave1_purple(Vector2i(4, 4), enemyPurple, window);
+	std::vector<CreateEnemy> wave1;
+	wave1.push_back(wave1_red);
+	wave1.push_back(wave1_green);
+	wave1.push_back(wave1_purple);
 
 	// Explosions
 
@@ -350,47 +353,47 @@ int main()
 			
 			// WAVE 1
 			
-			for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
+			for (unsigned int i = 0; i < size(wave1_red.Enemies); i++) {
 				
-				player.Collision(&wave1.Enemies[i]);
+				player.Collision(&wave1_red.Enemies[i]);
 
-				wave1.Enemies[i].Move(&window, deltaTime);
-				wave1.Enemies[i].Collision(&player);
-				wave1.Enemies[i].shoot();
-				wave1.Enemies[i].updateShot(deltaTime);
+				wave1_red.Enemies[i].Move(&window, deltaTime);
+				wave1_red.Enemies[i].Collision(&player);
+				wave1_red.Enemies[i].shoot();
+				wave1_red.Enemies[i].updateShot(deltaTime);
 
-				if (wave1.Enemies[i].hasWon()) {
+				if (wave1_red.Enemies[i].hasWon()) {
 					game_over = true;
 				}
 			}
 			
 
 			// WAVE 2
-			for (unsigned int i = 0; i < size(wave2.Enemies); i++) {
+			for (unsigned int i = 0; i < size(wave1_green.Enemies); i++) {
 
-				player.Collision(&wave2.Enemies[i]);
+				player.Collision(&wave1_green.Enemies[i]);
 
-				wave2.Enemies[i].Move(&window, deltaTime);
-				wave2.Enemies[i].Collision(&player);
-				wave2.Enemies[i].shoot();
-				wave2.Enemies[i].updateShot(deltaTime);
+				wave1_green.Enemies[i].Move(&window, deltaTime);
+				wave1_green.Enemies[i].Collision(&player);
+				wave1_green.Enemies[i].shoot();
+				wave1_green.Enemies[i].updateShot(deltaTime);
 
-				if (wave2.Enemies[i].hasWon()) {
+				if (wave1_green.Enemies[i].hasWon()) {
 					game_over = true;
 				}
 			}
 
 			// WAVE 3
-			for (unsigned int i = 0; i < size(wave3.Enemies); i++) {
+			for (unsigned int i = 0; i < size(wave1_purple.Enemies); i++) {
 
-				player.Collision(&wave3.Enemies[i]);
+				player.Collision(&wave1_purple.Enemies[i]);
 
-				wave3.Enemies[i].Move(&window, deltaTime);
-				wave3.Enemies[i].Collision(&player);
-				wave3.Enemies[i].shoot();
-				wave3.Enemies[i].updateShot(deltaTime);
+				wave1_purple.Enemies[i].Move(&window, deltaTime);
+				wave1_purple.Enemies[i].Collision(&player);
+				wave1_purple.Enemies[i].shoot();
+				wave1_purple.Enemies[i].updateShot(deltaTime);
 
-				if (wave3.Enemies[i].hasWon()) {
+				if (wave1_purple.Enemies[i].hasWon()) {
 					game_over = true;
 				}
 			}
@@ -433,28 +436,28 @@ int main()
 				window.draw(bounty_pink.sprite);
 			}
 
-			for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
-				if (wave1.Enemies[i].isActive()) {
-					window.draw(wave1.Enemies[i].sprite);
+			for (unsigned int i = 0; i < size(wave1_red.Enemies); i++) {
+				if (wave1_red.Enemies[i].isActive()) {
+					window.draw(wave1_red.Enemies[i].sprite);
 				}
 				// continues drawing shot when enemy died
-				window.draw(wave1.Enemies[i].spriteShot);		
+				window.draw(wave1_red.Enemies[i].spriteShot);		
 			}
 			
-			for (unsigned int i = 0; i < size(wave2.Enemies); i++) {
-				if (wave2.Enemies[i].isActive()) {
-					window.draw(wave2.Enemies[i].sprite);
+			for (unsigned int i = 0; i < size(wave1_green.Enemies); i++) {
+				if (wave1_green.Enemies[i].isActive()) {
+					window.draw(wave1_green.Enemies[i].sprite);
 				}
 				// continues drawing shot when enemy died
-				window.draw(wave2.Enemies[i].spriteShot);
+				window.draw(wave1_green.Enemies[i].spriteShot);
 			}
 
-			for (unsigned int i = 0; i < size(wave3.Enemies); i++) {
-				if (wave3.Enemies[i].isActive()) {
-					window.draw(wave3.Enemies[i].sprite);
+			for (unsigned int i = 0; i < size(wave1_purple.Enemies); i++) {
+				if (wave1_purple.Enemies[i].isActive()) {
+					window.draw(wave1_purple.Enemies[i].sprite);
 				}
 				// continues drawing shot when enemy died
-				window.draw(wave3.Enemies[i].spriteShot);
+				window.draw(wave1_purple.Enemies[i].spriteShot);
 			}
 
 

@@ -33,6 +33,8 @@ public:
 	void setStartPosition( Vector2f startPos );
 	void setPosition( Vector2f position );
 
+	void speedUp(float times);
+
 	void Collision(Player* player);
 	void hitPlayer();
 
@@ -59,6 +61,7 @@ private:
 	bool _collision;
 	bool _shot;
 
+	float _speed;
 	unsigned int _score;
 
 	Enemy * new_enemy;
