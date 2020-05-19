@@ -126,15 +126,15 @@ int main()
 	std::vector<int> wave1_isActive;
 
 	CreateEnemy wave1_red(Vector2i(1, 1), enemyRed, window);
-	for (int i = 0; i < size(wave1_red.Enemies); i++)
+	for (unsigned int i = 0; i < size(wave1_red.Enemies); i++)
 		wave1.push_back(wave1_red.Enemies[i]);
 	CreateEnemy wave1_green(Vector2i(2, 2), enemyGreen, window);
-	for (int i = 0; i < size(wave1_green.Enemies); i++)
+	for (unsigned int i = 0; i < size(wave1_green.Enemies); i++)
 		wave1.push_back(wave1_green.Enemies[i]);
 	CreateEnemy wave1_purple(Vector2i(4, 4), enemyPurple, window);
-	for (int i = 0; i < size(wave1_purple.Enemies); i++)
+	for (unsigned int i = 0; i < size(wave1_purple.Enemies); i++)
 		wave1.push_back(wave1_purple.Enemies[i]);
-	for (int i = 0; i < size(wave1); i++) {
+	for (unsigned int i = 0; i < size(wave1); i++) {		// FIX HERE
 		if (wave1[i].isActive())
 			wave1_isActive.push_back(1);
 	}
