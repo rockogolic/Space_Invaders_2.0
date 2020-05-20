@@ -103,6 +103,7 @@ void CreateEnemy::MoveClassic(RenderWindow* window, float deltaTime) {
 		if (Enemies[i].sprite.getPosition().y >= window->getSize().y) {
 			Enemies[i].setInactive();
 			this->_won = true;
+			std::cout << "You have lost" << std::endl;
 		}
 	}
 }
