@@ -8,11 +8,6 @@ Animation::Animation(Texture* texture, Vector2u imageCount, float switchTime) {
 	this->_totalTime = 0.0f;
 	this->_currentImage.x = 0;			// for horizontal spriteSheet layout. 0 is always first, just choose row
 
-
-	//_sprite.setTexture(texture);
-	//_sprite.getTexture()->getSize().x / float(_imageCount.x);
-	//_sprite.getTexture()->getSize().y / float(_imageCount.y);
-
 	uvRect.width = texture->getSize().x / (_imageCount.x);
 	uvRect.height = texture->getSize().y / (_imageCount.y);
 

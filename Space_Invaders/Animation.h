@@ -23,8 +23,6 @@ private:
 	float _totalTime;
 	float _switchTime;
 
-	//Sprite _sprite;
-
 };
 
 
