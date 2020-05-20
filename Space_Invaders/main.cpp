@@ -324,7 +324,7 @@ int main()
 
 		if (!intro && !menu && !hit && !game_over) {
 
-			//player actions
+			//player actions and game_over conditions
 			player.updateShot(deltaTime);
 
 			if (player.isHit()) {
@@ -335,6 +335,9 @@ int main()
 					hit = true;
 					player.setAlive();
 				}
+			}
+			if (wave1.isWinner()) { // || wave2 || wave3 etc. ..
+				game_over = true;
 			}
 
 			// BOUNTIES
@@ -348,11 +351,7 @@ int main()
 			wave1.getActive();
 
 			if (size(wave1.activeEnemies) <= size(wave1.Enemies) && (size(wave1.activeEnemies) > 1))
-				wave1.MoveClassic(&window, deltaTime);
-			//else if (size(wave1.activeEnemies) <= 7 && (size(wave1.activeEnemies) > 3))
-			//	wave1.MoveClassic(&window, 2.0f * deltaTime);
-			//else if (size(wave1.activeEnemies) <= 3 && (size(wave1.activeEnemies) > 1))
-			//	wave1.MoveClassic(&window, 2.5f * deltaTime);
+				wave1.MoveClassic(&window, 1.0f*deltaTime);
 			else if (size(wave1.activeEnemies) == 1)
 				wave1.MoveClassic(&window, 6.0f * deltaTime);
 
@@ -407,6 +406,8 @@ int main()
 					window.draw(wave1.Enemies[i].sprite);
 				}
 				// continues drawing shot when enemy died
+			}
+			for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
 				window.draw(wave1.Enemies[i].spriteShot);
 			}
 
