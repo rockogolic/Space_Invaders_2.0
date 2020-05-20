@@ -66,13 +66,11 @@ void CreateEnemy::MoveClassic(RenderWindow* window, float deltaTime) {
 			for (unsigned int j = 0; j < size(Enemies); j++) {
 				Enemies[j].enemy_side = Enemy::_side::LEFT;
 			}
-			break;
 		}
 		else if (Enemies[i].sprite.getPosition().x <= (Enemies[i].sprite.getTexture()->getSize().x / 2.0f)) {
 			for (unsigned int j = 0; j < size(Enemies); j++) {
 				Enemies[j].enemy_side = Enemy::_side::RIGHT;
 			}
-			break;
 		}
 	}
 
@@ -98,17 +96,15 @@ void CreateEnemy::MoveClassic(RenderWindow* window, float deltaTime) {
 			}
 		}
 	}
+}
 
+void CreateEnemy::updateWinner(RenderWindow * window) {
 	for (unsigned int i = 0; i < size(Enemies); i++) {
-		if (Enemies[i].sprite.getPosition().y >= window->getSize().y) {
-			Enemies[i].setInactive();
-			this->_won = true;
-			std::cout << "You have lost" << std::endl;
+		if (Enemies[i].isActive()) {
+			if (Enemies[i].sprite.getPosition().y >= window->getSize().y) {
+				this->setWin();
+				Enemies[i].setInactive();
+			}
 		}
 	}
 }
-
-
-
-
-

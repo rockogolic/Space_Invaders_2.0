@@ -350,19 +350,25 @@ int main()
 
 			wave1.getActive();
 
+			/*
 			if (size(wave1.activeEnemies) <= size(wave1.Enemies) && (size(wave1.activeEnemies) > 1))
 				wave1.MoveClassic(&window, 1.0f*deltaTime);
 			else if (size(wave1.activeEnemies) == 1)
 				wave1.MoveClassic(&window, 6.0f * deltaTime);
+			//*/
 
 			for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
 
 				player.Collision(&wave1.Enemies[i]);
-
+				
 				wave1.Enemies[i].Collision(&player);
 				wave1.Enemies[i].shoot();
 				wave1.Enemies[i].updateShot(deltaTime);
+				//wave1.Enemies[i].Move(&window, deltaTime);
 			}
+	
+			wave1.MoveClassic(&window, deltaTime);
+			wave1.updateWinner(&window);
 
 			messageHealth.updateMessageHealth(&player);
 			messageScore.updateMessageScore(&player);

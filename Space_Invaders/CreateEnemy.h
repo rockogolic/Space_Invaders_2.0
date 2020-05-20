@@ -19,6 +19,7 @@ public:
 	bool isWinner();
 
 	void MoveClassic(RenderWindow * window, float deltaTime);
+	void updateWinner(RenderWindow * window);	// only for Enemy class movement Move; NOT for MoveClassic
 
 	void clear();
 
