@@ -23,7 +23,7 @@ public:
 	std::vector<Enemy> Enemies;
 	std::vector<Enemy> activeEnemies;
 
-	
+	bool changeY;
 
 private:
 	Vector2i _dim;

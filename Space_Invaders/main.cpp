@@ -25,7 +25,6 @@ using namespace sf;
 
 const Vector2f spriteSize(Sprite& sprite);		//  gets the Vector2f in size of the sprite
 void Center(Sprite& sprite);					// changes the origin of the sprite to its center
-void FPS(float deltaTime);						// measures average FPS of the run
 
 int main()
 {
@@ -357,23 +356,18 @@ int main()
 
 			wave1.getActive();
 
-			//wave1.MoveClassic(&window, deltaTime);
+			if (size(wave1.activeEnemies) <= size(wave1.Enemies) && (size(wave1.activeEnemies) > 1))
+				wave1.MoveClassic(&window, deltaTime);
+			//else if (size(wave1.activeEnemies) <= 7 && (size(wave1.activeEnemies) > 3))
+			//	wave1.MoveClassic(&window, 2.0f * deltaTime);
+			//else if (size(wave1.activeEnemies) <= 3 && (size(wave1.activeEnemies) > 1))
+			//	wave1.MoveClassic(&window, 2.5f * deltaTime);
+			else if (size(wave1.activeEnemies) == 1)
+				wave1.MoveClassic(&window, 6.0f * deltaTime);
 
 			for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
 
 				player.Collision(&wave1.Enemies[i]);
-
-			
-				//*
-				if (size(wave1.activeEnemies) <= size(wave1.Enemies) && (size(wave1.activeEnemies) > 6))
-					wave1.Enemies[i].Move(&window, deltaTime);
-				else if (size(wave1.activeEnemies) <= 7 && (size(wave1.activeEnemies) > 3))
-					wave1.Enemies[i].Move(&window, 2.0f * deltaTime);
-				else if (size(wave1.activeEnemies) <= 3 && (size(wave1.activeEnemies) > 1))
-					wave1.Enemies[i].Move(&window, 2.5f * deltaTime);
-				else if (size(wave1.activeEnemies) == 1)
-					wave1.Enemies[i].Move(&window, 4.0f * deltaTime);
-				//*/
 
 				wave1.Enemies[i].Collision(&player);
 				wave1.Enemies[i].shoot();
@@ -484,22 +478,4 @@ const Vector2f spriteSize(Sprite& sprite) {
 
 void Center(Sprite& sprite) {
 	sprite.setOrigin( sprite.getTexture()->getSize().x / 2.0f , sprite.getTexture()->getSize().y / 2.0f );
-}
-
-void FPS(float deltaTime) {
-
-	float time = 0.0f;
-	float total = 0.0f;
-	time += deltaTime;
-	std::vector<float> _timeMeas;
-	while (time < 2) {
-		_timeMeas.push_back(deltaTime);
-	}
-	
-	for (unsigned int i = 0; i < size(_timeMeas); i++) {
-		total += _timeMeas[i];
-	}
-	std::cout << "Average FPS is: " << 1/(total / size(_timeMeas)) << std::endl;
-
-
 }
