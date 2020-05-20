@@ -14,7 +14,6 @@ CreateEnemy::CreateEnemy(Vector2i number, Enemy& enemy, RenderWindow& window) : 
 	for (int i = 0; i < _dim.x; i++) {
 		for (int j = 0; j < _dim.y; j++) {
 			Enemy new_enemy(enemy);
-			//new_enemy.sprite.setPosition( (70.0f + (_playground.x - 70.0f) * i/(_dim.x-1)), _playground.y / _dim.y * (j+1));
 			new_enemy.sprite.setPosition((_playground.x / (_dim.x + 1) * (i+1)), (_playground.y / (_dim.y + 1) * (j + 1)));
 			new_enemy.enemy_side = Enemy::_side::NONE;
 			Enemies.push_back(new_enemy);
@@ -22,10 +21,7 @@ CreateEnemy::CreateEnemy(Vector2i number, Enemy& enemy, RenderWindow& window) : 
 	}
 }
 
-CreateEnemy::CreateEnemy() {
-		
-
-}
+CreateEnemy::CreateEnemy() {}
 
 void CreateEnemy::assignEnemy(const CreateEnemy& enemyMatrix ) {
 
@@ -56,7 +52,7 @@ void CreateEnemy::MoveClassic(RenderWindow* window, float deltaTime) {
 		if ( (Enemies[i].sprite.getPosition().x >= (window->getSize().x - Enemies[i].sprite.getTexture()->getSize().x / 2.0f)) 
 			||
 			 (Enemies[i].sprite.getPosition().x <= (Enemies[i].sprite.getTexture()->getSize().x / 2.0f)) ) {
-			changeY = true;
+			_changeY = true;
 			break;
 		}
 	}
@@ -74,10 +70,10 @@ void CreateEnemy::MoveClassic(RenderWindow* window, float deltaTime) {
 		}
 	}
 
-	if (changeY == true) {
+	if (_changeY == true) {
 		for (unsigned int i = 0; i < size(Enemies); i++) {
 			Enemies[i].sprite.setPosition(Enemies[i].sprite.getPosition().x, Enemies[i].sprite.getPosition().y + Enemies[i].sprite.getTexture()->getSize().y);
-			changeY = false;
+			_changeY = false;
 		}
 	}
 
@@ -96,8 +92,6 @@ void CreateEnemy::MoveClassic(RenderWindow* window, float deltaTime) {
 
 	}
 }
-
-//CreateEnemy::CreateEnemy(Boss& boss) {}
 
 
 

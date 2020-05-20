@@ -9,7 +9,6 @@ class CreateEnemy
 {
 public:
 	CreateEnemy(Vector2i number, Enemy& enemy, RenderWindow& window);
-	//CreateEnemy(Boss& boss);
 	CreateEnemy();
 	~CreateEnemy();
 
@@ -23,13 +22,12 @@ public:
 	std::vector<Enemy> Enemies;
 	std::vector<Enemy> activeEnemies;
 
-	bool changeY;
-
 private:
 	Vector2i _dim;
 	Vector2f _playground;	// size of the screen given to enemies to spawn
-
 	Vector2f _position;
+
+	bool _changeY;
 
 	enum class _side { LEFT, RIGHT, NONE };
 	_side side;
