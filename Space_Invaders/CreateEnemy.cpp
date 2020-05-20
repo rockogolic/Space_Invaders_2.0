@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "CreateEnemy.h"
 
+#include <iostream>
+
 CreateEnemy::CreateEnemy(Vector2i number, Enemy& enemy, RenderWindow& window) : _dim(number) {
 	if ( (_dim.x > 6 || _dim.x < 0) && (_dim.y > 6 || _dim.y < 0) ) {
 		_dim.x = abs(number.x) % 6; 
@@ -15,7 +17,6 @@ CreateEnemy::CreateEnemy(Vector2i number, Enemy& enemy, RenderWindow& window) : 
 		for (int j = 0; j < _dim.y; j++) {
 			Enemy new_enemy(enemy);
 			new_enemy.sprite.setPosition((_playground.x / (_dim.x + 1) * (i+1)), (_playground.y / (_dim.y + 1) * (j + 1)));
-			new_enemy.enemy_side = Enemy::_side::NONE;
 			Enemies.push_back(new_enemy);
 		}
 	}
@@ -34,6 +35,10 @@ void CreateEnemy::clear() {
 	this->Enemies.clear();
 }
 
+void CreateEnemy::setWin() { _won = true; }
+
+bool CreateEnemy::isWinner() { return _won; }
+
 CreateEnemy::~CreateEnemy() { }
 
 void CreateEnemy::getActive() {
@@ -43,7 +48,6 @@ void CreateEnemy::getActive() {
 			activeEnemies.push_back(Enemies[i]);
 		}
 	}
-
 }
 
 void CreateEnemy::MoveClassic(RenderWindow* window, float deltaTime) {
@@ -86,10 +90,12 @@ void CreateEnemy::MoveClassic(RenderWindow* window, float deltaTime) {
 				Enemies[i].sprite.move(-40 * deltaTime, 0.0f);
 			}
 			else if (Enemies[i].sprite.getPosition().y >= window->getSize().y) {
-				Enemies[i].setWin();
+				this->_won = true;
+				std::cout << "You lose" << std::endl;
+				break;
+				Enemies[i].setInactive();
 			}
 		}
-
 	}
 }
 

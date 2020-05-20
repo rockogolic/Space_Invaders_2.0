@@ -108,12 +108,12 @@ void Player::addToScore(int value) {
 bool Player::isHit() { return _hit; }
 
 void Player::setAlive() { 
-	
 	if (_hit) {
 		_hit = false;
 	}
-
 }
+
+void Player::setLost() { _lost = true; }
 
 void Player::Hit() { 
 	_hit = true; 
@@ -125,6 +125,7 @@ void Player::Hit() {
 
 void Player::addHealth() { ++_health; }
 
+bool Player::isLooser() { return _lost; }
 
 bool Player::isDead() { return _dead; }
 

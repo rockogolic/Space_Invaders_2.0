@@ -2,7 +2,6 @@
 #define PLAYER_H
 
 #include <SFML/Graphics.hpp>
-//#include "enemy.h"
 
 using namespace sf;
 
@@ -21,6 +20,7 @@ public:
 	const int getScore() const;
 
 	void setAlive();
+	void setLost();
 	void addHealth();
 	void addToScore(int value);
 
@@ -30,6 +30,7 @@ public:
 	
 	bool isHit();
 	bool isDead();
+	bool isLooser();
 
 	void Collision(Enemy * enemy);
 
@@ -45,11 +46,10 @@ private:
 	bool _dead = false;
 	bool _shot = false;
 	bool _hit = false;
+	bool _lost = false;
 
 	unsigned int _score;
 	unsigned int _health;
-
-
 };
 
 

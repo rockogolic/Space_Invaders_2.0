@@ -177,7 +177,7 @@ int main()
 		Color::White, font_CubicCoreMono, 20	
 	);
 	Message messageMenuMusic(
-		"Turn off the main theme",
+		"Turn off the music",
 		Color::White, font_CubicCoreMono, 20
 	);
 

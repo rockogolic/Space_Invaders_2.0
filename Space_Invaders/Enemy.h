@@ -44,7 +44,6 @@ public:
 	enum class _color { RED, ORANGE, GREEN, BLUE, PINK, WHITE };
 	_color colorPlayer;
 
-
 	enum class _side { LEFT, RIGHT, NONE };
 	_side enemy_side;
 

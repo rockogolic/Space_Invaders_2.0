@@ -15,6 +15,9 @@ public:
 	void getActive();
 	void assignEnemy(const CreateEnemy& enemyMatrix);
 
+	void setWin();
+	bool isWinner();
+
 	void MoveClassic(RenderWindow * window, float deltaTime);
 
 	void clear();
@@ -28,6 +31,7 @@ private:
 	Vector2f _position;
 
 	bool _changeY;
+	bool _won;
 
 	enum class _side { LEFT, RIGHT, NONE };
 	_side side;
