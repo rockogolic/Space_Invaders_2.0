@@ -413,16 +413,6 @@ int main()
 			if (bounty_pink.isActive()) {
 				window.draw(bounty_pink.sprite);
 			}
-			
-			/*
-			for (unsigned int i = 0; i < size(wave1); i++) {
-				if (wave1[i].isActive()) {
-					window.draw(wave1[i].sprite);
-				}
-				// continues drawing shot when enemy died
-				window.draw(wave1[i].spriteShot);
-			}
-			*/
 
 			for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
 				if (wave1.Enemies[i].isActive()) {
@@ -431,7 +421,6 @@ int main()
 				// continues drawing shot when enemy died
 				window.draw(wave1.Enemies[i].spriteShot);
 			}
-
 
 			messageHealth.display(window);
 			messageScore.display(window);
