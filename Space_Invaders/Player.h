@@ -20,7 +20,6 @@ public:
 	const int getScore() const;
 
 	void setAlive();
-	void setLost();
 	void addHealth();
 	void addToScore(int value);
 
@@ -30,7 +29,6 @@ public:
 	
 	bool isHit();
 	bool isDead();
-	bool isLooser();
 
 	void Collision(Enemy * enemy);
 

@@ -53,8 +53,6 @@ Enemy::Enemy(const Enemy& enemy) {
 }
 
 bool Enemy::isActive() { return _active; }
-bool Enemy::isDead() { return _dead; }
-bool Enemy::setDead() { return _dead = true; }
 bool Enemy::hasWon() { return _won; }
 
 // MOVEMENT

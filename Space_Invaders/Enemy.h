@@ -17,7 +17,6 @@ public:
 	~Enemy();
 
 	bool isActive();
-	bool isDead();
 	bool hasWon();
 
 	void Move(RenderWindow * window, float deltaTime);
@@ -35,8 +34,6 @@ public:
 
 	void Collision(Player* player);
 	void hitPlayer();
-
-	bool setDead();
 
 	Sprite sprite;
 	Sprite spriteShot;

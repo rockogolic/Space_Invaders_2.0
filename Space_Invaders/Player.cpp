@@ -113,8 +113,6 @@ void Player::setAlive() {
 	}
 }
 
-void Player::setLost() { _lost = true; }
-
 void Player::Hit() { 
 	_hit = true; 
 	--_health; 
@@ -124,8 +122,6 @@ void Player::Hit() {
 }
 
 void Player::addHealth() { ++_health; }
-
-bool Player::isLooser() { return _lost; }
 
 bool Player::isDead() { return _dead; }
 
