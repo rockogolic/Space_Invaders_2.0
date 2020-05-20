@@ -1,14 +1,5 @@
-// HelloSFML.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// main.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-
-/* NOTE to self:
-1) break; in switch -> redundant
-2) If we have a Vector2i (call it, vector) and we need Vector2f for a function -> we can cast integer to floats:
-there are two ways to do that:
-2.1) :C-STYLE CAST: unsafe and short -> (float)vector.x and (float)vector.y
-2.2) :STATIC CAST: safe and long (safe for casting one class to another (?) ) -> static_cast<float>(vector.x) and (or, if only one), static_cast<float>(vector.y)
-
-*/
 
 #include <SFML/Graphics.hpp>
 #include "pch.h"
@@ -380,9 +371,6 @@ int main()
 		} 
 
 
-		
-
-			
 		/*
 		+++++++++++++++++++++
 		DRAWING to the Screen

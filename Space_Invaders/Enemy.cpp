@@ -20,10 +20,6 @@ Enemy::Enemy(const Texture* texture, const Texture * textureShot) {
 	sprite.setOrigin(sprite.getTexture()->getSize().x / 2.0f, sprite.getTexture()->getSize().y / 2.0f);
 	spriteShot.setOrigin(spriteShot.getTexture()->getSize().x / 2.0f, spriteShot.getTexture()->getSize().y / 2.0f);
 
-	// set startPosition. def = 0,0
-	//this->_startPos = Vector2f( 0,0 );
-	//setPosition(_startPos);
-
 	_active = true;
 	_dead = false;
 	_shot = false;
@@ -64,13 +60,6 @@ bool Enemy::hasWon() { return _won; }
 // MOVEMENT
 
 void Enemy::Move(RenderWindow * window, float deltaTime) {
-	// if some condition (maybe if isActive || if canMove)
-	// move (fction of deltaTime) to the right from the _startPos
-	// if (spritegetPos >= screenX)
-	// then move down by a bit
-	// then if (spritegetPos >= 
-
-	//float height = window->getSize().y - sprite.getPosition().y;
 
 	_position = sprite.getPosition();	// update vector2f _position with the latest position
 	_speed = (100 / (1 / deltaTime));	// default speed of enemies
@@ -106,14 +95,6 @@ void Enemy::Move(RenderWindow * window, float deltaTime) {
 
 void Enemy::setWin() {_won = true;}
 void Enemy::setInactive() { _active = false; }
-
-void Enemy::speedUp(float times) {
-	_speed = _speed * times;
-}
-
-float Enemy::setSpeed(float deltaTime) {
-	return (_speed * deltaTime);	// default speed of enemies
-}
 
 // shoot
 

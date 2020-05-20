@@ -46,19 +46,6 @@ void Player::shoot() {
 		spriteShot.setPosition(shotPosition);
 
 	}
-	//*/
-	/*
-	if (_shot == false) {
-		spriteShot.setPosition(sprite.getPosition());
-		_shot = true;
-		if (_shot == true) {
-			spriteShot.move(0.0f, -0.45f);
-			if (spriteShot.getPosition().y < -10) {
-				_shot = false;
-			}
-		}
-	}
-	//*/
 }
 
 void Player::Collision(Enemy * enemy) {

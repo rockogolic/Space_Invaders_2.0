@@ -7,22 +7,19 @@
 
 using namespace sf;
 
-//class Player;						// forward declaration
-
 class Enemy {
 
 public:
 
-	Enemy(const Texture* texture, const Texture * textureShot);	// constructor
-	Enemy();						// default
-	Enemy(const Enemy& enemy);		// copy constr
+	Enemy(const Texture* texture, const Texture * textureShot);
+	Enemy();						
+	Enemy(const Enemy& enemy);		
 	~Enemy();
 
 	bool isActive();
 	bool isDead();
 	bool hasWon();
 
-	// functions, movement
 	void Move(RenderWindow * window, float deltaTime);
 
 	void shoot();
@@ -32,12 +29,9 @@ public:
 	void setBounty(const char* type, RenderWindow * window);
 	void setStartPosition( Vector2f startPos );
 	void setPosition( Vector2f position );
-	float setSpeed(float deltaTime);
 
 	void setWin();
 	void setInactive();
-
-	void speedUp(float times);
 
 	void Collision(Player* player);
 	void hitPlayer();
