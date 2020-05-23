@@ -103,43 +103,40 @@ int main()
 
 	// BOUNTIES
 
-	std::vector<Enemy> bounties;
-
 	Texture textureBountyRed;
 	textureBountyRed.loadFromFile("graphics/bonus1_red.png");
 	Enemy bounty_red(&textureBountyRed, &textureShot);
-	bounty_red.setBounty("red", & window);
-	bounties.push_back(bounty_red);
+	bounty_red.setBounty("red", &window);
 
 	Texture textureBountyPink;
 	textureBountyPink.loadFromFile("graphics/bonus1_pink.png");
 	Enemy bounty_pink(&textureBountyPink, &textureShot);
 	bounty_pink.setBounty("pink", & window);
-	bounties.push_back(bounty_pink);
+	//bounties.push_back(bounty_pink);
 	
 	Texture textureBountyGreen;
 	textureBountyGreen.loadFromFile("graphics/bonus1_green.png");
 	Enemy bounty_green(&textureBountyGreen, &textureShot);
 	bounty_green.setBounty("green", & window);
-	bounties.push_back(bounty_green);
+	//bounties.push_back(bounty_green);
 
 	Texture textureBountyBlue;
 	textureBountyBlue.loadFromFile("graphics/bonus1_blue.png");
 	Enemy bounty_blue(&textureBountyBlue, &textureShot);
 	bounty_blue.setBounty("blue", & window);
-	bounties.push_back(bounty_blue);
+	//bounties.push_back(bounty_blue);
 
 	Texture textureBountyOrange;
 	textureBountyOrange.loadFromFile("graphics/bonus1_orange.png");
 	Enemy bounty_orange(&textureBountyOrange, &textureShot);
 	bounty_orange.setBounty("orange", & window);
-	bounties.push_back(bounty_orange);
+	//bounties.push_back(bounty_orange);
 
 	Texture textureBountyWhite;
 	textureBountyWhite.loadFromFile("graphics/bonus1_white.png");
 	Enemy bounty_white(&textureBountyWhite, &textureShot);
 	bounty_white.setBounty("white", & window);
-	bounties.push_back(bounty_white);
+	//bounties.push_back(bounty_white);
 
 	/* NEW SPRITES CLASSES */
 	
@@ -377,18 +374,49 @@ int main()
 
 			// BOUNTIES
 			
+			/*
 			for (unsigned int i = 0; i < size(bounties); i++) {
 				player.Collision(&bounties[i]);
 				bounties[i].setBountyAllowed(&window);
 				bounties[i].updateBounty(&player, &window, deltaTime);
 				bounties[i].Collision(&player);
 			}
+			*/
 
-			//player.Collision(&bounty_red);
-			//bounty_red.setBountyAllowed(&window);
-			//bounty_red.updateBounty(&window, deltaTime);
-			//bounty_red.Collision(&player);
+			// __collisions
+			player.Collision(&bounty_red);
+			player.Collision(&bounty_orange);
+			player.Collision(&bounty_green);
+			player.Collision(&bounty_blue);
+			player.Collision(&bounty_pink);
+			player.Collision(&bounty_white);
 
+			//if (!bounty_orange.isAllowed() && !bounty_green.isAllowed() && !bounty_pink.isAllowed() && !bounty_white.isAllowed() && !bounty_blue.isAllowed())
+				bounty_red.setBountyAllowed(&window);
+			//else if (!bounty_red.isAllowed() && !bounty_green.isAllowed() && !bounty_pink.isAllowed() && !bounty_white.isAllowed() && !bounty_blue.isAllowed())
+				bounty_orange.setBountyAllowed(&window);
+			//else if (!bounty_orange.isAllowed() && !bounty_red.isAllowed() && !bounty_pink.isAllowed() && !bounty_white.isAllowed() && !bounty_blue.isAllowed())
+				bounty_green.setBountyAllowed(&window);
+			//else if (!bounty_orange.isAllowed() && !bounty_green.isAllowed() && !bounty_pink.isAllowed() && !bounty_white.isAllowed() && !bounty_red.isAllowed())
+				bounty_blue.setBountyAllowed(&window);
+			//else if (!bounty_orange.isAllowed() && !bounty_green.isAllowed() && !bounty_red.isAllowed() && !bounty_white.isAllowed() && !bounty_blue.isAllowed())
+				bounty_pink.setBountyAllowed(&window);
+			//else if (!bounty_orange.isAllowed() && !bounty_green.isAllowed() && !bounty_pink.isAllowed() && !bounty_red.isAllowed() && !bounty_blue.isAllowed())
+				bounty_white.setBountyAllowed(&window);
+			
+			bounty_red.updateBounty(&window, deltaTime);
+			bounty_orange.updateBounty(&window, deltaTime);
+			bounty_green.updateBounty(&window, deltaTime);
+			bounty_blue.updateBounty(&window, deltaTime);
+			bounty_pink.updateBounty(&window, deltaTime);
+			bounty_white.updateBounty(&window, deltaTime);
+			
+			bounty_red.Collision(&player);
+			bounty_orange.Collision(&player);
+			bounty_green.Collision(&player);
+			bounty_blue.Collision(&player);
+			bounty_pink.Collision(&player);
+			bounty_white.Collision(&player);
 
 			// WAVE 1
 
@@ -447,11 +475,26 @@ int main()
 
 			window.draw(player.spriteShot);
 
+			/*
 			for (unsigned int i = 0; i < size(bounties); i++) {
 				if (bounties[i].isActive()) {
 					window.draw(bounties[i].sprite);
 				}
 			}
+			//*/
+
+			if (bounty_red.isActive())
+				window.draw(bounty_red.sprite);
+			if (bounty_orange.isActive())
+				window.draw(bounty_orange.sprite);
+			if (bounty_green.isActive())
+				window.draw(bounty_green.sprite);
+			if (bounty_blue.isActive())
+				window.draw(bounty_blue.sprite);
+			if (bounty_pink.isActive())
+				window.draw(bounty_pink.sprite);
+			if (bounty_white.isActive())
+				window.draw(bounty_white.sprite);
 
 			//window.draw(bounty_red.sprite);
 

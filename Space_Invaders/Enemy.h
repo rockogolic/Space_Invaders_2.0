@@ -24,7 +24,7 @@ public:
 
 	void shoot();
 	void updateShot(float deltaTime);
-	void updateBounty(Player * player, RenderWindow * window, float deltaTime);
+	void updateBounty(RenderWindow * window, float deltaTime);
 	void updateScore_fromBounty(Player * player);
 
 	void setBounty(const char* , RenderWindow * window);

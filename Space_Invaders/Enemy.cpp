@@ -7,7 +7,7 @@
 std::random_device rd;  //Will be used to obtain a seed for the random number engine
 std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
 std::uniform_int_distribution<> dis(1, 10000);
-std::uniform_int_distribution<> dis2(1, 100000);
+std::uniform_int_distribution<> dis2(1, 20000);
 
 Enemy::Enemy(const Texture* texture, const Texture * textureShot) {
 	
@@ -164,14 +164,12 @@ void Enemy::setBountyAllowed(RenderWindow * window) {
 }
 
 
-void Enemy::updateBounty(Player * player, RenderWindow * window, float deltaTime) {
+void Enemy::updateBounty(RenderWindow * window, float deltaTime) {
 	if (_allowed) {
 		sprite.move((100 * deltaTime), 0);
 		if (_collision) {
 			this->sprite.setPosition(-0.5f * window->getSize().x, window->getSize().y / 15.0f);
-			player->addToScore(_score);
 			_allowed = false;
-			
 		}
 		else if (sprite.getPosition().x >= window->getSize().x * 2.0f) {
 			_allowed = false;
