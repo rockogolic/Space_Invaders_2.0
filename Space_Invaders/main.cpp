@@ -162,7 +162,6 @@ int main()
 	spriteKaboom.setTexture(textureKaboom);
 	Center(spriteKaboom);
 
-
 	/* CREATION of MESSAGES for the game */
 	Message messageTitle(
 		"S p a c e      I n v a d e r s",
