@@ -391,18 +391,12 @@ int main()
 			player.Collision(&bounty_pink);
 			player.Collision(&bounty_white);
 
-			//if (!bounty_orange.isAllowed() && !bounty_green.isAllowed() && !bounty_pink.isAllowed() && !bounty_white.isAllowed() && !bounty_blue.isAllowed())
-				bounty_red.setBountyAllowed(&window);
-			//else if (!bounty_red.isAllowed() && !bounty_green.isAllowed() && !bounty_pink.isAllowed() && !bounty_white.isAllowed() && !bounty_blue.isAllowed())
-				bounty_orange.setBountyAllowed(&window);
-			//else if (!bounty_orange.isAllowed() && !bounty_red.isAllowed() && !bounty_pink.isAllowed() && !bounty_white.isAllowed() && !bounty_blue.isAllowed())
-				bounty_green.setBountyAllowed(&window);
-			//else if (!bounty_orange.isAllowed() && !bounty_green.isAllowed() && !bounty_pink.isAllowed() && !bounty_white.isAllowed() && !bounty_red.isAllowed())
-				bounty_blue.setBountyAllowed(&window);
-			//else if (!bounty_orange.isAllowed() && !bounty_green.isAllowed() && !bounty_red.isAllowed() && !bounty_white.isAllowed() && !bounty_blue.isAllowed())
-				bounty_pink.setBountyAllowed(&window);
-			//else if (!bounty_orange.isAllowed() && !bounty_green.isAllowed() && !bounty_pink.isAllowed() && !bounty_red.isAllowed() && !bounty_blue.isAllowed())
-				bounty_white.setBountyAllowed(&window);
+			bounty_red.setBountyAllowed(&window);
+			bounty_orange.setBountyAllowed(&window);
+			bounty_green.setBountyAllowed(&window);
+			bounty_blue.setBountyAllowed(&window);
+			bounty_pink.setBountyAllowed(&window);
+			bounty_white.setBountyAllowed(&window);
 			
 			bounty_red.updateBounty(&window, deltaTime);
 			bounty_orange.updateBounty(&window, deltaTime);
