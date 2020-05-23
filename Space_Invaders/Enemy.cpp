@@ -145,19 +145,18 @@ void Enemy::setBounty(const char* type, RenderWindow * window) {
 		colorPlayer = _color::WHITE;
 		// adds shield and 10 score
 	}
-
-	// default sprite position
-	sprite.setPosition(-0.5f * window->getSize().x, window->getSize().y / 15.0f);
-
 	// default _active = false
 	// _active = false;
+
+	// default pos
+	this->sprite.setPosition(-0.5f * window->getSize().x, window->getSize().y / 15.0f);
+
 }
 
 
 void Enemy::setBountyAllowed(RenderWindow * window) {
 	
 	if (dis2(gen) == 1) {
-		std::cout << dis2(gen) << std::endl;
 		_allowed = true;
 		_active = true;
 		_collision = false;
@@ -165,11 +164,12 @@ void Enemy::setBountyAllowed(RenderWindow * window) {
 }
 
 
-void Enemy::updateBounty(RenderWindow * window, float deltaTime) {
+void Enemy::updateBounty(Player * player, RenderWindow * window, float deltaTime) {
 	if (_allowed) {
 		sprite.move((100 * deltaTime), 0);
 		if (_collision) {
 			this->sprite.setPosition(-0.5f * window->getSize().x, window->getSize().y / 15.0f);
+			player->addToScore(_score);
 			_allowed = false;
 			
 		}
@@ -179,6 +179,12 @@ void Enemy::updateBounty(RenderWindow * window, float deltaTime) {
 
 		}
 	}
+
+
+}
+
+void Enemy::updateScore_fromBounty(Player* player) {
+
 
 
 }
@@ -207,14 +213,10 @@ void Enemy::Collision(Player* player) {
 
 		_collision = true;
 		player->hitEnemy();		// sets private _shot = false; (reset)
-		//player->addToScore(this->_score);
 		if (colorPlayer == _color::PINK) {
 			player->addHealth();
 		}
-		else if (colorPlayer == _color::WHITE) {}
-		else {
-			player->addToScore(this->_score);
-		}
+		player->addToScore(_score);
 			//player->Shield();
 		std::cout << "You hit the alien" << std::endl;
 		_active = false;
