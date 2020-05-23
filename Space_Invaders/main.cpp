@@ -91,12 +91,14 @@ int main()
 	textureEnemy_purple.loadFromFile("graphics/enemy_purple_54x54.png");
 	Enemy enemyPurple(&textureEnemy_purple, &textureShotEnemy);
 
+	/*
 	Texture texturePawn;
 	texturePawn.loadFromFile("graphics/pawn.png");
 	Sprite spritePawn;
 	spritePawn.setTexture(texturePawn);
 	spritePawn.setPosition(window.getSize().x/2.0f , window.getSize().y/2.0f);
 	Animation animationPawn(&texturePawn, Vector2u(3,1), 0.3f);
+	//*/
 
 	// BOUNTIES
 	Texture textureBountyRed;

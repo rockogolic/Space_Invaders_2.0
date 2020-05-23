@@ -76,7 +76,7 @@ void CreateEnemy::MoveClassic(RenderWindow* window, float deltaTime) {
 
 	if (_changeY == true) {
 		for (unsigned int i = 0; i < size(Enemies); i++) {
-			Enemies[i].sprite.setPosition(Enemies[i].sprite.getPosition().x, Enemies[i].sprite.getPosition().y + Enemies[i].sprite.getTexture()->getSize().y);
+			Enemies[i].sprite.setPosition(Enemies[i].sprite.getPosition().x, Enemies[i].sprite.getPosition().y + 0.5f * Enemies[i].sprite.getTexture()->getSize().y);
 			_changeY = false;
 			//if (Enemies[i].sprite.getPosition().y >= window->getSize().y) {
 			//	this->_won = true;
