@@ -25,6 +25,7 @@ Enemy::Enemy(const Texture* texture, const Texture * textureShot) {
 	_shot = false;
 	_collision = false;
 	_won = false;
+	_allowed = false;	// for bounty
 
 	enemy_side = _side::NONE;
 	_score = 0;	// bounty variable (color)
@@ -47,6 +48,8 @@ Enemy::Enemy(const Enemy& enemy) {
 	this->_collision = false;
 	this->_shot = false;
 	this->_won = false;
+	this->_allowed = false;
+
 
 	this->enemy_side = _side::NONE;
 	this->_score = 0;		// bounty variable (color)
@@ -145,21 +148,41 @@ void Enemy::setBounty(const char* type, RenderWindow * window) {
 
 	// default sprite position
 	sprite.setPosition(-0.5f * window->getSize().x, window->getSize().y / 15.0f);
+
+	// default _active = false
+	// _active = false;
+}
+
+
+void Enemy::setBountyAllowed(RenderWindow * window) {
+	
+	if (dis2(gen) == 1) {
+		std::cout << dis2(gen) << std::endl;
+		_allowed = true;
+		_active = true;
+		_collision = false;
+	}
 }
 
 
 void Enemy::updateBounty(RenderWindow * window, float deltaTime) {
-	if (_active && _allowed) {
+	if (_allowed) {
 		sprite.move((100 * deltaTime), 0);
-		if (sprite.getPosition().x >= window->getSize().x * 2.0f) {
+		if (_collision) {
+			this->sprite.setPosition(-0.5f * window->getSize().x, window->getSize().y / 15.0f);
+			_allowed = false;
+			
+		}
+		else if (sprite.getPosition().x >= window->getSize().x * 2.0f) {
+			_allowed = false;
 			_active = false;
+
 		}
 	}
 
 
 }
 
-void Enemy::setAllowed() { _allowed = true; }
 bool Enemy::isAllowed() { return _allowed; }
 
 
@@ -184,10 +207,14 @@ void Enemy::Collision(Player* player) {
 
 		_collision = true;
 		player->hitEnemy();		// sets private _shot = false; (reset)
-		player->addToScore(this->_score);
-		if (colorPlayer == _color::PINK)
+		//player->addToScore(this->_score);
+		if (colorPlayer == _color::PINK) {
 			player->addHealth();
-		else if (colorPlayer == _color::WHITE)
+		}
+		else if (colorPlayer == _color::WHITE) {}
+		else {
+			player->addToScore(this->_score);
+		}
 			//player->Shield();
 		std::cout << "You hit the alien" << std::endl;
 		_active = false;

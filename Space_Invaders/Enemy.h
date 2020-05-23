@@ -32,7 +32,7 @@ public:
 
 	void setWin();
 	void setInactive();
-	void setAllowed();	// bounty
+	void setBountyAllowed(RenderWindow * window);	// bounty
 
 	void Collision(Player* player);
 	void hitPlayer();

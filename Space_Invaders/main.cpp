@@ -10,6 +10,7 @@
 #include "Enemy.h"
 #include "CreateEnemy.h"
 #include "Player.h"
+#include <random>
 #include <iostream>
 
 using namespace sf;
@@ -101,16 +102,44 @@ int main()
 	//*/
 
 	// BOUNTIES
+
+	std::vector<Enemy> bounties;
+
 	Texture textureBountyRed;
 	textureBountyRed.loadFromFile("graphics/bonus1_red.png");
-	Enemy bounty(&textureBountyRed, &textureShot);
-	bounty.setBounty("red", &window);
+	Enemy bounty_red(&textureBountyRed, &textureShot);
+	bounty_red.setBounty("red", &window);
+	bounties.push_back(bounty_red);
 
 	Texture textureBountyPink;
 	textureBountyPink.loadFromFile("graphics/bonus1_pink.png");
 	Enemy bounty_pink(&textureBountyPink, &textureShot);
 	bounty_pink.setBounty("pink", &window);
+	bounties.push_back(bounty_pink);
 	
+	Texture textureBountyGreen;
+	textureBountyGreen.loadFromFile("graphics/bonus1_green.png");
+	Enemy bounty_green(&textureBountyGreen, &textureShot);
+	bounty_green.setBounty("green", &window);
+	bounties.push_back(bounty_green);
+
+	Texture textureBountyBlue;
+	textureBountyBlue.loadFromFile("graphics/bonus1_blue.png");
+	Enemy bounty_blue(&textureBountyBlue, &textureShot);
+	bounty_blue.setBounty("blue", &window);
+	bounties.push_back(bounty_blue);
+
+	Texture textureBountyOrange;
+	textureBountyOrange.loadFromFile("graphics/bonus1_orange.png");
+	Enemy bounty_orange(&textureBountyOrange, &textureShot);
+	bounty_orange.setBounty("orange", &window);
+	bounties.push_back(bounty_orange);
+
+	Texture textureBountyWhite;
+	textureBountyWhite.loadFromFile("graphics/bonus1_white.png");
+	Enemy bounty_white(&textureBountyWhite, &textureShot);
+	bounty_white.setBounty("white", &window);
+	bounties.push_back(bounty_white);
 
 	/* NEW SPRITES CLASSES */
 	
@@ -212,6 +241,10 @@ int main()
 	float deltaTime = 0.0f;
 	Clock clock;
 
+	// Random Generator
+	std::random_device rd;  //Will be used to obtain a seed for the random number engine
+	std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+	std::uniform_int_distribution<> dis(1, 6);
 
 	/*
 	++++++++++++++
@@ -343,16 +376,26 @@ int main()
 			}
 
 			// BOUNTIES
-			player.Collision(&bounty_pink);
-			bounty_pink.updateBounty(&window,deltaTime);
-			bounty_pink.Collision(&player);
 			
+			//for (unsigned int i = 0; i < size(bounties); i++) {
+			//	player.Collision(&bounties[i]);
+			//	bounties[i].setBountyAllowed();
+			//	bounties[i].updateBounty(&window, deltaTime);
+			//	bounties[i].Collision(&player);
+			//}
+
+			player.Collision(&bounty_red);
+			bounty_red.setBountyAllowed(&window);
+			bounty_red.updateBounty(&window, deltaTime);
+			bounty_red.Collision(&player);
+
+
 			// WAVE 1
 
 
 			wave1.getActive();
 
-			/*
+			//*
 			if (size(wave1.activeEnemies) <= size(wave1.Enemies) && (size(wave1.activeEnemies) > 1))
 				wave1.MoveClassic(&window, 1.0f*deltaTime);
 			else if (size(wave1.activeEnemies) == 1)
@@ -368,8 +411,7 @@ int main()
 				wave1.Enemies[i].updateShot(deltaTime);
 				//wave1.Enemies[i].Move(&window, deltaTime);
 			}
-	
-			wave1.MoveClassic(&window, deltaTime);
+
 			wave1.updateWinner(&window);
 
 			messageHealth.updateMessageHealth(&player);
@@ -405,9 +447,13 @@ int main()
 
 			window.draw(player.spriteShot);
 
-			if (bounty_pink.isActive()) {
-				window.draw(bounty_pink.sprite);
-			}
+			//for (unsigned int i = 0; i < size(bounties); i++) {
+			//	if (bounties[i].isActive()) {
+			//		window.draw(bounties[i].sprite);
+			//	}
+			//}
+
+			window.draw(bounty_red.sprite);
 
 			for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
 				if (wave1.Enemies[i].isActive()) {
@@ -415,6 +461,7 @@ int main()
 				}
 				// continues drawing shot when enemy died
 			}
+
 			for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
 				window.draw(wave1.Enemies[i].spriteShot);
 			}
