@@ -27,9 +27,67 @@ Enemy::Enemy(const Texture* texture, const Texture * textureShot) {
 	_won = false;
 	_allowed = false;	// for bounty
 
+	_speed = 0;
+
 	enemy_side = _side::NONE;
+	colorPlayer = _color::NONE;
 	_score = 0;	// bounty variable (color)
 }
+
+//*	
+Enemy::Enemy(const Texture* texture, const Texture * textureShot, const char* type) {
+
+	sprite.setTexture(*texture);
+	spriteShot.setTexture(*textureShot);
+
+	spriteShot.setPosition(700, 700);		// Possible way to eliminate the zero-bullet 
+
+	// center the origin of the sprites
+	sprite.setOrigin(sprite.getTexture()->getSize().x / 2.0f, sprite.getTexture()->getSize().y / 2.0f);
+	spriteShot.setOrigin(spriteShot.getTexture()->getSize().x / 2.0f, spriteShot.getTexture()->getSize().y / 2.0f);
+
+	_active = true;
+	_dead = false;
+	_shot = false;
+	_collision = false;
+	_won = false;
+	_allowed = false;	// for bounty
+
+	_speed = 0;
+
+	enemy_side = _side::NONE;
+	_score = 0;	// bounty variable (color)
+
+	if (type == "red") {
+		colorPlayer = _color::RED;
+		_score = 15;
+	}
+	else if (type == "orange") {
+		colorPlayer = _color::ORANGE;
+		_score = 40;
+	}
+	else if (type == "green") {
+		colorPlayer = _color::GREEN;
+		_score = 90;
+	}
+	else if (type == "blue") {
+		colorPlayer = _color::BLUE;
+		_score = 190;
+	}
+	else if (type == "pink") {
+		colorPlayer = _color::PINK;
+		// adds health and 10 score
+	}
+	else if (type == "white") {
+		colorPlayer = _color::WHITE;
+		// adds shield and 10 score
+	}
+	else {
+		colorPlayer = _color::NONE;
+	}
+}
+//*/ 
+// BOUNTY CONSTRUCTOR 
 
 Enemy::Enemy() {}
 
@@ -52,6 +110,7 @@ Enemy::Enemy(const Enemy& enemy) {
 
 
 	this->enemy_side = _side::NONE;
+	this->colorPlayer = _color::NONE;
 	this->_score = 0;		// bounty variable (color)
 }
 
@@ -121,6 +180,7 @@ void Enemy::updateShot(float deltaTime) {
 // BOUNTY
 
 void Enemy::setBounty(const char* type, RenderWindow * window) {
+
 	if (type == "red") {
 		colorPlayer = _color::RED;
 		_score = 15;
@@ -145,12 +205,12 @@ void Enemy::setBounty(const char* type, RenderWindow * window) {
 		colorPlayer = _color::WHITE;
 		// adds shield and 10 score
 	}
-	// default _active = false
-	// _active = false;
-
+	else {
+		colorPlayer = _color::NONE;
+	}
+	
 	// default pos
 	this->sprite.setPosition(-0.5f * window->getSize().x, window->getSize().y / 15.0f);
-
 }
 
 

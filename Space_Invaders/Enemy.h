@@ -12,6 +12,7 @@ class Enemy {
 public:
 
 	Enemy(const Texture* texture, const Texture * textureShot);
+	Enemy(const Texture* texture, const Texture * textureShot, const char* type);			// bounty constructor
 	Enemy();						
 	Enemy(const Enemy& enemy);		
 	~Enemy();
@@ -41,7 +42,7 @@ public:
 	Sprite sprite;
 	Sprite spriteShot;
 
-	enum class _color { RED, ORANGE, GREEN, BLUE, PINK, WHITE };
+	enum class _color { RED, ORANGE, GREEN, BLUE, PINK, WHITE, NONE };
 	_color colorPlayer;
 
 	enum class _side { LEFT, RIGHT, NONE };

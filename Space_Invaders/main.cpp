@@ -11,6 +11,7 @@
 #include "CreateEnemy.h"
 #include "Player.h"
 #include <random>
+#include <list>
 #include <iostream>
 
 using namespace sf;
@@ -102,18 +103,22 @@ int main()
 	//*/
 
 	// BOUNTIES
+	
+	//std::list <Enemy> bounties;
+	//std::vector <Enemy> bounties;
 
 	Texture textureBountyRed;
 	textureBountyRed.loadFromFile("graphics/bonus1_red.png");
 	Enemy bounty_red(&textureBountyRed, &textureShot);
+	//bounties.push_back(bounty_red);
+	//bounties[0].colorPlayer;
 	bounty_red.setBounty("red", &window);
 
 	Texture textureBountyPink;
 	textureBountyPink.loadFromFile("graphics/bonus1_pink.png");
 	Enemy bounty_pink(&textureBountyPink, &textureShot);
-	bounty_pink.setBounty("pink", & window);
-	//bounties.push_back(bounty_pink);
-	
+	bounty_pink.setBounty("pink", &window);
+
 	Texture textureBountyGreen;
 	textureBountyGreen.loadFromFile("graphics/bonus1_green.png");
 	Enemy bounty_green(&textureBountyGreen, &textureShot);
@@ -381,9 +386,11 @@ int main()
 				bounties[i].updateBounty(&player, &window, deltaTime);
 				bounties[i].Collision(&player);
 			}
-			*/
+			//*/
 
 			// __collisions
+			
+			//*
 			player.Collision(&bounty_red);
 			player.Collision(&bounty_orange);
 			player.Collision(&bounty_green);
@@ -411,7 +418,7 @@ int main()
 			bounty_blue.Collision(&player);
 			bounty_pink.Collision(&player);
 			bounty_white.Collision(&player);
-
+			//*/
 			// WAVE 1
 
 
@@ -477,6 +484,7 @@ int main()
 			}
 			//*/
 
+			//*
 			if (bounty_red.isActive())
 				window.draw(bounty_red.sprite);
 			if (bounty_orange.isActive())
@@ -489,6 +497,8 @@ int main()
 				window.draw(bounty_pink.sprite);
 			if (bounty_white.isActive())
 				window.draw(bounty_white.sprite);
+
+			//*/
 
 			//window.draw(bounty_red.sprite);
 
