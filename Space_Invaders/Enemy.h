@@ -18,6 +18,7 @@ public:
 
 	bool isActive();
 	bool hasWon();
+	bool isAllowed();	// bounty
 
 	void Move(RenderWindow * window, float deltaTime);
 
@@ -31,6 +32,7 @@ public:
 
 	void setWin();
 	void setInactive();
+	void setAllowed();	// bounty
 
 	void Collision(Player* player);
 	void hitPlayer();
@@ -54,6 +56,7 @@ private:
 	bool _won;
 	bool _collision;
 	bool _shot;
+	bool _allowed; // for bounty
 
 	float _speed;
 	unsigned int _score;
