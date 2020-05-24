@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Animation.h"
-#include <iostream>
 
 Animation::Animation(Texture* texture, Vector2u imageCount, float switchTime) {
 	this->_imageCount = imageCount;

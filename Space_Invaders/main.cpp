@@ -10,9 +10,6 @@
 #include "Enemy.h"
 #include "CreateEnemy.h"
 #include "Player.h"
-#include <random>
-#include <list>
-#include <iostream>
 
 using namespace sf;
 

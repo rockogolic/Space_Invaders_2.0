@@ -12,6 +12,12 @@
 
 // add headers that you want to pre-compile here
 
+#include <iostream>
+
+#include <random>
+
+#include <vector>
+
 #endif //PCH_H
 
 /*

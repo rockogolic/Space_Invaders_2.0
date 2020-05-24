@@ -1,13 +1,11 @@
 #include "pch.h"
 #include "Enemy.h"
-#include <iostream>
-#include <random>
 
 // GLOBAL VARIABLES
 std::random_device rd;  //Will be used to obtain a seed for the random number engine
 std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
 std::uniform_int_distribution<> dis(1, 10000);
-std::uniform_int_distribution<> dis2(1, 20000);
+std::uniform_int_distribution<> dis2(1, 400000);
 
 Enemy::Enemy(const Texture* texture, const Texture * textureShot) {
 	

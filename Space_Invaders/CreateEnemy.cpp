@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "CreateEnemy.h"
 
-#include <iostream>
-
 CreateEnemy::CreateEnemy(Vector2i number, Enemy& enemy, RenderWindow& window) : _dim(number) {
 	if ( (_dim.x > 6 || _dim.x < 0) && (_dim.y > 6 || _dim.y < 0) ) {
 		_dim.x = abs(number.x) % 6; 
