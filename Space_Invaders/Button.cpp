@@ -28,7 +28,7 @@ void Button::Position(Vector2f position) {
 
 void Button::setMessage(Message * message) {
 	message->position(this->_position.x, this->_position.y);
-	this->text = message->get();
+	this->text = message->getText();
 	this->text.setPosition(this->_position.x, this->_position.y);
 }
 

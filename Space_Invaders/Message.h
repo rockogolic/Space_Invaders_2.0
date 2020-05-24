@@ -24,7 +24,9 @@ public:
 	void updateMessageScore(const Player* player);
 
 	// access the finalized text object of the class
-	Text get();
+	Text getText();
+	// access the finalized string of an object
+	std::string getString();
 
 	// functions
 

@@ -214,11 +214,13 @@ int main()
 		"Wave 1",
 		Color::White, font_CubicCoreMono, 40
 	);
+	messageWave1.position(window.getSize().x / 2.0f, window.getSize().y / 3.0f);
 
 	Message messageGetReady(	// will display seconds 3..2..1.. go
-		"get ready..\n",
+		"get ready.. ",
 		Color::White, font_CubicCoreMono, 20
 	);
+	messageGetReady.position(window.getSize().x / 2.0f, 2.0f * window.getSize().y / 3.0f);
 
 	Message messageWave2(
 		"Wave 2",
@@ -244,6 +246,13 @@ int main()
 		"Wave 6",
 		Color::White, font_CubicCoreMono, 40
 	);
+
+	Message messageRoundOver(
+		"Round cleared!",
+		Color::White, font_CubicCoreMono, 40
+	);
+
+
 	
 
 
@@ -267,14 +276,20 @@ int main()
 	bool hit = false;			// show a message when player is hit, to continue
 	bool game_over = false;
 
+	bool pause = false;
 	bool round1_over = false;
 	bool round2_over = false;
 	bool round3_over = false;
 	bool boss_over = false;
 
+	bool round1 = false;
+
 	// TIME creation
 	float deltaTime = 0.0f;
 	Clock clock;
+
+	float timePassed = 0.0f;
+	unsigned int resTime = 3;	// IS NOT PROPERLY USED! (check the DRAWING section and correct it)
 
 	// Random Generator
 	std::random_device rd;  //Will be used to obtain a seed for the random number engine
@@ -331,6 +346,8 @@ int main()
 				if (Keyboard::isKeyPressed(Keyboard::Return)) {
 					if (intro) {
 						intro = false;
+						round1 = true;
+						pause = true;
 					}
 					if (hit) {
 						hit = false;
@@ -370,7 +387,7 @@ int main()
 		/* Long-run commands -> Player movement and Game-related mechanics */
 
 		// Player's movement
-		if (!intro && !menu && !hit && !game_over) {
+		if (!intro && !menu && !hit && !game_over && !pause) {
 			if (Keyboard::isKeyPressed(Keyboard::A) && player.sprite.getPosition().x > 26)
 				player.sprite.move(-(130 * deltaTime), 0.0f);
 			if (Keyboard::isKeyPressed(Keyboard::D) && player.sprite.getPosition().x < (window.getSize().x - 26))
@@ -392,7 +409,28 @@ int main()
 		//animationPawn.Update(0, deltaTime);
 		//spritePawn.setTextureRect(animationPawn.uvRect);
 
-		if (!intro && !menu && !hit && !game_over) {
+		/*
+		if (pause) {
+			timePassed += deltaTime;
+			if (timePassed >= 2.0f) {
+				// display wave1
+				if (timePassed >= 4.0f) {
+					// display "begins in.. " message
+					if (timePassed >= 6.0f) {
+						resTime--;
+						// update to 3.. 2.. 1..
+						messageGetReady.getText().setString(messageGetReady.getString() + std::to_string(resTime));
+						if (resTime == 0) {
+							timePassed = 0.0f;
+							resTime = 3;
+							pause = false;
+						}
+					}
+				}
+			}
+		}
+		*/
+		if (!intro && !menu && !hit && !game_over && !pause) {
 
 			//player actions and game_over conditions
 			player.updateShot(deltaTime);
@@ -567,6 +605,27 @@ int main()
 
 				window.draw(buttonExit.text);
 				window.draw(buttonSoundOff.text);
+			}
+
+			// PAUSE SCREENS with WAVE nr. information
+			if (pause) {
+				timePassed += deltaTime;
+				if (timePassed >= 2.0f) {
+					messageWave1.display(window);
+					if (timePassed >= 4.0f) {
+						messageGetReady.display(window);
+						if (timePassed >= 6.0f) {
+							resTime--;
+							// update to 3.. 2.. 1.. (FIX and make the FOR loop for counting 3 seconds correctly)
+							messageGetReady.getText().setString(messageGetReady.getString() + std::to_string(resTime));
+							if (resTime == 0) {
+								timePassed = 0.0f;
+								resTime = 3;
+								pause = false;
+							}
+						}
+					}
+				}
 			}
 
 			if (game_over) {
