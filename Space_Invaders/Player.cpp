@@ -2,8 +2,6 @@
 #include "Player.h"
 #include "Enemy.h"
 
-#include <iostream>
-
 // one texture for Player and another for what he shoots with
 Player::Player(const Texture * texturePlayer, const Texture* textureShot) {
 

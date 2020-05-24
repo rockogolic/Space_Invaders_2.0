@@ -1,7 +1,6 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
-#include <string>
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
