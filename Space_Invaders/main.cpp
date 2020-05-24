@@ -210,6 +210,43 @@ int main()
 		Color::White, font_CubicCoreMono, 20
 	);
 
+	Message messageWave1(
+		"Wave 1",
+		Color::White, font_CubicCoreMono, 40
+	);
+
+	Message messageGetReady(	// will display seconds 3..2..1.. go
+		"get ready..\n",
+		Color::White, font_CubicCoreMono, 20
+	);
+
+	Message messageWave2(
+		"Wave 2",
+		Color::White, font_CubicCoreMono, 40
+	);
+
+	Message messageWave3(
+		"Wave 3",
+		Color::White, font_CubicCoreMono, 40
+	);
+
+	Message messageWave4(
+		"Wave 4",
+		Color::White, font_CubicCoreMono, 40
+	);
+
+	Message messageWave5(
+		"Wave 5",
+		Color::White, font_CubicCoreMono, 40
+	);
+
+	Message messageWave6(
+		"Wave 6",
+		Color::White, font_CubicCoreMono, 40
+	);
+	
+
+
 	// BUTTONS
 
 	Button buttonSoundOff(&textureButtonOff, &textureButtonOn);
