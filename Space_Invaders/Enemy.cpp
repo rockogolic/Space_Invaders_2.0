@@ -5,9 +5,10 @@
 std::random_device rd;  //Will be used to obtain a seed for the random number engine
 std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
 std::uniform_int_distribution<> dis(1, 10000);
-std::uniform_int_distribution<> dis2(1, 80000);
+std::uniform_int_distribution<> dis2(1, 70000);
 
-Enemy::Enemy(const Texture* texture, const Texture * textureShot) {
+Enemy::Enemy(const Texture* texture, const Texture * textureShot,int health) 
+{
 	
 	sprite.setTexture(*texture);
 	spriteShot.setTexture(*textureShot);
@@ -30,6 +31,7 @@ Enemy::Enemy(const Texture* texture, const Texture * textureShot) {
 	enemy_side = _side::NONE;
 	colorPlayer = _color::NONE;
 	_score = 0;	// bounty variable (color)
+	_health = health;
 }
 
 //*	
@@ -110,6 +112,8 @@ Enemy::Enemy(const Enemy& enemy) {
 	this->enemy_side = _side::NONE;
 	this->colorPlayer = _color::NONE;
 	this->_score = 0;		// bounty variable (color)
+	this->_health = _health;
+
 }
 
 bool Enemy::isActive() { return _active; }
@@ -150,6 +154,12 @@ void Enemy::Move(RenderWindow * window, float deltaTime) {
 		}
 	}
 }
+
+unsigned int Enemy::getHealth()
+{
+	return _health;
+}
+void Enemy::setHealth(unsigned int health) { _health = health; }
 
 void Enemy::setWin() {_won = true;}
 void Enemy::setInactive() { _active = false; }
@@ -239,14 +249,15 @@ void Enemy::updateBounty(RenderWindow * window, float deltaTime) {
 
 }
 
-void Enemy::updateScore_fromBounty(Player* player) {
-
-
-
-}
-
 bool Enemy::isAllowed() { return _allowed; }
+bool Enemy::isHit() { return _hit; }
 
+void Enemy::Hit() {
+	--_health;
+	if (_health == 0) {
+		_active = false;
+	}
+}
 
 // Collision with Player
 
@@ -273,9 +284,17 @@ void Enemy::Collision(Player* player) {
 			player->addHealth();
 		}
 		player->addToScore(_score);
-			//player->Shield();
+
 		std::cout << "You hit the alien" << std::endl;
-		_active = false;
+		//this->Hit();		// replaces (_active = false) in case of variable health
+		//_active = false;
+
+		if (_active) {
+			--_health;
+			if (_health == 0) {
+				_active = false;
+			}
+		}
 	}
 
 	else if (

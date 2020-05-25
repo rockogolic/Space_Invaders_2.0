@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CreateEnemy.h"
 
-CreateEnemy::CreateEnemy(Vector2i number, Enemy& enemy, RenderWindow& window) : _dim(number) {
+CreateEnemy::CreateEnemy(Vector2i number, Enemy & enemy, RenderWindow& window) : _dim(number) {
 	if ( (_dim.x > 6 || _dim.x < 0) && (_dim.y > 6 || _dim.y < 0) ) {
 		_dim.x = abs(number.x) % 6; 
 		_dim.y = abs(number.y) % 6;
@@ -13,19 +13,22 @@ CreateEnemy::CreateEnemy(Vector2i number, Enemy& enemy, RenderWindow& window) : 
 
 	for (int i = 0; i < _dim.x; i++) {
 		for (int j = 0; j < _dim.y; j++) {
-			Enemy new_enemy(enemy);
-			new_enemy.sprite.setPosition((_playground.x / (_dim.x + 1) * (i+1)), (_playground.y / (_dim.y + 1) * (j + 1)));
-			Enemies.push_back(new_enemy);
+			//Enemy new_enemy(enemy);
+			enemy.sprite.setPosition((_playground.x / (_dim.x + 1) * (i+1)), (_playground.y / (_dim.y + 1) * (j + 1)));
+			Enemies.push_back(enemy);
+			unsigned int health = enemy.getHealth();
+			this->health.push_back(health);
 		}
 	}
 }
 
 CreateEnemy::CreateEnemy() {}
 
-void CreateEnemy::assignEnemy(const CreateEnemy& enemyMatrix ) {
+void CreateEnemy::assignEnemy(CreateEnemy& enemyMatrix ) {
 
 	for (unsigned int i = 0; i < size(enemyMatrix.Enemies); i++) {
-		this->Enemies.push_back(enemyMatrix.Enemies[i]);
+		Enemies.push_back(enemyMatrix.Enemies[i]);
+		health.push_back(enemyMatrix.health[i]);
 	}
 }
 
@@ -104,5 +107,12 @@ void CreateEnemy::updateWinner(RenderWindow * window) {
 				Enemies[i].setInactive();
 			}
 		}
+	}
+}
+
+void CreateEnemy::updateHealth()
+{
+	for (unsigned int i = 0; i < size(Enemies); i++) {
+		Enemies[i].setHealth(health[i]);
 	}
 }

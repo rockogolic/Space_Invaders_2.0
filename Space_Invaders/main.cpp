@@ -84,15 +84,15 @@ int main()
 	// ENEMY
 	Texture textureEnemy_red;
 	textureEnemy_red.loadFromFile("graphics/enemy_red_54x54.png");
-	Enemy enemyRed(&textureEnemy_red, &textureShotEnemy);
+	Enemy enemyRed(&textureEnemy_red, &textureShotEnemy, 1);
 	
 	Texture textureEnemy_green;
 	textureEnemy_green.loadFromFile("graphics/enemy_green_54x54.png");
-	Enemy enemyGreen(&textureEnemy_green, &textureShotEnemy);
+	Enemy enemyGreen(&textureEnemy_green, &textureShotEnemy, 2);
 
 	Texture textureEnemy_purple;
 	textureEnemy_purple.loadFromFile("graphics/enemy_purple_54x54.png");
-	Enemy enemyPurple(&textureEnemy_purple, &textureShotEnemy);
+	Enemy enemyPurple(&textureEnemy_purple, &textureShotEnemy, 3);
 
 	/*
 	Texture texturePawn;
@@ -106,32 +106,32 @@ int main()
 	// BOUNTIES
 	Texture textureBountyRed;
 	textureBountyRed.loadFromFile("graphics/bonus1_red.png");
-	Enemy bounty_red(&textureBountyRed, &textureShot);
+	Enemy bounty_red(&textureBountyRed, &textureShot, 1);
 	bounty_red.setBounty("red", &window);
 
 	Texture textureBountyPink;
 	textureBountyPink.loadFromFile("graphics/bonus1_pink.png");
-	Enemy bounty_pink(&textureBountyPink, &textureShot);
+	Enemy bounty_pink(&textureBountyPink, &textureShot, 1);
 	bounty_pink.setBounty("pink", &window);
 
 	Texture textureBountyGreen;
 	textureBountyGreen.loadFromFile("graphics/bonus1_green.png");
-	Enemy bounty_green(&textureBountyGreen, &textureShot);
+	Enemy bounty_green(&textureBountyGreen, &textureShot, 1);
 	bounty_green.setBounty("green", & window);
 
 	Texture textureBountyBlue;
 	textureBountyBlue.loadFromFile("graphics/bonus1_blue.png");
-	Enemy bounty_blue(&textureBountyBlue, &textureShot);
+	Enemy bounty_blue(&textureBountyBlue, &textureShot, 1);
 	bounty_blue.setBounty("blue", & window);
 
 	Texture textureBountyOrange;
 	textureBountyOrange.loadFromFile("graphics/bonus1_orange.png");
-	Enemy bounty_orange(&textureBountyOrange, &textureShot);
+	Enemy bounty_orange(&textureBountyOrange, &textureShot, 1);
 	bounty_orange.setBounty("orange", & window);
 
 	Texture textureBountyWhite;
 	textureBountyWhite.loadFromFile("graphics/bonus1_white.png");
-	Enemy bounty_white(&textureBountyWhite, &textureShot);
+	Enemy bounty_white(&textureBountyWhite, &textureShot, 1);
 	bounty_white.setBounty("white", & window);
 
 	/* NEW SPRITES CLASSES */
@@ -503,7 +503,7 @@ int main()
 					wave1.Enemies[i].shoot();
 					wave1.Enemies[i].updateShot(deltaTime);
 				}
-
+				wave1.updateHealth();
 				wave1.updateWinner(&window);
 
 				if (size(wave1.activeEnemies) == 0) {
@@ -530,6 +530,7 @@ int main()
 					wave2.Enemies[i].updateShot(deltaTime);
 				}
 
+				wave2.updateHealth();
 				wave2.updateWinner(&window);
 
 				if (size(wave2.activeEnemies) == 0) {
@@ -556,6 +557,7 @@ int main()
 					wave3.Enemies[i].updateShot(deltaTime);
 				}
 
+				wave3.updateHealth();
 				wave3.updateWinner(&window);
 
 				if (size(wave3.activeEnemies) == 0) {
@@ -582,6 +584,7 @@ int main()
 					wave4.Enemies[i].updateShot(deltaTime);
 				}
 
+				wave4.updateHealth();
 				wave4.updateWinner(&window);
 
 				if (size(wave4.activeEnemies) == 0) {
@@ -608,6 +611,7 @@ int main()
 					wave5.Enemies[i].updateShot(deltaTime);
 				}
 
+				wave5.updateHealth();
 				wave5.updateWinner(&window);
 
 				if (size(wave5.activeEnemies) == 0) {
@@ -636,6 +640,7 @@ int main()
 					//wave6.Enemies[i].Move(&window, deltaTime);
 				}
 
+				wave6.updateHealth();
 				wave6.updateWinner(&window);
 
 				if (size(wave6.activeEnemies) == 0) {

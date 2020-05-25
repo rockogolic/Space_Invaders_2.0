@@ -11,7 +11,7 @@ class Enemy {
 
 public:
 
-	Enemy(const Texture* texture, const Texture * textureShot);
+	Enemy(const Texture* texture, const Texture * textureShot, int health);
 	Enemy(const Texture* texture, const Texture * textureShot, const char* type);			// bounty constructor
 	Enemy();						
 	Enemy(const Enemy& enemy);		
@@ -20,24 +20,28 @@ public:
 	bool isActive();
 	bool hasWon();
 	bool isAllowed();	// bounty
+	bool isHit();
 
 	void Move(RenderWindow * window, float deltaTime);
+
+	unsigned int getHealth();
 
 	void shoot();
 	void updateShot(float deltaTime);
 	void updateBounty(RenderWindow * window, float deltaTime);
-	void updateScore_fromBounty(Player * player);
 
 	void setBounty(const char* , RenderWindow * window);
 	void setStartPosition( Vector2f startPos );
 	void setPosition( Vector2f position );
 
+	void setHealth(unsigned int health);
 	void setWin();
 	void setInactive();
 	void setBountyAllowed(RenderWindow * window);	// bounty
 
 	void Collision(Player* player);
 	void hitPlayer();
+	void Hit();
 
 	Sprite sprite;
 	Sprite spriteShot;
@@ -48,12 +52,15 @@ public:
 	enum class _side { LEFT, RIGHT, NONE };
 	_side enemy_side;
 
+	unsigned int _health;
+
 private:
 
 	Vector2f _position;
 	Vector2f _startPos;
 
 	bool _active;
+	bool _hit;
 	bool _dead;
 	bool _won;
 	bool _collision;
@@ -62,7 +69,6 @@ private:
 
 	float _speed;
 
-	unsigned int _health;
 	unsigned int _score;
 
 	Enemy * new_enemy;

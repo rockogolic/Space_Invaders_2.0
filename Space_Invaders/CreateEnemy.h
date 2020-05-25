@@ -3,27 +3,30 @@
 
 
 #include "Enemy.h"
+#include "Player.h"
 
 class CreateEnemy
 {
 public:
-	CreateEnemy(Vector2i number, Enemy& enemy, RenderWindow& window);
+	CreateEnemy(Vector2i number, Enemy & enemy, RenderWindow& window);
 	CreateEnemy();
 	~CreateEnemy();
 
 	void getActive();
-	void assignEnemy(const CreateEnemy& enemyMatrix);
+	void assignEnemy(CreateEnemy& enemyMatrix);
 
 	void setWin();
 	bool isWinner();
 
 	void MoveClassic(RenderWindow * window, float deltaTime);
 	void updateWinner(RenderWindow * window);	// only for Enemy class movement Move; NOT for MoveClassic
+	void updateHealth();	// updates if enemy is active, based on enemy's health
 
 	void clear();
 
 	std::vector<Enemy> Enemies;
 	std::vector<Enemy> activeEnemies;
+	std::vector<unsigned int> health;
 
 private:
 	Vector2i _dim;
