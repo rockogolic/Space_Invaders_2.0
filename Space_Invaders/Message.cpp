@@ -36,6 +36,12 @@ void Message::updateMessageScore(const Player* player) {
 	_text.setString(_message + std::to_string(player->getScore()));
 }
 
+template <class T>
+void Message::updateMessage(T data)
+{
+	_text.setString(_message + std::to_string(data));
+}
+
 Text Message::getText() {
 	Text text;
 	text = _text;

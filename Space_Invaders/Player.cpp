@@ -3,7 +3,7 @@
 #include "Enemy.h"
 
 // one texture for Player and another for what he shoots with
-Player::Player(const Texture * texturePlayer, const Texture* textureShot) {
+Player::Player(const Texture * texturePlayer, const Texture* textureShot, RenderWindow * window) {
 
 	sprite.setTexture(*texturePlayer);
 	spriteShot.setTexture(*textureShot);
@@ -13,6 +13,7 @@ Player::Player(const Texture * texturePlayer, const Texture* textureShot) {
 	spriteShot.setOrigin(spriteShot.getTexture()->getSize().x / 2.0f, spriteShot.getTexture()->getSize().y / 2.0f);
 
 	// set startPosition. def = 640/2 , 480-26
+	this->_startPos = Vector2f(window->getSize().x / 2.0f, window->getSize().y - this->sprite.getTexture()->getSize().y / 2.0f);
 	sprite.setPosition(_startPos);
 
 	_health = 3;
@@ -20,8 +21,6 @@ Player::Player(const Texture * texturePlayer, const Texture* textureShot) {
 }
 
 Player::~Player() {}
-
-Vector2f Player::_startPos = { 640 / 2, 480 - 26 };
 
 void Player::shoot() {
 	/*
@@ -109,6 +108,16 @@ void Player::setAlive() {
 	if (_hit) {
 		_hit = false;
 	}
+}
+
+void Player::setPosition(Vector2f position)
+{
+	sprite.setPosition(position);
+}
+
+void Player::resetPosition()
+{
+	sprite.setPosition(_startPos);
 }
 
 void Player::Hit() { 

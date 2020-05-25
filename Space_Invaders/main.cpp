@@ -69,7 +69,7 @@ int main()
 	// PLAYER
 	Texture texturePlayer_idle;			// IDLE 
 	texturePlayer_idle.loadFromFile("graphics/player_54x54.png");
-	Player player(&texturePlayer_idle, &textureShot);
+	Player player(&texturePlayer_idle, &textureShot, &window);
 
 	Texture texturePlayer_left;			// LEFT-Facing
 	texturePlayer_left.loadFromFile("graphics/player_left_54x54.png");
@@ -210,42 +210,17 @@ int main()
 		Color::White, font_CubicCoreMono, 20
 	);
 
-	Message messageWave1(
-		"Wave 1",
+	Message messageWave(
+		"Wave ",
 		Color::White, font_CubicCoreMono, 40
 	);
-	messageWave1.position(window.getSize().x / 2.0f, window.getSize().y / 3.0f);
+	messageWave.position(window.getSize().x / 2.0f, window.getSize().y / 3.0f);
 
 	Message messageGetReady(	// will display seconds 3..2..1.. go
 		"get ready.. ",
 		Color::White, font_CubicCoreMono, 20
 	);
 	messageGetReady.position(window.getSize().x / 2.0f, 2.0f * window.getSize().y / 3.0f);
-
-	Message messageWave2(
-		"Wave 2",
-		Color::White, font_CubicCoreMono, 40
-	);
-
-	Message messageWave3(
-		"Wave 3",
-		Color::White, font_CubicCoreMono, 40
-	);
-
-	Message messageWave4(
-		"Wave 4",
-		Color::White, font_CubicCoreMono, 40
-	);
-
-	Message messageWave5(
-		"Wave 5",
-		Color::White, font_CubicCoreMono, 40
-	);
-
-	Message messageWave6(
-		"Wave 6",
-		Color::White, font_CubicCoreMono, 40
-	);
 
 	Message messageRoundOver(
 		"Round cleared!",
@@ -284,6 +259,8 @@ int main()
 
 	bool round1 = false;
 
+	unsigned int wave_count = 0;
+
 	// TIME creation
 	float deltaTime = 0.0f;
 	Clock clock;
@@ -291,10 +268,12 @@ int main()
 	float timePassed = 0.0f;
 	unsigned int resTime = 3;	// IS NOT PROPERLY USED! (check the DRAWING section and correct it)
 
+	/*
 	// Random Generator
 	std::random_device rd;  //Will be used to obtain a seed for the random number engine
 	std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
 	std::uniform_int_distribution<> dis(1, 6);
+	//*/
 
 	/*
 	++++++++++++++
@@ -329,13 +308,11 @@ int main()
 					if (intro) {
 						window.close();
 					}
-					else if (!intro && !menu && !hit && !game_over) {
-						//printf("\n A Menu is open! \n");
+					else if (!intro && !menu && !hit && !game_over && !pause) {
 						std::cout << "\n A Menu is open!" << std::endl;
 						menu = true;
 					}
-					else if (!intro && menu && !hit && !game_over) {
-						//printf("\n A Menu is closed! \n");
+					else if (!intro && menu && !hit && !game_over && !pause) {
 						std::cout << "\n A Menu is closed!" << std::endl;
 						menu = false;
 					}
@@ -359,7 +336,7 @@ int main()
 					// configure other buttons
 				}
 				if (Keyboard::isKeyPressed(Keyboard::Space)) {
-					if (!intro && !menu && !hit && !game_over) {
+					if (!intro && !menu && !hit && !game_over && !pause) {
 						player.shoot();
 					}
 				}
@@ -450,45 +427,30 @@ int main()
 
 			// BOUNTIES
 			
-			/*
-			for (unsigned int i = 0; i < size(bounties); i++) {
-				player.Collision(&bounties[i]);
-				bounties[i].setBountyAllowed(&window);
-				bounties[i].updateBounty(&player, &window, deltaTime);
-				bounties[i].Collision(&player);
-			}
-			//*/
-
-			// __collisions
-			
-			//*
 			player.Collision(&bounty_red);
 			player.Collision(&bounty_orange);
 			player.Collision(&bounty_green);
 			player.Collision(&bounty_blue);
 			player.Collision(&bounty_pink);
-			player.Collision(&bounty_white);
 
 			bounty_red.setBountyAllowed(&window);
 			bounty_orange.setBountyAllowed(&window);
 			bounty_green.setBountyAllowed(&window);
 			bounty_blue.setBountyAllowed(&window);
 			bounty_pink.setBountyAllowed(&window);
-			bounty_white.setBountyAllowed(&window);
 			
 			bounty_red.updateBounty(&window, deltaTime);
 			bounty_orange.updateBounty(&window, deltaTime);
 			bounty_green.updateBounty(&window, deltaTime);
 			bounty_blue.updateBounty(&window, deltaTime);
 			bounty_pink.updateBounty(&window, deltaTime);
-			bounty_white.updateBounty(&window, deltaTime);
 			
 			bounty_red.Collision(&player);
 			bounty_orange.Collision(&player);
 			bounty_green.Collision(&player);
 			bounty_blue.Collision(&player);
 			bounty_pink.Collision(&player);
-			bounty_white.Collision(&player);
+
 			//*/
 			// WAVE 1
 
@@ -547,12 +509,6 @@ int main()
 
 			window.draw(player.spriteShot);
 
-			/*
-			for (unsigned int i = 0; i < size(bounties); i++) {
-				if (bounties[i].isActive()) {
-					window.draw(bounties[i].sprite);
-				}
-			}
 			//*/
 
 			//*
@@ -566,8 +522,6 @@ int main()
 				window.draw(bounty_blue.sprite);
 			if (bounty_pink.isActive())
 				window.draw(bounty_pink.sprite);
-			if (bounty_white.isActive())
-				window.draw(bounty_white.sprite);
 
 			//*/
 
@@ -609,9 +563,12 @@ int main()
 
 			// PAUSE SCREENS with WAVE nr. information
 			if (pause) {
+				++wave_count;
+				player.resetPosition();
 				timePassed += deltaTime;
 				if (timePassed >= 2.0f) {
-					messageWave1.display(window);
+					messageWave.getText().setString(messageWave.getString() + std::to_string(wave_count));
+					messageWave.display(window);
 					if (timePassed >= 4.0f) {
 						messageGetReady.display(window);
 						if (timePassed >= 6.0f) {

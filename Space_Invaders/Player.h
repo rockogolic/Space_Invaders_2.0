@@ -10,7 +10,7 @@ class Enemy;					// forward declaration
 class Player {
 
 public:
-	Player(const Texture* texturePlayer, const Texture* textureShot);
+	Player(const Texture* texturePlayer, const Texture* textureShot, RenderWindow * window);
 	~Player();
 
 	void shoot();
@@ -20,6 +20,8 @@ public:
 	const int getScore() const;
 
 	void setAlive();
+	void setPosition(Vector2f position);
+	void resetPosition();	// resets the position to startPosition
 	void addHealth();
 	void addToScore(int value);
 
@@ -38,7 +40,7 @@ public:
 private:
 
 	Vector2f _position;
-	static Vector2f _startPos;	// static -> same for all objects!
+	Vector2f _startPos;	// if static -> same for all objects!
 
 	bool _collision = false;
 	bool _dead = false;
