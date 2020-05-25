@@ -69,13 +69,17 @@ int main()
 	// PLAYER
 	Texture texturePlayer_idle;			// IDLE 
 	texturePlayer_idle.loadFromFile("graphics/player_54x54.png");
-	Player player(&texturePlayer_idle, &textureShot, &window);
+
+	Texture textureWinner;
+	textureWinner.loadFromFile("graphics/player_speed_54x54.png");
 
 	Texture texturePlayer_left;			// LEFT-Facing
 	texturePlayer_left.loadFromFile("graphics/player_left_54x54.png");
 
 	Texture texturePlayer_right;		// RIGHT-Facing
 	texturePlayer_right.loadFromFile("graphics/player_right_54x54.png");
+
+	Player player(&texturePlayer_idle, &textureShot, &textureWinner, &window);
 	
 	// ENEMY
 	Texture textureEnemy_red;
@@ -100,15 +104,9 @@ int main()
 	//*/
 
 	// BOUNTIES
-	
-	//std::list <Enemy> bounties;
-	//std::vector <Enemy> bounties;
-
 	Texture textureBountyRed;
 	textureBountyRed.loadFromFile("graphics/bonus1_red.png");
 	Enemy bounty_red(&textureBountyRed, &textureShot);
-	//bounties.push_back(bounty_red);
-	//bounties[0].colorPlayer;
 	bounty_red.setBounty("red", &window);
 
 	Texture textureBountyPink;
@@ -120,36 +118,61 @@ int main()
 	textureBountyGreen.loadFromFile("graphics/bonus1_green.png");
 	Enemy bounty_green(&textureBountyGreen, &textureShot);
 	bounty_green.setBounty("green", & window);
-	//bounties.push_back(bounty_green);
 
 	Texture textureBountyBlue;
 	textureBountyBlue.loadFromFile("graphics/bonus1_blue.png");
 	Enemy bounty_blue(&textureBountyBlue, &textureShot);
 	bounty_blue.setBounty("blue", & window);
-	//bounties.push_back(bounty_blue);
 
 	Texture textureBountyOrange;
 	textureBountyOrange.loadFromFile("graphics/bonus1_orange.png");
 	Enemy bounty_orange(&textureBountyOrange, &textureShot);
 	bounty_orange.setBounty("orange", & window);
-	//bounties.push_back(bounty_orange);
 
 	Texture textureBountyWhite;
 	textureBountyWhite.loadFromFile("graphics/bonus1_white.png");
 	Enemy bounty_white(&textureBountyWhite, &textureShot);
 	bounty_white.setBounty("white", & window);
-	//bounties.push_back(bounty_white);
 
 	/* NEW SPRITES CLASSES */
 	
-	CreateEnemy wave1_red(Vector2i(1, 1), enemyRed, window);
-	CreateEnemy wave1_green(Vector2i(2, 2), enemyGreen, window);
-	CreateEnemy wave1_purple(Vector2i(4, 4), enemyPurple, window);
-
+	CreateEnemy wave1_red(Vector2i(2, 1), enemyRed, window);
 	CreateEnemy wave1;
-	wave1.assignEnemy(wave1_green);
 	wave1.assignEnemy(wave1_red);
-	wave1.assignEnemy(wave1_purple);
+
+	CreateEnemy wave2_red(Vector2i(3, 2), enemyRed, window);
+	CreateEnemy wave2_green(Vector2i(2, 1), enemyGreen, window);
+	CreateEnemy wave2;
+	wave2.assignEnemy(wave2_red);
+	wave2.assignEnemy(wave2_green);
+
+	CreateEnemy wave3_green(Vector2i(2, 2), enemyGreen, window);
+	CreateEnemy wave3;
+	wave3.assignEnemy(wave3_green);
+
+	CreateEnemy wave4_green(Vector2i(2, 2), enemyGreen, window);
+	CreateEnemy wave4_purple(Vector2i(1, 1), enemyPurple, window);
+	CreateEnemy wave4;
+	wave4.assignEnemy(wave4_green);
+	wave4.assignEnemy(wave4_purple);
+
+	CreateEnemy wave5_red(Vector2i(5, 2), enemyRed, window);
+	CreateEnemy wave5_green(Vector2i(3, 1), enemyGreen, window);
+	CreateEnemy wave5_purple(Vector2i(2, 1), enemyPurple, window);
+	CreateEnemy wave5;
+	wave5.assignEnemy(wave5_red);
+	wave5.assignEnemy(wave5_green);
+	wave5.assignEnemy(wave5_purple);
+
+	// other waves
+
+	CreateEnemy wave6_red(Vector2i(1, 1), enemyRed, window);
+	CreateEnemy wave6_green(Vector2i(2, 2), enemyGreen, window);
+	CreateEnemy wave6_purple(Vector2i(4, 4), enemyPurple, window);
+	CreateEnemy wave6;
+	wave6.assignEnemy(wave6_green);
+	wave6.assignEnemy(wave6_red);
+	wave6.assignEnemy(wave6_purple);
 	
 	// Explosions
 
@@ -226,9 +249,19 @@ int main()
 		"Round cleared!",
 		Color::White, font_CubicCoreMono, 40
 	);
+	messageRoundOver.position(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
 
+	Message messageGlory(
+		"G L O R Y",
+		Color::White, font_CubicCoreMono, 60
+	);
+	messageGlory.position(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
 
-	
+	Message messageVictory(
+		"V I C T O R Y ...",
+		Color::White, font_CubicCoreMono, 60
+	);
+	messageVictory.position(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
 
 
 	// BUTTONS
@@ -250,8 +283,10 @@ int main()
 	bool menu = false;			// menu screen in the game; if !intro -> def->false; 
 	bool hit = false;			// show a message when player is hit, to continue
 	bool game_over = false;
+	bool winScreen = false;		// shows a win screen with animation when player wins
 
 	bool pause = false;
+	bool round_cleared = false;
 	bool round1_over = false;
 	bool round2_over = false;
 	bool round3_over = false;
@@ -265,7 +300,10 @@ int main()
 	float deltaTime = 0.0f;
 	Clock clock;
 
-	float timePassed = 0.0f;
+	float timePassed_roundCleared = 0.0f;
+	float timePassed_pause = 0.0f;
+	float timePassed_winner = 0.0f;
+	float time = 0.0f;			// for the final animation of the player
 	unsigned int resTime = 3;	// IS NOT PROPERLY USED! (check the DRAWING section and correct it)
 
 	/*
@@ -284,7 +322,7 @@ int main()
 	while (window.isOpen()) {
 
 		deltaTime = clock.restart().asSeconds();
-
+		
 		/* One time button press trigger -> Menu, Escape, Shoot, Enter etc...*/
 
 		Event evnt;
@@ -308,15 +346,15 @@ int main()
 					if (intro) {
 						window.close();
 					}
-					else if (!intro && !menu && !hit && !game_over && !pause) {
+					else if (!intro && !menu && !hit && !game_over && !pause && !round_cleared && !winScreen) {
 						std::cout << "\n A Menu is open!" << std::endl;
 						menu = true;
 					}
-					else if (!intro && menu && !hit && !game_over && !pause) {
+					else if (!intro && menu && !hit && !game_over && !pause && !round_cleared && !winScreen) {
 						std::cout << "\n A Menu is closed!" << std::endl;
 						menu = false;
 					}
-					else if (!intro && !menu && (hit || game_over)) {
+					else if (!intro && !menu && (hit || game_over || winScreen)) {
 						window.close();
 					}
 				}
@@ -364,7 +402,7 @@ int main()
 		/* Long-run commands -> Player movement and Game-related mechanics */
 
 		// Player's movement
-		if (!intro && !menu && !hit && !game_over && !pause) {
+		if (!intro && !menu && !hit && !game_over && !pause && !round_cleared && !winScreen) {
 			if (Keyboard::isKeyPressed(Keyboard::A) && player.sprite.getPosition().x > 26)
 				player.sprite.move(-(130 * deltaTime), 0.0f);
 			if (Keyboard::isKeyPressed(Keyboard::D) && player.sprite.getPosition().x < (window.getSize().x - 26))
@@ -386,18 +424,16 @@ int main()
 		//animationPawn.Update(0, deltaTime);
 		//spritePawn.setTextureRect(animationPawn.uvRect);
 
-		//*
 		if (pause) {
 			if (round_isON) {
 				player.resetPosition();
 				++wave_count;
 				messageWave.updateMessage(wave_count);
 				round_isON = false;
-			}
-			
+			}			
 		}
-		//*/
-		if (!intro && !menu && !hit && !game_over && !pause) {
+
+		if (!intro && !menu && !hit && !game_over && !pause && !round_cleared && !(player.isWinner())) {
 
 			//player actions and game_over conditions
 			player.updateShot(deltaTime);
@@ -411,7 +447,14 @@ int main()
 					player.setAlive();
 				}
 			}
-			if (wave1.isWinner()) { // || wave2 || wave3 etc. ..
+			if (
+				wave1.isWinner() || wave2.isWinner()
+				|| 
+				wave3.isWinner() || wave4.isWinner()
+				|| 
+				wave5.isWinner() || wave6.isWinner()
+				) 
+			{
 				game_over = true;
 			}
 
@@ -441,35 +484,174 @@ int main()
 			bounty_blue.Collision(&player);
 			bounty_pink.Collision(&player);
 
-			//*/
-			// WAVE 1
+			// WAVES
+			
+			// wave 1
+			if (wave_count == 1) {
+				wave1.getActive();
 
+				if (size(wave1.activeEnemies) <= size(wave1.Enemies) && (size(wave1.activeEnemies) > 1))
+					wave1.MoveClassic(&window, 1.0f * deltaTime);
+				else if (size(wave1.activeEnemies) == 1)
+					wave1.MoveClassic(&window, 6.0f * deltaTime);
 
-			wave1.getActive();
+				for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
 
-			//*
-			if (size(wave1.activeEnemies) <= size(wave1.Enemies) && (size(wave1.activeEnemies) > 1))
-				wave1.MoveClassic(&window, 1.0f*deltaTime);
-			else if (size(wave1.activeEnemies) == 1)
-				wave1.MoveClassic(&window, 6.0f * deltaTime);
-			//*/
+					player.Collision(&wave1.Enemies[i]);
 
-			for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
+					wave1.Enemies[i].Collision(&player);
+					wave1.Enemies[i].shoot();
+					wave1.Enemies[i].updateShot(deltaTime);
+				}
 
-				player.Collision(&wave1.Enemies[i]);
-				
-				wave1.Enemies[i].Collision(&player);
-				wave1.Enemies[i].shoot();
-				wave1.Enemies[i].updateShot(deltaTime);
-				//wave1.Enemies[i].Move(&window, deltaTime);
+				wave1.updateWinner(&window);
+
+				if (size(wave1.activeEnemies) == 0) {
+					round_isON = true;		// next round is ON (activates line 387 through round_cleared in UPDATE)
+					round_cleared = true;	// this round is cleared (activates line 596 in DRAW)
+				}
 			}
 
-			wave1.updateWinner(&window);
-			
+			// wave 2
+			if (wave_count == 2) {
+				wave2.getActive();
+
+				if (size(wave2.activeEnemies) <= size(wave2.Enemies) && (size(wave2.activeEnemies) > 1))
+					wave2.MoveClassic(&window, 1.0f * deltaTime);
+				else if (size(wave2.activeEnemies) == 1)
+					wave2.MoveClassic(&window, 6.0f * deltaTime);
+
+				for (unsigned int i = 0; i < size(wave2.Enemies); i++) {
+
+					player.Collision(&wave2.Enemies[i]);
+
+					wave2.Enemies[i].Collision(&player);
+					wave2.Enemies[i].shoot();
+					wave2.Enemies[i].updateShot(deltaTime);
+				}
+
+				wave2.updateWinner(&window);
+
+				if (size(wave2.activeEnemies) == 0) {
+					round_isON = true;		// next round is ON (activates line 387 through round_cleared in UPDATE)
+					round_cleared = true;	// this round is cleared (activates line 596 in DRAW)
+				}
+			}
+
+			// wave 3
+			if (wave_count == 3) {
+				wave3.getActive();
+
+				if (size(wave3.activeEnemies) <= size(wave3.Enemies) && (size(wave3.activeEnemies) > 1))
+					wave3.MoveClassic(&window, 1.0f * deltaTime);
+				else if (size(wave3.activeEnemies) == 1)
+					wave3.MoveClassic(&window, 6.0f * deltaTime);
+
+				for (unsigned int i = 0; i < size(wave3.Enemies); i++) {
+
+					player.Collision(&wave3.Enemies[i]);
+
+					wave3.Enemies[i].Collision(&player);
+					wave3.Enemies[i].shoot();
+					wave3.Enemies[i].updateShot(deltaTime);
+				}
+
+				wave3.updateWinner(&window);
+
+				if (size(wave3.activeEnemies) == 0) {
+					round_isON = true;		// next round is ON (activates line 387 through round_cleared in UPDATE)
+					round_cleared = true;	// this round is cleared (activates line 596 in DRAW)
+				}
+			}
+
+			// wave 4
+			if (wave_count == 4) {
+				wave4.getActive();
+
+				if (size(wave4.activeEnemies) <= size(wave4.Enemies) && (size(wave4.activeEnemies) > 1))
+					wave4.MoveClassic(&window, 1.0f * deltaTime);
+				else if (size(wave4.activeEnemies) == 1)
+					wave4.MoveClassic(&window, 6.0f * deltaTime);
+
+				for (unsigned int i = 0; i < size(wave4.Enemies); i++) {
+
+					player.Collision(&wave4.Enemies[i]);
+
+					wave4.Enemies[i].Collision(&player);
+					wave4.Enemies[i].shoot();
+					wave4.Enemies[i].updateShot(deltaTime);
+				}
+
+				wave4.updateWinner(&window);
+
+				if (size(wave4.activeEnemies) == 0) {
+					round_isON = true;		// next round is ON (activates line 387 through round_cleared in UPDATE)
+					round_cleared = true;	// this round is cleared (activates line 596 in DRAW)
+				}
+			}
+
+			// wave 5
+			if (wave_count == 5) {
+				wave5.getActive();
+
+				if (size(wave5.activeEnemies) <= size(wave5.Enemies) && (size(wave5.activeEnemies) > 1))
+					wave5.MoveClassic(&window, 1.0f * deltaTime);
+				else if (size(wave5.activeEnemies) == 1)
+					wave5.MoveClassic(&window, 6.0f * deltaTime);
+
+				for (unsigned int i = 0; i < size(wave5.Enemies); i++) {
+
+					player.Collision(&wave5.Enemies[i]);
+
+					wave5.Enemies[i].Collision(&player);
+					wave5.Enemies[i].shoot();
+					wave5.Enemies[i].updateShot(deltaTime);
+				}
+
+				wave5.updateWinner(&window);
+
+				if (size(wave5.activeEnemies) == 0) {
+					round_isON = true;		// next round is ON (activates line 387 through round_cleared in UPDATE)
+					round_cleared = true;	// this round is cleared (activates line 596 in DRAW)
+				}
+			}
+
+			// wave 6
+			if (wave_count == 6) {
+				wave6.getActive();
+
+				//*
+				if (size(wave6.activeEnemies) <= size(wave6.Enemies) && (size(wave6.activeEnemies) > 1))
+					wave6.MoveClassic(&window, 1.0f * deltaTime);
+				else if (size(wave6.activeEnemies) == 1)
+					wave6.MoveClassic(&window, 6.0f * deltaTime);
+
+				for (unsigned int i = 0; i < size(wave6.Enemies); i++) {
+
+					player.Collision(&wave6.Enemies[i]);
+
+					wave6.Enemies[i].Collision(&player);
+					wave6.Enemies[i].shoot();
+					wave6.Enemies[i].updateShot(deltaTime);
+					//wave6.Enemies[i].Move(&window, deltaTime);
+				}
+
+				wave6.updateWinner(&window);
+
+				if (size(wave6.activeEnemies) == 0) {
+					player.setWinner();
+				}
+			}
 			messageHealth.updateMessageHealth(&player);
 			messageScore.updateMessageScore(&player);
 
 		} 
+
+		if (player.isWinner() && winScreen) {
+			time += deltaTime;
+			// animation of another sprite of player, when he wins
+			player.byebyeWinner(deltaTime * time);
+		}
 
 
 		/*
@@ -493,40 +675,101 @@ int main()
 			window.draw(spriteBackground);
 
 			/*  DRAW EVERYTHING ELSE */
-			window.draw(player.sprite);
+			if (player.isWinner() == false) {
+				window.draw(player.sprite);
+
+				window.draw(player.spriteShot);
+			}
+			else if (player.isWinner()) {
+				window.draw(player.spriteWinner);
+			}
 
 			//window.draw(spritePawn);
+			if (player.isWinner() == false) {
+				if (bounty_red.isActive())
+					window.draw(bounty_red.sprite);
+				if (bounty_orange.isActive())
+					window.draw(bounty_orange.sprite);
+				if (bounty_green.isActive())
+					window.draw(bounty_green.sprite);
+				if (bounty_blue.isActive())
+					window.draw(bounty_blue.sprite);
+				if (bounty_pink.isActive())
+					window.draw(bounty_pink.sprite);
+			}
 
-			window.draw(player.spriteShot);
-
-			//*/
-
-			//*
-			if (bounty_red.isActive())
-				window.draw(bounty_red.sprite);
-			if (bounty_orange.isActive())
-				window.draw(bounty_orange.sprite);
-			if (bounty_green.isActive())
-				window.draw(bounty_green.sprite);
-			if (bounty_blue.isActive())
-				window.draw(bounty_blue.sprite);
-			if (bounty_pink.isActive())
-				window.draw(bounty_pink.sprite);
-
-			//*/
-
-			//window.draw(bounty_red.sprite);
-
-			for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
-				if (wave1.Enemies[i].isActive()) {
-					window.draw(wave1.Enemies[i].sprite);
+			if (wave_count == 1) {
+				for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
+					if (wave1.Enemies[i].isActive()) {
+						window.draw(wave1.Enemies[i].sprite);
+					}
+					// continues drawing shot when enemy died
 				}
-				// continues drawing shot when enemy died
+				for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
+					window.draw(wave1.Enemies[i].spriteShot);
+				}
 			}
 
-			for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
-				window.draw(wave1.Enemies[i].spriteShot);
+			if (wave_count == 2) {
+				for (unsigned int i = 0; i < size(wave2.Enemies); i++) {
+					if (wave2.Enemies[i].isActive()) {
+						window.draw(wave2.Enemies[i].sprite);
+					}
+					// continues drawing shot when enemy died
+				}
+				for (unsigned int i = 0; i < size(wave2.Enemies); i++) {
+					window.draw(wave2.Enemies[i].spriteShot);
+				}
 			}
+
+			if (wave_count == 3) {
+				for (unsigned int i = 0; i < size(wave3.Enemies); i++) {
+					if (wave3.Enemies[i].isActive()) {
+						window.draw(wave3.Enemies[i].sprite);
+					}
+					// continues drawing shot when enemy died
+				}
+				for (unsigned int i = 0; i < size(wave3.Enemies); i++) {
+					window.draw(wave3.Enemies[i].spriteShot);
+				}
+			}
+
+			if (wave_count == 4) {
+				for (unsigned int i = 0; i < size(wave4.Enemies); i++) {
+					if (wave4.Enemies[i].isActive()) {
+						window.draw(wave4.Enemies[i].sprite);
+					}
+					// continues drawing shot when enemy died
+				}
+				for (unsigned int i = 0; i < size(wave4.Enemies); i++) {
+					window.draw(wave4.Enemies[i].spriteShot);
+				}
+			}
+
+			if (wave_count == 5) {
+				for (unsigned int i = 0; i < size(wave5.Enemies); i++) {
+					if (wave5.Enemies[i].isActive()) {
+						window.draw(wave5.Enemies[i].sprite);
+					}
+					// continues drawing shot when enemy died
+				}
+				for (unsigned int i = 0; i < size(wave5.Enemies); i++) {
+					window.draw(wave5.Enemies[i].spriteShot);
+				}
+			}
+
+			if (wave_count == 6) {
+				for (unsigned int i = 0; i < size(wave6.Enemies); i++) {
+					if (wave6.Enemies[i].isActive()) {
+						window.draw(wave6.Enemies[i].sprite);
+					}
+					// continues drawing shot when enemy died
+				}
+				for (unsigned int i = 0; i < size(wave6.Enemies); i++) {
+					window.draw(wave6.Enemies[i].spriteShot);
+				}
+			}
+
 
 			messageHealth.display(window);
 			messageScore.display(window);
@@ -552,18 +795,45 @@ int main()
 			}
 
 			// PAUSE SCREENS with WAVE nr. information
+			
+			if (round_cleared && !hit) {
+				timePassed_roundCleared += deltaTime;
+				if (timePassed_roundCleared >= 2.0f) {
+					messageRoundOver.display(window);
+					if (timePassed_roundCleared >= 4.0f) {
+						round_cleared = false;
+						pause = true;
+						timePassed_roundCleared = 0.0f;
+					}
+				}
+			}
+			
+			if (player.isWinner() && !hit) {
+				timePassed_winner += deltaTime;
+				if (timePassed_winner >= 2.0f && timePassed_winner < 4.0f) {
+					messageGlory.display(window);
+				}
+				else if (timePassed_winner >= 4.0f) {
+					messageVictory.display(window);
+					winScreen = true;		// permits the final animation to be drawn in line 644, section UPDATE
+					//if (timePassed_winner >= 8.0f) {
+					//	window.close();
+					//}
+				}
+			}
+
 			if (pause) {
-				timePassed += deltaTime;
-				if (timePassed >= 2.0f) {
+				timePassed_pause += deltaTime;
+				if (timePassed_pause >= 2.0f) {
 					messageWave.display(window);
-					if (timePassed >= 4.0f) {
+					if (timePassed_pause >= 4.0f) {
 						messageGetReady.display(window);
-						if (timePassed >= 6.0f) {
+						if (timePassed_pause >= 6.0f) {
 							resTime--;
 							// update to 3.. 2.. 1.. (FIX and make the FOR loop for counting 3 seconds correctly)
 							//messageGetReady.getText().setString(messageGetReady.getString() + std::to_string(resTime));
 							if (resTime == 0) {
-								timePassed = 0.0f;
+								timePassed_pause = 0.0f;
 								resTime = 3;
 								pause = false;
 							}

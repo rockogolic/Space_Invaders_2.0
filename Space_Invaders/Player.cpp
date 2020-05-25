@@ -3,14 +3,16 @@
 #include "Enemy.h"
 
 // one texture for Player and another for what he shoots with
-Player::Player(const Texture * texturePlayer, const Texture* textureShot, RenderWindow * window) {
+Player::Player(const Texture* texturePlayer, const Texture* textureShot, const Texture* textureWinner, RenderWindow* window) {
 
 	sprite.setTexture(*texturePlayer);
 	spriteShot.setTexture(*textureShot);
+	spriteWinner.setTexture(*textureWinner);
 
-	// center the origin of the sprite
-	sprite.setOrigin(sprite.getTexture()->getSize().x / 2.0f, sprite.getTexture()->getSize().y / 2.0f);
-	spriteShot.setOrigin(spriteShot.getTexture()->getSize().x / 2.0f, spriteShot.getTexture()->getSize().y / 2.0f);
+	// center the origin of every sprite
+	sprite.setOrigin(texturePlayer->getSize().x / 2.0f, texturePlayer->getSize().y / 2.0f);
+	spriteShot.setOrigin(textureShot->getSize().x / 2.0f, textureShot->getSize().y / 2.0f);
+	spriteWinner.setOrigin(textureWinner->getSize().x / 2.0f, textureWinner->getSize().y / 2.0f);
 
 	// set startPosition. def = 640/2 , 480-26
 	this->_startPos = Vector2f(window->getSize().x / 2.0f, window->getSize().y - this->sprite.getTexture()->getSize().y / 2.0f);
@@ -139,3 +141,17 @@ const int Player::getHealth() const{
 const int Player::getScore() const {
 	return _score;
 }
+
+void Player::byebyeWinner(float deltaTime) {
+	if (isWinner() == true )
+	{
+		if (spriteWinner.getPosition().y >= -100)
+			spriteWinner.move(0.0f, -100 * deltaTime);
+	}
+}
+
+void Player::setWinner() { 
+	_won = true;
+	spriteWinner.setPosition(sprite.getPosition());
+}
+bool Player::isWinner() { return _won; }

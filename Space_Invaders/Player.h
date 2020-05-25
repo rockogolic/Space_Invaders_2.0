@@ -10,15 +10,17 @@ class Enemy;					// forward declaration
 class Player {
 
 public:
-	Player(const Texture* texturePlayer, const Texture* textureShot, RenderWindow * window);
+	Player(const Texture* texturePlayer, const Texture* textureShot, const Texture * textureWinner, RenderWindow * window);
 	~Player();
 
 	void shoot();
 	void updateShot(float deltaTime);
+	void byebyeWinner(float deltaTime);
 
 	const int getHealth() const;
 	const int getScore() const;
 
+	void setWinner();
 	void setAlive();
 	void setPosition(Vector2f position);
 	void resetPosition();	// resets the position to startPosition
@@ -31,11 +33,13 @@ public:
 	
 	bool isHit();
 	bool isDead();
+	bool isWinner();
 
 	void Collision(Enemy * enemy);
 
 	Sprite sprite;
 	Sprite spriteShot;
+	Sprite spriteWinner;
 
 private:
 
@@ -47,6 +51,7 @@ private:
 	bool _shot = false;
 	bool _hit = false;
 	bool _lost = false;
+	bool _won = false;
 
 	unsigned int _score;
 	unsigned int _health;

@@ -62,6 +62,7 @@ private:
 
 	float _speed;
 
+	unsigned int _health;
 	unsigned int _score;
 
 	Enemy * new_enemy;
