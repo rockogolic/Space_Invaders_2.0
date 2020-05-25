@@ -23,8 +23,7 @@ public:
 	void updateMessageHealth(const Player* player);
 	void updateMessageScore(const Player* player);
 	
-	template <class T>
-	void updateMessage(T data);
+	void updateMessage(unsigned int data);
 
 	// access the finalized text object of the class
 	Text getText();

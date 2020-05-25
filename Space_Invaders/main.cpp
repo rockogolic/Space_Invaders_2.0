@@ -257,7 +257,7 @@ int main()
 	bool round3_over = false;
 	bool boss_over = false;
 
-	bool round1 = false;
+	bool round_isON = false;	// for wave statistics and whenever the new wave begins
 
 	unsigned int wave_count = 0;
 
@@ -323,7 +323,7 @@ int main()
 				if (Keyboard::isKeyPressed(Keyboard::Return)) {
 					if (intro) {
 						intro = false;
-						round1 = true;
+						round_isON = true;
 						pause = true;
 					}
 					if (hit) {
@@ -386,27 +386,17 @@ int main()
 		//animationPawn.Update(0, deltaTime);
 		//spritePawn.setTextureRect(animationPawn.uvRect);
 
-		/*
+		//*
 		if (pause) {
-			timePassed += deltaTime;
-			if (timePassed >= 2.0f) {
-				// display wave1
-				if (timePassed >= 4.0f) {
-					// display "begins in.. " message
-					if (timePassed >= 6.0f) {
-						resTime--;
-						// update to 3.. 2.. 1..
-						messageGetReady.getText().setString(messageGetReady.getString() + std::to_string(resTime));
-						if (resTime == 0) {
-							timePassed = 0.0f;
-							resTime = 3;
-							pause = false;
-						}
-					}
-				}
+			if (round_isON) {
+				player.resetPosition();
+				++wave_count;
+				messageWave.updateMessage(wave_count);
+				round_isON = false;
 			}
+			
 		}
-		*/
+		//*/
 		if (!intro && !menu && !hit && !game_over && !pause) {
 
 			//player actions and game_over conditions
@@ -475,7 +465,7 @@ int main()
 			}
 
 			wave1.updateWinner(&window);
-
+			
 			messageHealth.updateMessageHealth(&player);
 			messageScore.updateMessageScore(&player);
 
@@ -563,18 +553,15 @@ int main()
 
 			// PAUSE SCREENS with WAVE nr. information
 			if (pause) {
-				++wave_count;
-				player.resetPosition();
 				timePassed += deltaTime;
 				if (timePassed >= 2.0f) {
-					messageWave.getText().setString(messageWave.getString() + std::to_string(wave_count));
 					messageWave.display(window);
 					if (timePassed >= 4.0f) {
 						messageGetReady.display(window);
 						if (timePassed >= 6.0f) {
 							resTime--;
 							// update to 3.. 2.. 1.. (FIX and make the FOR loop for counting 3 seconds correctly)
-							messageGetReady.getText().setString(messageGetReady.getString() + std::to_string(resTime));
+							//messageGetReady.getText().setString(messageGetReady.getString() + std::to_string(resTime));
 							if (resTime == 0) {
 								timePassed = 0.0f;
 								resTime = 3;
