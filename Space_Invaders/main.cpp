@@ -74,11 +74,34 @@ int main()
 	Sprite spriteIntro;
 	spriteIntro.setTexture(textureIntro);
 	
-	// SPRITE BACKGROUND
+	// BACKGROUND
 	Texture textureBackground;
 	textureBackground.loadFromFile("graphics/game_640x480.png");
 	Sprite spriteBackground;
 	spriteBackground.setTexture(textureBackground);
+
+	Texture textureStarBig;
+	textureStarBig.loadFromFile("graphics/star1.png");
+	Texture textureStarSmall;
+	textureStarSmall.loadFromFile("graphics/star2.png");
+
+	Sprite spriteStarBig1;
+	spriteStarBig1.setTexture(textureStarBig);
+	spriteStarBig1.setPosition(300,100);
+	Sprite spriteStarBig2;
+	spriteStarBig2.setTexture(textureStarBig);
+	spriteStarBig2.setPosition(200,200);
+
+	Sprite spriteStarSmall1;
+	spriteStarSmall1.setTexture(textureStarSmall);
+	spriteStarSmall1.setPosition(400,250);
+	Sprite spriteStarSmall2;
+	spriteStarSmall2.setTexture(textureStarSmall);
+	Sprite spriteStarSmall3;
+	spriteStarSmall3.setTexture(textureStarSmall);
+
+	Sprite spriteFallingStar1;
+	spriteFallingStar1.setTexture(textureStarSmall);
 
 	// SPRITES MENU
 	Texture textureMenu;
@@ -440,19 +463,24 @@ int main()
 							soundRevived.play();
 						}
 					}
-					if (buttonExit.isOn()) {
-						window.close();
-					}
-					if (buttonSound.isOn()) {
-						if (stop_music == false) {
-							stop_music = true;
-							soundMain.stop();
+					if (menu) {
+						if (buttonExit.isOn()) {
+							window.close();
 						}
-						else if (stop_music == true)
-							stop_music = false;
+						if (buttonSound.isOn() && menu) {
+							if (stop_music == false) {
+								stop_music = true;
+								soundMain.stop();
+							}
+							else if (stop_music == true)
+								stop_music = false;
+						}
+
+						// configure other menu buttons
+
 					}
 
-					// configure other buttons
+					// configure other keys
 				}
 				if (Keyboard::isKeyPressed(Keyboard::Space)) {
 					if (!intro && !menu && !hit && !game_over && !pause && !round_isON && player.hasShot() == false) {
@@ -589,6 +617,14 @@ int main()
 				messageWave.updateMessage(wave_count);
 				round_isON = false;
 			}			
+		}
+
+		// Background animation
+		if (!intro) {
+			
+
+
+
 		}
 
 		if (!intro && !menu && !hit && !game_over && !pause && !round_cleared && !(player.isWinner())) {
@@ -825,6 +861,10 @@ int main()
 		
 		if (intro) {
 			window.draw(spriteIntro);
+
+			window.draw(spriteStarBig1);
+			window.draw(spriteStarBig2);
+			window.draw(spriteStarSmall1);
 
 			messageTitle.display(window);
 			messageEnter.display(window);
