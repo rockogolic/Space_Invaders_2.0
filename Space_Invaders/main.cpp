@@ -265,15 +265,6 @@ int main()
 	);
 	messageScore.position(6.0f * window.getSize().x / 8.0f, window.getSize().y / 15.0f);
 
-	Message messageMenuExit(
-		"Quit game",
-		Color::White, font_CubicCoreMono, 20	
-	);
-	Message messageMenuMusic(
-		"Turn off the music",
-		Color::White, font_CubicCoreMono, 20
-	);
-
 	Message messageWave(
 		"Wave ",
 		Color::White, font_CubicCoreMono, 40
@@ -304,20 +295,39 @@ int main()
 	);
 	messageVictory.position(window.getSize().x / 2.0f, window.getSize().y / 2.0f);
 
+	Message messageMenuExit(
+		"Quit game",
+		Color::White, font_CubicCoreMono, 20
+	);
+	Message messageMenuMusicOff(
+		"Turn the music OFF",
+		Color::White, font_CubicCoreMono, 20
+	);
+	Message messageMenuMusicOn(
+		"Turn the music ON",
+		Color::White, font_CubicCoreMono, 20
+	);
+	Message messageAbout(
+		"About",
+		Color::White, font_CubicCoreMono, 20
+	);
 
 	// BUTTONS
 
 	Button buttonExit(&textureButtonOff, &textureButtonOn);
-	Button buttonSoundOff(&textureButtonOff, &textureButtonOn);
+	Button buttonSound(&textureButtonOff, &textureButtonOn);
+	Button buttonSoundOn(&textureButtonOff, &textureButtonOn);
 	Button buttonAbout(&textureButtonOff, &textureButtonOn);
 	
 	buttonExit.Position(Vector2f(window.getSize().x / 2.0f, window.getSize().y / 4.0f));
-	buttonSoundOff.Position(Vector2f(window.getSize().x / 2.0f, window.getSize().y * 2.0f / 4.0f));
+	buttonSound.Position(Vector2f(window.getSize().x / 2.0f, window.getSize().y * 2.0f / 4.0f));
+	buttonSoundOn.Position(Vector2f(window.getSize().x / 2.0f, window.getSize().y * 2.0f / 4.0f));
 	buttonAbout.Position(Vector2f(window.getSize().x / 2.0f, window.getSize().y * 3.0f / 4.0f));
 
 	buttonExit.setMessage(&messageMenuExit);
-	buttonSoundOff.setMessage(&messageMenuMusic);
-	//buttonAbout.setMessage();
+	buttonSound.setMessage(&messageMenuMusicOff);
+	buttonSoundOn.setMessage(&messageMenuMusicOn);
+	buttonAbout.setMessage(&messageAbout);
 
 	int buttonChoice = 0;
 
@@ -336,6 +346,8 @@ int main()
 	bool play_intro = false;	// sound Intro
 	bool play_main = false;		// sound Main Theme
 	bool play_victory = false;	// sound Victory
+
+	bool stop_music = false;	// stops by pressing button in menu
 
 	unsigned int wave_count = 0;
 
@@ -391,6 +403,16 @@ int main()
 					}
 					else if (!intro && !menu && !hit && !game_over && !pause && !round_cleared && !winScreen) {
 						std::cout << "\n A Menu is open!" << std::endl;
+
+						// refresh the button layout (set all to OFF)
+						if (buttonChoice != 0) {
+							buttonChoice = 0;
+
+							buttonExit.setOff();
+							buttonSound.setOff();
+							buttonAbout.setOff();
+						}
+
 						menu = true;
 					}
 					else if (!intro && menu && !hit && !game_over && !pause && !round_cleared && !winScreen) {
@@ -416,11 +438,18 @@ int main()
 						if (!round_isON) {
 							soundRevived.setVolume(50.0f);
 							soundRevived.play();
-							std::cout << "soundRevived is playing" << std::endl;
 						}
 					}
 					if (buttonExit.isOn()) {
 						window.close();
+					}
+					if (buttonSound.isOn()) {
+						if (stop_music == false) {
+							stop_music = true;
+							soundMain.stop();
+						}
+						else if (stop_music == true)
+							stop_music = false;
 					}
 
 					// configure other buttons
@@ -444,17 +473,17 @@ int main()
 
 						if (buttonChoice == 1) {
 							buttonExit.setOn();
-							buttonSoundOff.setOff();
+							buttonSound.setOff();
 							buttonAbout.setOff();
 						}
 						else if (buttonChoice == 2) {
 							buttonExit.setOff();
-							buttonSoundOff.setOn();
+							buttonSound.setOn();
 							buttonAbout.setOff();
 						}
 						else if (buttonChoice == 3) {
 							buttonExit.setOff();
-							buttonSoundOff.setOff();
+							buttonSound.setOff();
 							buttonAbout.setOn();
 						}
 					}
@@ -470,17 +499,17 @@ int main()
 
 						if (buttonChoice == 1) {
 							buttonExit.setOn();
-							buttonSoundOff.setOff();
+							buttonSound.setOff();
 							buttonAbout.setOff();
 						}
 						else if (buttonChoice == 2) {
 							buttonExit.setOff();
-							buttonSoundOff.setOn();
+							buttonSound.setOn();
 							buttonAbout.setOff();
 						}
 						else if (buttonChoice == 3) {
 							buttonExit.setOff();
-							buttonSoundOff.setOff();
+							buttonSound.setOff();
 							buttonAbout.setOn();
 						}
 						/*
@@ -521,7 +550,7 @@ int main()
 				soundMain.play();
 			}
 		}
-		if (soundMain.getStatus() == SoundSource::Stopped) {
+		if ( soundMain.getStatus() == SoundSource::Stopped && stop_music == false ) {
 			play_main = false;
 		}
 
@@ -915,17 +944,22 @@ int main()
 					window.draw(buttonExit.spriteButtonOff);
 				else if (buttonExit.isOn())
 					window.draw(buttonExit.spriteButtonOn);
-				if (buttonSoundOff.isOff())
-					window.draw(buttonSoundOff.spriteButtonOff);
-				else if (buttonSoundOff.isOn())
-					window.draw(buttonSoundOff.spriteButtonOn);
+				if (buttonSound.isOff())
+					window.draw(buttonSound.spriteButtonOff);
+				else if (buttonSound.isOn())
+					window.draw(buttonSound.spriteButtonOn);
 				if (buttonAbout.isOff())
 					window.draw(buttonAbout.spriteButtonOff);
 				else if (buttonAbout.isOn())
 					window.draw(buttonAbout.spriteButtonOn);
 
 				window.draw(buttonExit.text);
-				window.draw(buttonSoundOff.text);
+				if (stop_music == false)
+					window.draw(buttonSound.text);
+				else if (stop_music == true)
+					window.draw(buttonSoundOn.text);
+
+				window.draw(buttonAbout.text);
 			}
 
 			// PAUSE SCREENS with WAVE nr. information
