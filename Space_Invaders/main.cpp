@@ -426,7 +426,10 @@ int main()
 
 		if (pause) {
 			if (round_isON) {
+				// reset position of player and player's shot (sets off)
 				player.resetPosition();
+				player.spriteShot.setPosition(-700,-700);
+				
 				++wave_count;
 				messageWave.updateMessage(wave_count);
 				round_isON = false;
@@ -503,7 +506,6 @@ int main()
 					wave1.Enemies[i].shoot();
 					wave1.Enemies[i].updateShot(deltaTime);
 				}
-				wave1.updateHealth();
 				wave1.updateWinner(&window);
 
 				if (size(wave1.activeEnemies) == 0) {
@@ -529,8 +531,7 @@ int main()
 					wave2.Enemies[i].shoot();
 					wave2.Enemies[i].updateShot(deltaTime);
 				}
-
-				wave2.updateHealth();
+				
 				wave2.updateWinner(&window);
 
 				if (size(wave2.activeEnemies) == 0) {
@@ -557,7 +558,6 @@ int main()
 					wave3.Enemies[i].updateShot(deltaTime);
 				}
 
-				wave3.updateHealth();
 				wave3.updateWinner(&window);
 
 				if (size(wave3.activeEnemies) == 0) {
@@ -584,7 +584,6 @@ int main()
 					wave4.Enemies[i].updateShot(deltaTime);
 				}
 
-				wave4.updateHealth();
 				wave4.updateWinner(&window);
 
 				if (size(wave4.activeEnemies) == 0) {
@@ -611,7 +610,6 @@ int main()
 					wave5.Enemies[i].updateShot(deltaTime);
 				}
 
-				wave5.updateHealth();
 				wave5.updateWinner(&window);
 
 				if (size(wave5.activeEnemies) == 0) {
@@ -640,7 +638,6 @@ int main()
 					//wave6.Enemies[i].Move(&window, deltaTime);
 				}
 
-				wave6.updateHealth();
 				wave6.updateWinner(&window);
 
 				if (size(wave6.activeEnemies) == 0) {
@@ -655,9 +652,8 @@ int main()
 		if (player.isWinner() && winScreen) {
 			time += deltaTime;
 			// animation of another sprite of player, when he wins
-			player.byebyeWinner(deltaTime * time);
+			player.byebyeWinner(0.25f * deltaTime * time);
 		}
-
 
 		/*
 		+++++++++++++++++++++
@@ -685,7 +681,7 @@ int main()
 
 				window.draw(player.spriteShot);
 			}
-			else if (player.isWinner()) {
+			else if (player.isWinner() && winScreen) {
 				window.draw(player.spriteWinner);
 			}
 
@@ -831,30 +827,25 @@ int main()
 				timePassed_pause += deltaTime;
 				if (timePassed_pause >= 2.0f) {
 					messageWave.display(window);
-					if (timePassed_pause >= 4.0f) {
-						messageGetReady.display(window);
-						if (timePassed_pause >= 6.0f) {
-							resTime--;
-							// update to 3.. 2.. 1.. (FIX and make the FOR loop for counting 3 seconds correctly)
-							//messageGetReady.getText().setString(messageGetReady.getString() + std::to_string(resTime));
-							if (resTime == 0) {
-								timePassed_pause = 0.0f;
-								resTime = 3;
-								pause = false;
-							}
-						}
-					}
+				}
+				if (timePassed_pause >= 4.0f) {
+					messageGetReady.display(window);
+				}
+				if (timePassed_pause >= 6.5f) {
+					timePassed_pause = 0.0f;
+					pause = false;
 				}
 			}
 
 			if (game_over) {
 				messageGameOver.display(window);
 			}
-		}
+
+		} // end of DRAW -- if (!intro)
 
 		window.display();
 
-	}
+	} // end of while(window.isOpen())
 
 	return 0;
 }

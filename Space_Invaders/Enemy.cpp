@@ -26,8 +26,6 @@ Enemy::Enemy(const Texture* texture, const Texture * textureShot,int health)
 	_won = false;
 	_allowed = false;	// for bounty
 
-	_speed = 0;
-
 	enemy_side = _side::NONE;
 	colorPlayer = _color::NONE;
 	_score = 0;	// bounty variable (color)
@@ -52,8 +50,6 @@ Enemy::Enemy(const Texture* texture, const Texture * textureShot, const char* ty
 	_collision = false;
 	_won = false;
 	_allowed = false;	// for bounty
-
-	_speed = 0;
 
 	enemy_side = _side::NONE;
 	_score = 0;	// bounty variable (color)
@@ -124,7 +120,6 @@ bool Enemy::hasWon() { return _won; }
 void Enemy::Move(RenderWindow * window, float deltaTime) {
 
 	_position = sprite.getPosition();	// update vector2f _position with the latest position
-	_speed = (100 / (1 / deltaTime));	// default speed of enemies
 
 	if (sprite.getPosition().x >= (window->getSize().x - sprite.getTexture()->getSize().x / 2.0f)) {
 		
@@ -142,10 +137,10 @@ void Enemy::Move(RenderWindow * window, float deltaTime) {
 
 	if (_active){
 		if (enemy_side == _side::RIGHT || enemy_side == _side::NONE) {
-			sprite.move( _speed, 0);
+			sprite.move((100 / (1 / deltaTime)), 0);
 		}
 		else if (enemy_side == _side::LEFT) {
-			sprite.move(-_speed, 0);
+			sprite.move(-(100 / (1 / deltaTime)), 0);
 		}
 		if (sprite.getPosition().y >= (window->getSize().y)) {
 			_won = true;
@@ -250,7 +245,7 @@ void Enemy::updateBounty(RenderWindow * window, float deltaTime) {
 }
 
 bool Enemy::isAllowed() { return _allowed; }
-bool Enemy::isHit() { return _hit; }
+bool Enemy::isHit() { return _collision; }
 
 void Enemy::Hit() {
 	--_health;

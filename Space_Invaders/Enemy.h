@@ -20,7 +20,7 @@ public:
 	bool isActive();
 	bool hasWon();
 	bool isAllowed();	// bounty
-	bool isHit();
+	bool isHit();		// collision (CreateEnemy)
 
 	void Move(RenderWindow * window, float deltaTime);
 
@@ -60,14 +60,11 @@ private:
 	Vector2f _startPos;
 
 	bool _active;
-	bool _hit;
 	bool _dead;
 	bool _won;
 	bool _collision;
 	bool _shot;
 	bool _allowed; // for bounty
-
-	float _speed;
 
 	unsigned int _score;
 

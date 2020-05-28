@@ -19,6 +19,9 @@ CreateEnemy::CreateEnemy(Vector2i number, Enemy & enemy, RenderWindow& window) :
 			unsigned int health = enemy.getHealth();
 			this->health.push_back(health);
 		}
+	}	// update health
+	for (unsigned int i = 0; i < size(Enemies); i++) {
+		Enemies[i].setHealth(health[i]);
 	}
 }
 
@@ -29,6 +32,9 @@ void CreateEnemy::assignEnemy(CreateEnemy& enemyMatrix ) {
 	for (unsigned int i = 0; i < size(enemyMatrix.Enemies); i++) {
 		Enemies.push_back(enemyMatrix.Enemies[i]);
 		health.push_back(enemyMatrix.health[i]);
+	}
+	for (unsigned int i = 0; i < size(Enemies); i++) {
+		Enemies[i].setHealth(health[i]);
 	}
 }
 
@@ -107,12 +113,5 @@ void CreateEnemy::updateWinner(RenderWindow * window) {
 				Enemies[i].setInactive();
 			}
 		}
-	}
-}
-
-void CreateEnemy::updateHealth()
-{
-	for (unsigned int i = 0; i < size(Enemies); i++) {
-		Enemies[i].setHealth(health[i]);
 	}
 }
