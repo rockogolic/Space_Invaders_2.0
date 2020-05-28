@@ -1,8 +1,7 @@
 // main.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
+
 #include "pch.h"
 #include "Message.h"
 #include "Animation.h"
@@ -11,6 +10,7 @@
 #include "Enemy.h"
 #include "CreateEnemy.h"
 #include "Player.h"
+
 
 using namespace sf;
 
@@ -29,6 +29,11 @@ int main()
 	bufferIntro.loadFromFile("sounds/intro.wav");
 	Sound soundIntro;
 	soundIntro.setBuffer(bufferIntro);
+
+	SoundBuffer bufferMain;
+	bufferMain.loadFromFile("sounds/mainTheme.wav");
+	Sound soundMain;
+	soundMain.setBuffer(bufferMain);
 
 	SoundBuffer bufferShot;
 	bufferShot.loadFromFile("sounds/shot.wav");
@@ -54,6 +59,7 @@ int main()
 	bufferVictory.loadFromFile("sounds/victory.wav");
 	Sound soundVictory;
 	soundVictory.setBuffer(bufferVictory);
+
 
 	// FONTS 
 	Font font_MKPixelProject;
@@ -325,12 +331,11 @@ int main()
 
 	bool pause = false;
 	bool round_cleared = false;
-	bool round1_over = false;
-	bool round2_over = false;
-	bool round3_over = false;
-	bool boss_over = false;
-
 	bool round_isON = false;	// for wave statistics and whenever the new wave begins
+	// continuous sound management
+	bool play_intro = false;	// sound Intro
+	bool play_main = false;		// sound Main Theme
+	bool play_victory = false;	// sound Victory
 
 	unsigned int wave_count = 0;
 
@@ -360,7 +365,7 @@ int main()
 	while (window.isOpen()) {
 
 		deltaTime = clock.restart().asSeconds();
-		
+
 		/* One time button press trigger -> Menu, Escape, Shoot, Enter etc...*/
 
 		Event evnt;
@@ -399,21 +404,33 @@ int main()
 				if (Keyboard::isKeyPressed(Keyboard::Return)) {
 					if (intro) {
 						intro = false;
+						play_intro = false;
+						soundIntro.stop();
+
 						round_isON = true;
 						pause = true;
 					}
 					if (hit) {
 						hit = false;
+
+						if (!round_isON) {
+							soundRevived.setVolume(50.0f);
+							soundRevived.play();
+							std::cout << "soundRevived is playing" << std::endl;
+						}
 					}
 					if (buttonExit.isOn()) {
 						window.close();
 					}
-					
+
 					// configure other buttons
 				}
 				if (Keyboard::isKeyPressed(Keyboard::Space)) {
-					if (!intro && !menu && !hit && !game_over && !pause) {
+					if (!intro && !menu && !hit && !game_over && !pause && !round_isON && player.hasShot() == false) {
 						player.shoot();
+
+						soundShot.setVolume(50.0f);
+						soundShot.play();
 					}
 				}
 				if (Keyboard::isKeyPressed(Keyboard::Up)) {
@@ -422,7 +439,7 @@ int main()
 							buttonChoice = 3;
 						else if (buttonChoice == 2)
 							buttonChoice = 1;
-						else if (buttonChoice == 3) 
+						else if (buttonChoice == 3)
 							buttonChoice = 2;
 
 						if (buttonChoice == 1) {
@@ -484,6 +501,30 @@ int main()
 			}
 		}
 
+		/* continuous sound management */
+		if (intro && !play_intro) {
+			play_intro = true;
+
+			soundIntro.setVolume(50.0f);
+			soundIntro.play();
+		}
+		if (player.isWinner() && !play_victory) {
+			play_victory = true;
+
+			soundVictory.setVolume(50.0f);
+			soundVictory.play();
+		}
+
+		if (!intro && !player.isWinner() && !winScreen && !play_main) {
+			play_main = true;
+			if (play_main) {
+				soundMain.play();
+			}
+		}
+		if (soundMain.getStatus() == SoundSource::Stopped) {
+			play_main = false;
+		}
+
 		/* Long-run commands -> Player movement and Game-related mechanics */
 
 		// Player's movement
@@ -527,13 +568,15 @@ int main()
 			player.updateShot(deltaTime);
 
 			if (player.isHit()) {
-				soundHit.play();
 				if (player.isDead() == true) {
+					soundDead.setVolume(50.0f);
 					soundDead.play();
 					game_over = true;
 				}
 				else {
 					hit = true;
+					soundHit.setVolume(50.0f);
+					soundHit.play();
 					player.setAlive();
 				}
 			}
@@ -752,7 +795,6 @@ int main()
 
 		
 		if (intro) {
-			
 			window.draw(spriteIntro);
 
 			messageTitle.display(window);
@@ -901,11 +943,14 @@ int main()
 			}
 			
 			if (player.isWinner() && !hit) {
+				// stops the main melody
+				soundMain.stop();
+
 				timePassed_winner += deltaTime;
-				if (timePassed_winner >= 2.0f && timePassed_winner < 4.0f) {
+				if (timePassed_winner >= 3.0f && timePassed_winner < 5.0f) {
 					messageGlory.display(window);
 				}
-				else if (timePassed_winner >= 4.0f) {
+				else if (timePassed_winner >= 5.0f) {
 					messageVictory.display(window);
 					winScreen = true;		// permits the final animation to be drawn in line 644, section UPDATE
 					//if (timePassed_winner >= 8.0f) {

@@ -155,3 +155,8 @@ void Player::setWinner() {
 	spriteWinner.setPosition(sprite.getPosition());
 }
 bool Player::isWinner() { return _won; }
+
+bool Player::hasShot()
+{
+	return _shot;
+}

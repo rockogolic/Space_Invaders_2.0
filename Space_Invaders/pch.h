@@ -12,6 +12,8 @@
 
 // add headers that you want to pre-compile here
 
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include <random>
 #include <vector>

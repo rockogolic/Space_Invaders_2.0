@@ -34,6 +34,7 @@ public:
 	bool isHit();
 	bool isDead();
 	bool isWinner();
+	bool hasShot();
 
 	void Collision(Enemy * enemy);
 
