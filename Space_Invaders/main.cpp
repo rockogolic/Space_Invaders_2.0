@@ -2,6 +2,7 @@
 //
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "pch.h"
 #include "Message.h"
 #include "Animation.h"
@@ -24,8 +25,35 @@ int main()
 	/* DECLARE and LOAD sounds, sprites, fonts, etc. ... */
 
 	// SOUNDS
+	SoundBuffer bufferIntro;
+	bufferIntro.loadFromFile("sounds/intro.wav");
+	Sound soundIntro;
+	soundIntro.setBuffer(bufferIntro);
 
+	SoundBuffer bufferShot;
+	bufferShot.loadFromFile("sounds/shot.wav");
+	Sound soundShot;
+	soundShot.setBuffer(bufferShot);
 
+	SoundBuffer bufferRevived;
+	bufferRevived.loadFromFile("sounds/revived.wav");
+	Sound soundRevived;
+	soundRevived.setBuffer(bufferRevived);
+
+	SoundBuffer bufferDead;
+	bufferDead.loadFromFile("sounds/dead.wav");
+	Sound soundDead;
+	soundDead.setBuffer(bufferDead);
+
+	SoundBuffer bufferHit;
+	bufferHit.loadFromFile("sounds/hit.wav");
+	Sound soundHit;
+	soundHit.setBuffer(bufferHit);
+
+	SoundBuffer bufferVictory;
+	bufferVictory.loadFromFile("sounds/victory.wav");
+	Sound soundVictory;
+	soundVictory.setBuffer(bufferVictory);
 
 	// FONTS 
 	Font font_MKPixelProject;
@@ -499,7 +527,9 @@ int main()
 			player.updateShot(deltaTime);
 
 			if (player.isHit()) {
+				soundHit.play();
 				if (player.isDead() == true) {
+					soundDead.play();
 					game_over = true;
 				}
 				else {
