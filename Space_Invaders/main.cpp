@@ -20,11 +20,14 @@ int main()
 {
 	// to allow to resize the window -> Style::default and remove other Style::Close && Style::Titlebar
 	RenderWindow window(VideoMode(640, 480), "Space Invaders", Style::None);
-	
-	//Vector2f screenSize(window.getSize().x, window.getSize().y);		// Vector2f of size of the RenderWindow object, window
 
-	/* LOAD and INITIALIZE sounds, sprites and fonts */
+	/* DECLARE and LOAD sounds, sprites, fonts, etc. ... */
 
+	// SOUNDS
+
+
+
+	// FONTS 
 	Font font_MKPixelProject;
 	font_MKPixelProject.loadFromFile("fonts/MKPixelProject.ttf");
 
@@ -93,6 +96,10 @@ int main()
 	Texture textureEnemy_purple;
 	textureEnemy_purple.loadFromFile("graphics/enemy_purple_54x54.png");
 	Enemy enemyPurple(&textureEnemy_purple, &textureShotEnemy, 3);
+
+	Texture textureEnemy_pink;
+	textureEnemy_pink.loadFromFile("graphics/enemy_pink_54x54.png");
+	Enemy enemyPink(&textureEnemy_pink, &textureShotEnemy, 5);
 
 	/*
 	Texture texturePawn;
@@ -166,12 +173,12 @@ int main()
 
 	// other waves
 
-	CreateEnemy wave6_red(Vector2i(1, 1), enemyRed, window);
+	CreateEnemy wave6_pink(Vector2i(1, 1), enemyPink, window);
 	CreateEnemy wave6_green(Vector2i(2, 2), enemyGreen, window);
 	CreateEnemy wave6_purple(Vector2i(4, 4), enemyPurple, window);
 	CreateEnemy wave6;
 	wave6.assignEnemy(wave6_green);
-	wave6.assignEnemy(wave6_red);
+	wave6.assignEnemy(wave6_pink);
 	wave6.assignEnemy(wave6_purple);
 	
 	// Explosions
@@ -266,14 +273,17 @@ int main()
 
 	// BUTTONS
 
-	Button buttonSoundOff(&textureButtonOff, &textureButtonOn);
 	Button buttonExit(&textureButtonOff, &textureButtonOn);
+	Button buttonSoundOff(&textureButtonOff, &textureButtonOn);
+	Button buttonAbout(&textureButtonOff, &textureButtonOn);
 	
-	buttonSoundOff.Position(Vector2f(window.getSize().x / 2.0f, window.getSize().y / 4.0f));
-	buttonExit.Position(Vector2f(window.getSize().x / 2.0f, window.getSize().y * 3.0f / 4.0f));
-	
-	buttonSoundOff.setMessage(&messageMenuMusic);
+	buttonExit.Position(Vector2f(window.getSize().x / 2.0f, window.getSize().y / 4.0f));
+	buttonSoundOff.Position(Vector2f(window.getSize().x / 2.0f, window.getSize().y * 2.0f / 4.0f));
+	buttonAbout.Position(Vector2f(window.getSize().x / 2.0f, window.getSize().y * 3.0f / 4.0f));
+
 	buttonExit.setMessage(&messageMenuExit);
+	buttonSoundOff.setMessage(&messageMenuMusic);
+	//buttonAbout.setMessage();
 
 	int buttonChoice = 0;
 
@@ -379,10 +389,56 @@ int main()
 					}
 				}
 				if (Keyboard::isKeyPressed(Keyboard::Up)) {
-					std::cout << 1 / (deltaTime) << std::endl;
+					if (menu) {
+						if (buttonChoice == 0 || buttonChoice == 1)
+							buttonChoice = 3;
+						else if (buttonChoice == 2)
+							buttonChoice = 1;
+						else if (buttonChoice == 3) 
+							buttonChoice = 2;
+
+						if (buttonChoice == 1) {
+							buttonExit.setOn();
+							buttonSoundOff.setOff();
+							buttonAbout.setOff();
+						}
+						else if (buttonChoice == 2) {
+							buttonExit.setOff();
+							buttonSoundOff.setOn();
+							buttonAbout.setOff();
+						}
+						else if (buttonChoice == 3) {
+							buttonExit.setOff();
+							buttonSoundOff.setOff();
+							buttonAbout.setOn();
+						}
+					}
 				}
 				if (Keyboard::isKeyPressed(Keyboard::Down)) {
 					if (menu) {
+						if (buttonChoice == 0 || buttonChoice == 3)
+							buttonChoice = 1;
+						else if (buttonChoice == 1)
+							buttonChoice = 2;
+						else if (buttonChoice == 2)
+							buttonChoice = 3;
+
+						if (buttonChoice == 1) {
+							buttonExit.setOn();
+							buttonSoundOff.setOff();
+							buttonAbout.setOff();
+						}
+						else if (buttonChoice == 2) {
+							buttonExit.setOff();
+							buttonSoundOff.setOn();
+							buttonAbout.setOff();
+						}
+						else if (buttonChoice == 3) {
+							buttonExit.setOff();
+							buttonSoundOff.setOff();
+							buttonAbout.setOn();
+						}
+						/*
 						buttonChoice++;
 						if (buttonChoice % 2 == 0) {
 							buttonExit.setOn();
@@ -392,6 +448,7 @@ int main()
 							buttonExit.setOff();
 							buttonSoundOff.setOn();
 						}
+						//*/
 					}
 				}
 
@@ -402,7 +459,7 @@ int main()
 		/* Long-run commands -> Player movement and Game-related mechanics */
 
 		// Player's movement
-		if (!intro && !menu && !hit && !game_over && !pause && !round_cleared && !winScreen) {
+		if (!intro && !menu && !hit && !game_over && !pause && !round_cleared && !player.isWinner()) {
 			if (Keyboard::isKeyPressed(Keyboard::A) && player.sprite.getPosition().x > 26)
 				player.sprite.move(-(130 * deltaTime), 0.0f);
 			if (Keyboard::isKeyPressed(Keyboard::D) && player.sprite.getPosition().x < (window.getSize().x - 26))
@@ -652,7 +709,7 @@ int main()
 		if (player.isWinner() && winScreen) {
 			time += deltaTime;
 			// animation of another sprite of player, when he wins
-			player.byebyeWinner(0.25f * deltaTime * time);
+			player.byebyeWinner(0.50f * deltaTime * time);
 		}
 
 		/*
@@ -676,7 +733,7 @@ int main()
 			window.draw(spriteBackground);
 
 			/*  DRAW EVERYTHING ELSE */
-			if (player.isWinner() == false) {
+			if (winScreen == false) {
 				window.draw(player.sprite);
 
 				window.draw(player.spriteShot);
@@ -790,6 +847,10 @@ int main()
 					window.draw(buttonSoundOff.spriteButtonOff);
 				else if (buttonSoundOff.isOn())
 					window.draw(buttonSoundOff.spriteButtonOn);
+				if (buttonAbout.isOff())
+					window.draw(buttonAbout.spriteButtonOff);
+				else if (buttonAbout.isOn())
+					window.draw(buttonAbout.spriteButtonOn);
 
 				window.draw(buttonExit.text);
 				window.draw(buttonSoundOff.text);
