@@ -77,6 +77,7 @@ private:
 	bool _shot;
 	bool _allowed; // for bounty
 
+	int active_count = 0;
 	unsigned int _score;
 
 	Enemy * new_enemy;

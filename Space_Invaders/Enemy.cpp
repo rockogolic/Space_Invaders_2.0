@@ -201,6 +201,7 @@ void Enemy::shootGrunt(int number_of_shots)
 
 void Enemy::updateShotGrunt(RenderWindow * window, float deltaTime)
 {
+
 	if (_shot == true) {
 		for (unsigned int k = 0; k < size(shot_Grunt_isActive); k++) {
 			if (shot_Grunt_isActive[k] == true) {
@@ -225,6 +226,12 @@ void Enemy::updateShotGrunt(RenderWindow * window, float deltaTime)
 				{
 					//_shot = false;
 					shot_Grunt_isActive[k] = false;
+					++active_count;
+
+					if (active_count == size(shotsGrunt)) {
+						
+						_shot = false;
+					}
 				}
 			}
 		}

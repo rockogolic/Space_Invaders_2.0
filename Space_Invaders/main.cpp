@@ -368,6 +368,7 @@ int main()
 	bool play_intro = false;	// sound Intro
 	bool play_main = false;		// sound Main Theme
 	bool play_victory = false;	// sound Victory
+	bool play_gameover = false; // sound GameOver
 
 	bool stop_music = false;	// stops by pressing button in menu
 
@@ -449,7 +450,7 @@ int main()
 					if (hit) {
 						hit = false;
 
-						if (!round_isON) {
+						if (!round_isON && !player.isDead() && !game_over) {
 							soundRevived.setVolume(50.0f);
 							soundRevived.play();
 						}
@@ -563,7 +564,15 @@ int main()
 			soundVictory.play();
 		}
 
-		if (!intro && !player.isWinner() && !winScreen && !play_main) {
+		if (game_over && !play_gameover) {
+			soundMain.stop();
+			
+			soundDead.setVolume(50.0f);
+			soundDead.play();
+			play_gameover = true;
+		}
+
+		if (!intro && !player.isWinner() && !winScreen && !play_main && !game_over) {
 			play_main = true;
 			if (play_main) {
 				soundMain.play();
@@ -599,7 +608,7 @@ int main()
 		//spritePawn.setTextureRect(animationPawn.uvRect);
 
 		if (pause) {
-			if (round_isON) {
+			if (round_isON && !game_over) {
 				// reset position of player and player's shot (sets off)
 				player.resetPosition();
 				player.spriteShot.setPosition(-700,-700);
@@ -624,9 +633,7 @@ int main()
 			player.updateShot(deltaTime);
 
 			if (player.isHit()) {
-				if (player.isDead() == true) {
-					soundDead.setVolume(50.0f);
-					soundDead.play();
+				if (player.isDead()) {
 					game_over = true;
 				}
 				else {
@@ -691,7 +698,7 @@ int main()
 					wave1.Enemies[i].Collision(&player);
 					//wave1.Enemies[i].shoot();
 					//wave1.Enemies[i].updateShot(&window, deltaTime);
-					wave1.Enemies[i].shootGrunt(10);
+					wave1.Enemies[i].shootGrunt(5);
 					wave1.Enemies[i].updateShotGrunt(&window, deltaTime);
 				}
 				wave1.updateWinner(&window);
@@ -898,7 +905,7 @@ int main()
 					// continues drawing shot when enemy died
 				}
 				for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
-					//window.draw(wave1.Enemies[i].spriteShot);
+					window.draw(wave1.Enemies[i].spriteShot);
 					for (unsigned int j = 0; j < size(wave1.Enemies[i].shotsGrunt); j++) {
 						window.draw(wave1.Enemies[i].shotsGrunt[j]);
 					}
@@ -1000,7 +1007,7 @@ int main()
 
 			// PAUSE SCREENS with WAVE nr. information
 			
-			if (round_cleared && !hit) {
+			if (round_cleared && !hit && !game_over) {
 				timePassed_roundCleared += deltaTime;
 				if (timePassed_roundCleared >= 2.0f) {
 					messageRoundOver.display(window);
@@ -1012,7 +1019,7 @@ int main()
 				}
 			}
 			
-			if (player.isWinner() && !hit) {
+			if (player.isWinner() && !hit && !game_over) {
 				// stops the main melody
 				soundMain.stop();
 
