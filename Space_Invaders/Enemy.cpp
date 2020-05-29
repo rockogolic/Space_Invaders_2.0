@@ -170,14 +170,96 @@ void Enemy::shoot() {
 	}
 }
 
-void Enemy::updateShot(float deltaTime) {	
+void Enemy::updateShot(RenderWindow * window, float deltaTime) {	
 	if (_shot == true) {
-		spriteShot.move(0, +( 150 / (1 / deltaTime)));
-		if (spriteShot.getPosition().y > 490) {
+		spriteShot.move(0, +( 150 * deltaTime));
+		if (spriteShot.getPosition().y > window->getSize().y + 10.0f) {
 			_shot = false;
 		}
 	}
 }
+
+void Enemy::shootGrunt(int number_of_shots)
+{
+
+	if (_shot == false && _active) {
+		if (dis(gen) == 1) {
+			for (int i = 0; i < number_of_shots; i++) {
+				
+				spriteShot.setPosition(sprite.getPosition());
+
+
+				shotsGrunt.push_back(spriteShot);
+				shot_Grunt_isActive.push_back(true);
+
+			}
+
+			_shot = true;
+		}
+	}
+}
+
+void Enemy::updateShotGrunt(RenderWindow * window, float deltaTime)
+{
+	if (_shot == true) {
+		for (unsigned int k = 0; k < size(shot_Grunt_isActive); k++) {
+			if (shot_Grunt_isActive[k] == true) {
+
+				// move according to x = cos(theta), y = - sin(theta)
+				// for a unit circle (r == 1)
+				double increment_degree = 360 / size(shotsGrunt);
+				double current_angle = increment_degree / 2.0 * (1 + 2 * k);
+
+				double x = sin(current_angle);
+				double y = cos(current_angle);
+				shotsGrunt[k].move(150 * deltaTime * static_cast<float>(x), 150 * deltaTime * static_cast<float>(y));
+
+				if (shotsGrunt[k].getPosition().y > window->getSize().y + 10
+					||
+					shotsGrunt[k].getPosition().y < -10
+					||
+					shotsGrunt[k].getPosition().x > window->getSize().x + 10
+					||
+					shotsGrunt[k].getPosition().x < -10
+					) 
+				{
+					//_shot = false;
+					shot_Grunt_isActive[k] = false;
+				}
+			}
+		}
+	}
+}
+
+/*
+		for (unsigned int i = 0; i < size(shotsGrunt); i++) {
+		
+			// move according to x = cos(theta), y = - sin(theta)
+			// for a unit circle (r == 1)
+			double increment_degree = 360 / size(shotsGrunt);
+			double current_angle = increment_degree / 2.0 * (1 + 2*i);
+
+			double sine = sin(current_angle);
+			double cosine = cos(current_angle);
+			shotsGrunt[i].move( 150 * deltaTime * static_cast<float>(cosine), 150 * deltaTime * static_cast<float>(sine));
+		}
+		for (unsigned int i = 0; i < size(shotsGrunt); i++) {
+			if (shotsGrunt[i].getPosition().y > window->getSize().y + 10
+				||
+				shotsGrunt[i].getPosition().y < - 10
+				||
+				shotsGrunt[i].getPosition().x > window->getSize().x + 10
+				||
+				shotsGrunt[i].getPosition().x < - 10
+				) {
+				_shot = false;
+			}
+
+		}
+	}
+}
+
+*/
 
 
 // BOUNTY

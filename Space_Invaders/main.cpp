@@ -11,7 +11,6 @@
 #include "CreateEnemy.h"
 #include "Player.h"
 
-
 using namespace sf;
 
 const Vector2f spriteSize(Sprite& sprite);		//  gets the Vector2f in size of the sprite
@@ -382,14 +381,6 @@ int main()
 	float timePassed_pause = 0.0f;
 	float timePassed_winner = 0.0f;
 	float time = 0.0f;			// for the final animation of the player
-	unsigned int resTime = 3;	// IS NOT PROPERLY USED! (check the DRAWING section and correct it)
-
-	/*
-	// Random Generator
-	std::random_device rd;  //Will be used to obtain a seed for the random number engine
-	std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-	std::uniform_int_distribution<> dis(1, 6);
-	//*/
 
 	/*
 	++++++++++++++
@@ -586,13 +577,13 @@ int main()
 
 		// Player's movement
 		if (!intro && !menu && !hit && !game_over && !pause && !round_cleared && !player.isWinner()) {
-			if (Keyboard::isKeyPressed(Keyboard::A) && player.sprite.getPosition().x > 26)
+			if (Keyboard::isKeyPressed(Keyboard::A) && player.sprite.getPosition().x > player.sprite.getTexture()->getSize().x / 2.0f)
 				player.sprite.move(-(130 * deltaTime), 0.0f);
-			if (Keyboard::isKeyPressed(Keyboard::D) && player.sprite.getPosition().x < (window.getSize().x - 26))
+			if (Keyboard::isKeyPressed(Keyboard::D) && player.sprite.getPosition().x < (window.getSize().x - player.sprite.getTexture()->getSize().x / 2.0f))
 				player.sprite.move( (130 * deltaTime), 0.0f);
-			if (Keyboard::isKeyPressed(Keyboard::W) && player.sprite.getPosition().y > 26)
+			if (Keyboard::isKeyPressed(Keyboard::W) && player.sprite.getPosition().y > player.sprite.getTexture()->getSize().x / 2.0f)
 				player.sprite.move(0.0f, -(130 * deltaTime));
-			if (Keyboard::isKeyPressed(Keyboard::S) && player.sprite.getPosition().y < (window.getSize().y - 26))
+			if (Keyboard::isKeyPressed(Keyboard::S) && player.sprite.getPosition().y < (window.getSize().y - player.sprite.getTexture()->getSize().x / 2.0f))
 				player.sprite.move(0.0f, (130 * deltaTime));
 		}
 
@@ -698,8 +689,10 @@ int main()
 					player.Collision(&wave1.Enemies[i]);
 
 					wave1.Enemies[i].Collision(&player);
-					wave1.Enemies[i].shoot();
-					wave1.Enemies[i].updateShot(deltaTime);
+					//wave1.Enemies[i].shoot();
+					//wave1.Enemies[i].updateShot(&window, deltaTime);
+					wave1.Enemies[i].shootGrunt(10);
+					wave1.Enemies[i].updateShotGrunt(&window, deltaTime);
 				}
 				wave1.updateWinner(&window);
 
@@ -724,7 +717,7 @@ int main()
 
 					wave2.Enemies[i].Collision(&player);
 					wave2.Enemies[i].shoot();
-					wave2.Enemies[i].updateShot(deltaTime);
+					wave2.Enemies[i].updateShot(&window, deltaTime);
 				}
 				
 				wave2.updateWinner(&window);
@@ -750,7 +743,7 @@ int main()
 
 					wave3.Enemies[i].Collision(&player);
 					wave3.Enemies[i].shoot();
-					wave3.Enemies[i].updateShot(deltaTime);
+					wave3.Enemies[i].updateShot(&window, deltaTime);
 				}
 
 				wave3.updateWinner(&window);
@@ -776,7 +769,7 @@ int main()
 
 					wave4.Enemies[i].Collision(&player);
 					wave4.Enemies[i].shoot();
-					wave4.Enemies[i].updateShot(deltaTime);
+					wave4.Enemies[i].updateShot(&window, deltaTime);
 				}
 
 				wave4.updateWinner(&window);
@@ -802,7 +795,7 @@ int main()
 
 					wave5.Enemies[i].Collision(&player);
 					wave5.Enemies[i].shoot();
-					wave5.Enemies[i].updateShot(deltaTime);
+					wave5.Enemies[i].updateShot(&window, deltaTime);
 				}
 
 				wave5.updateWinner(&window);
@@ -829,7 +822,7 @@ int main()
 
 					wave6.Enemies[i].Collision(&player);
 					wave6.Enemies[i].shoot();
-					wave6.Enemies[i].updateShot(deltaTime);
+					wave6.Enemies[i].updateShot(&window, deltaTime);
 					//wave6.Enemies[i].Move(&window, deltaTime);
 				}
 
@@ -905,7 +898,10 @@ int main()
 					// continues drawing shot when enemy died
 				}
 				for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
-					window.draw(wave1.Enemies[i].spriteShot);
+					//window.draw(wave1.Enemies[i].spriteShot);
+					for (unsigned int j = 0; j < size(wave1.Enemies[i].shotsGrunt); j++) {
+						window.draw(wave1.Enemies[i].shotsGrunt[j]);
+					}
 				}
 			}
 

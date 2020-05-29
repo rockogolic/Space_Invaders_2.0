@@ -5,6 +5,9 @@
 #include "Player.h"
 #include "Animation.h"
 
+#include <math.h>	// for sin/cos calculations
+constexpr auto PI = 3.14159265;
+
 using namespace sf;
 
 class Enemy {
@@ -27,7 +30,11 @@ public:
 	unsigned int getHealth();
 
 	void shoot();
-	void updateShot(float deltaTime);
+	void updateShot(RenderWindow * window, float deltaTime);
+
+	void shootGrunt(int number_of_shots);
+	void updateShotGrunt(RenderWindow * window, float deltaTime);
+
 	void updateBounty(RenderWindow * window, float deltaTime);
 
 	void setBounty(const char* , RenderWindow * window);
@@ -54,7 +61,11 @@ public:
 
 	unsigned int _health;
 
+	std::vector<Sprite> shotsGrunt;
+	std::vector<bool> shot_Grunt_isActive;
+
 private:
+
 
 	Vector2f _position;
 	Vector2f _startPos;
