@@ -352,6 +352,12 @@ int main()
 
 	int buttonChoice = 0;
 
+	// ICON
+
+	auto icon = Image{};
+	icon.loadFromFile("graphics/icon.png");
+	window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+
 	/* BOOLEANS to control phases of the GAME */
 
 	bool intro = true;			// introduction screen; def -> true;
