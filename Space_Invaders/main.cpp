@@ -5,7 +5,6 @@
 #include "pch.h"
 #include "Message.h"
 #include "Animation.h"
-#include "setSprite.h"
 #include "Button.h"
 #include "Enemy.h"
 #include "CreateEnemy.h"
@@ -403,12 +402,12 @@ int main()
 				window.close();
 				break;
 			case Event::Resized:
-				printf("New window width: %i New window height: %i \n", evnt.size.width, evnt.size.height);		// same as std::cout would be
+				//printf("New window width: %i New window height: %i \n", evnt.size.width, evnt.size.height);
 				break;
 			case Event::TextEntered:
 				// checks if the text is ASCII (excl. cntr,alt...  (so on) keys)
 				if (evnt.text.unicode < 128) {
-					printf("%c", evnt.text.unicode);
+					//printf("%c", evnt.text.unicode);
 				}
 				break;
 			case Event::KeyPressed:
@@ -417,7 +416,7 @@ int main()
 						window.close();
 					}
 					else if (!intro && !menu && !hit && !game_over && !pause && !round_cleared && !winScreen) {
-						std::cout << "\n A Menu is open!" << std::endl;
+						//std::cout << "\n A Menu is open!" << std::endl;
 
 						// refresh the button layout (set all to OFF)
 						if (buttonChoice != 0) {
@@ -431,7 +430,7 @@ int main()
 						menu = true;
 					}
 					else if (!intro && menu && !hit && !game_over && !pause && !round_cleared && !winScreen) {
-						std::cout << "\n A Menu is closed!" << std::endl;
+						//std::cout << "\n A Menu is closed!" << std::endl;
 						menu = false;
 					}
 					else if (!intro && !menu && (hit || game_over || winScreen)) {
@@ -696,10 +695,10 @@ int main()
 					player.Collision(&wave1.Enemies[i]);
 
 					wave1.Enemies[i].Collision(&player);
-					//wave1.Enemies[i].shoot();
-					//wave1.Enemies[i].updateShot(&window, deltaTime);
-					wave1.Enemies[i].shootGrunt(5);
-					wave1.Enemies[i].updateShotGrunt(&window, deltaTime);
+					wave1.Enemies[i].shoot();
+					wave1.Enemies[i].updateShot(&window, deltaTime);
+					//wave1.Enemies[i].shootGrunt(5);
+					//wave1.Enemies[i].updateShotGrunt(&window, deltaTime);
 				}
 				wave1.updateWinner(&window);
 
@@ -906,9 +905,9 @@ int main()
 				}
 				for (unsigned int i = 0; i < size(wave1.Enemies); i++) {
 					window.draw(wave1.Enemies[i].spriteShot);
-					for (unsigned int j = 0; j < size(wave1.Enemies[i].shotsGrunt); j++) {
-						window.draw(wave1.Enemies[i].shotsGrunt[j]);
-					}
+					//for (unsigned int j = 0; j < size(wave1.Enemies[i].shotsGrunt); j++) {
+					//	window.draw(wave1.Enemies[i].shotsGrunt[j]);
+					//}
 				}
 			}
 

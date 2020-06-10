@@ -144,7 +144,7 @@ void Enemy::Move(RenderWindow * window, float deltaTime) {
 		}
 		if (sprite.getPosition().y >= (window->getSize().y)) {
 			_won = true;
-			std::cout << "You lose" << std::endl;
+			//std::cout << "You lose" << std::endl;
 			_active = false;
 		}
 	}
@@ -369,7 +369,7 @@ void Enemy::Collision(Player* player) {
 		}
 		player->addToScore(_score);
 
-		std::cout << "You hit the alien" << std::endl;
+		//std::cout << "You hit the alien" << std::endl;
 		//this->Hit();		// replaces (_active = false) in case of variable health
 		//_active = false;
 
@@ -406,7 +406,7 @@ void Enemy::Collision(Player* player) {
 		else {	// EXCLUSIONS to HIT screen (if something can be "swallowed" or "picked"
 			player->Hit();			// sets private _hit = true;
 		}
-		std::cout << "You have been hit. Your health is: " << player->getHealth() << std::endl;
+		//std::cout << "You have been hit. Your health is: " << player->getHealth() << std::endl;
 		_active = false;
 	}
 }

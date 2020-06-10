@@ -66,7 +66,7 @@ void Player::Collision(Enemy * enemy) {
 		_collision = true;
 		enemy->hitPlayer();		// sets private _shot = false; (reset)
 		this->Hit();
-		std::cout << "You have been hit. Your health is: " << this->getHealth() << std::endl;
+		//std::cout << "You have been hit. Your health is: " << this->getHealth() << std::endl;
 	}
 }
 

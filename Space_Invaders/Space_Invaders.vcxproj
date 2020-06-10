@@ -162,7 +162,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="Bounty.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CreateEnemy.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -175,18 +174,15 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="setSprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
-    <ClInclude Include="Bounty.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="CreateEnemy.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Message.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="setSprite.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="readme.txt" />
