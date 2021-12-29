@@ -3,8 +3,6 @@
 #### by rockogolic
 
 ____________
-
-Preview:
 ![space_invaders_preview](https://github.com/rockogolic/Space_Invaders_2.0/blob/master/si.gif)
 
 This is a simple game created using SFML (Simple and Fast Multimedia Library) and C++ language. 
