@@ -4,6 +4,9 @@
 
 ____________
 
+Preview:
+![space_invaders_preview](https://github.com/rockogolic/Space_Invaders_2.0/blob/master/si.gif)
+
 This is a simple game created using SFML (Simple and Fast Multimedia Library) and C++ language. 
 
 For those, who would like to cover basics of the language and SFML, I strongly recommend the videos from Hilze Vonck. Although they are unfinished,
