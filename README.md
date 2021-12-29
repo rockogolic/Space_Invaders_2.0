@@ -17,7 +17,7 @@ My game has a simple design:
 3. optional (exit) screen and 
 4. "victory" or "loose" screen
 
-All the elements are made by me: music, sprites and code. 
+Music, sprites and code were made (written) by me. 
 If you wish to use any of these elements in your game or code, or elsewhere - feel free to contact me on
 
 ##### rockogolic@protonmail.com 
@@ -25,6 +25,6 @@ for future inquiries!
 
 ps: also if you need any more explanation on how the code works and how to make sense of it! 
 
-Happy coding and thanks for looking into this! ;P 
+Happy coding!
 
 
